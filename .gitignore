@@ -119,6 +119,9 @@ fabric.properties
 # Compiled class file
 *.class
 
+# my .iml
+*.iml
+
 # Log file
 *.log
 
