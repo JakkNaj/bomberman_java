@@ -2,6 +2,9 @@ package fel.cvut.cz;
 
 import fel.cvut.cz.display.Display;
 
+import java.awt.*;
+import java.awt.image.BufferStrategy;
+
 /** Main class of the game - starts and runs everything */
 public class Game implements Runnable{ //can run on other thread than the rest of the program
     private Display display;
@@ -9,6 +12,8 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     public String title;
     private boolean running = false;
     private Thread thread;
+    private BufferStrategy bs; //using buffers tell computer what to draw on screen
+    private Graphics g;
     public Game(String title, int width, int height){
         this.width = width;
         this.height = height;
@@ -22,7 +27,17 @@ public class Game implements Runnable{ //can run on other thread than the rest o
 
     }
     private void render(){ //render updated things in game
-
+        bs = display.getCanvas().getBufferStrategy(); //BufferStrategy = current BS of our Game
+        if (bs == null){ //canvas doesn't have bs - first time running the game
+            display.getCanvas().createBufferStrategy(3); //intializace BS
+            return;
+        }
+        g = bs.getDrawGraphics();
+        //Draw to the screen
+        g.fillRect(0,0, width - 20, height - 20);
+        //Done drawing
+        bs.show();
+        g.dispose();
     }
     public void run(){ //majority of game code will be there
         this.init();

@@ -35,4 +35,8 @@ public class Display {
         this.frame.add(this.canvas);
         frame.pack(); //resize window a little, so we can see the canvas fully
     }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
 }
