@@ -1,12 +1,10 @@
 package fel.cvut.cz;
 
 import fel.cvut.cz.display.Display;
-import fel.cvut.cz.graphics.ImageLoader;
-import fel.cvut.cz.graphics.SpriteSheet;
+import fel.cvut.cz.graphics.Assets;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 /** Main class of the game - starts and runs everything */
 public class Game implements Runnable{ //can run on other thread than the rest of the program
@@ -17,8 +15,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private Thread thread;
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
     private Graphics g;
-    private BufferedImage testImage;
-    private SpriteSheet spriteSheet;
+
     public Game(String title, int width, int height){
         this.width = width;
         this.height = height;
@@ -27,8 +24,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
 
     private void init(){ //initialize all graphics for the game
         this.display = new Display(title, width, height);
-        testImage = ImageLoader.loadImage("/textures/BombermanGeneralSprites.png");
-        spriteSheet = new SpriteSheet(testImage);
+        Assets.init();
     }
     private void tick(){ //update positions etc. in game
 
@@ -44,7 +40,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         g.clearRect(0,0, width, height);
         //Draw to the screen
 
-        g.drawImage(spriteSheet.crop(4,0, 16, 16),5,5,null);
+        g.drawImage(Assets.bomb, 50, 50, null);
 
         //Done drawing
         bs.show();
@@ -52,10 +48,33 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     }
     public void run(){ //majority of game code will be there
         this.init();
-        //GAMELOOP
+        int fps = 60;
+        double timePerTick = 1000000000 / (double)fps;
+        double delta = 0;
+        long now;
+        long lastTime = System.nanoTime(); //returns time of our computer in nanoseconds
+        long timer = 0;
+        int ticks = 0;
+
+        //GAME-LOOP
         while (running){
-            tick();
-            render();
+            now = System.nanoTime();
+            delta += (now - lastTime) / timePerTick;
+            timer += now - lastTime;
+            lastTime = now;
+
+            if (delta >= 1){
+                tick();
+                render();
+                ticks++;
+                delta--;
+            }
+
+            if (timer >= 1000000000){
+                System.out.println("Ticks and Frames: " + ticks);
+                ticks = 0;
+                timer = 0;
+            }
         }
         this.stop();
     }
