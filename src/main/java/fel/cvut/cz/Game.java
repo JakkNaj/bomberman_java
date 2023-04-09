@@ -1,9 +1,12 @@
 package fel.cvut.cz;
 
 import fel.cvut.cz.display.Display;
+import fel.cvut.cz.graphics.ImageLoader;
+import fel.cvut.cz.graphics.SpriteSheet;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 /** Main class of the game - starts and runs everything */
 public class Game implements Runnable{ //can run on other thread than the rest of the program
@@ -14,6 +17,8 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private Thread thread;
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
     private Graphics g;
+    private BufferedImage testImage;
+    private SpriteSheet spriteSheet;
     public Game(String title, int width, int height){
         this.width = width;
         this.height = height;
@@ -22,6 +27,8 @@ public class Game implements Runnable{ //can run on other thread than the rest o
 
     private void init(){ //initialize all graphics for the game
         this.display = new Display(title, width, height);
+        testImage = ImageLoader.loadImage("/textures/BombermanGeneralSprites.png");
+        spriteSheet = new SpriteSheet(testImage);
     }
     private void tick(){ //update positions etc. in game
 
@@ -29,12 +36,16 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private void render(){ //render updated things in game
         bs = display.getCanvas().getBufferStrategy(); //BufferStrategy = current BS of our Game
         if (bs == null){ //canvas doesn't have bs - first time running the game
-            display.getCanvas().createBufferStrategy(3); //intializace BS
+            display.getCanvas().createBufferStrategy(3); //initialize BS
             return;
         }
         g = bs.getDrawGraphics();
+        //clear the screen
+        g.clearRect(0,0, width, height);
         //Draw to the screen
-        g.fillRect(0,0, width - 20, height - 20);
+
+        g.drawImage(spriteSheet.crop(4,0, 16, 16),5,5,null);
+
         //Done drawing
         bs.show();
         g.dispose();
