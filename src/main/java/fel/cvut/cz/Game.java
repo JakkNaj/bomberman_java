@@ -2,6 +2,8 @@ package fel.cvut.cz;
 
 import fel.cvut.cz.display.Display;
 import fel.cvut.cz.graphics.Assets;
+import fel.cvut.cz.states.GameState;
+import fel.cvut.cz.states.State;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -16,6 +18,9 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
     private Graphics g;
 
+    //STATES
+    private State gameState;
+
     public Game(String title, int width, int height){
         this.width = width;
         this.height = height;
@@ -25,9 +30,14 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private void init(){ //initialize all graphics for the game
         this.display = new Display(title, width, height);
         Assets.init();
+
+        gameState = new GameState();
+        State.setState(gameState);
     }
     private void tick(){ //update positions etc. in game
-
+        if(State.getState() != null){
+            State.getState().tick();
+        }
     }
     private void render(){ //render updated things in game
         bs = display.getCanvas().getBufferStrategy(); //BufferStrategy = current BS of our Game
@@ -40,7 +50,9 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         g.clearRect(0,0, width, height);
         //Draw to the screen
 
-        g.drawImage(Assets.bomb, 50, 50, null);
+        if(State.getState() != null){
+            State.getState().render(g);
+        }
 
         //Done drawing
         bs.show();
