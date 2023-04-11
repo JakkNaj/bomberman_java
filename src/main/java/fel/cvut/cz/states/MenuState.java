@@ -1,13 +1,10 @@
 package fel.cvut.cz.states;
 
-import fel.cvut.cz.graphics.Assets;
-
 import java.awt.*;
 
-/** Where the actual gameplay is */
-public class GameState extends State {
+public class MenuState extends State {
 
-    public GameState(){
+    public MenuState(){
 
     }
 

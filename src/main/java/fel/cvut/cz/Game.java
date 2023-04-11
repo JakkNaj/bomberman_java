@@ -3,6 +3,7 @@ package fel.cvut.cz;
 import fel.cvut.cz.display.Display;
 import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.states.GameState;
+import fel.cvut.cz.states.MenuState;
 import fel.cvut.cz.states.State;
 
 import java.awt.*;
@@ -20,6 +21,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
 
     //STATES
     private State gameState;
+    private State menuState;
 
     public Game(String title, int width, int height){
         this.width = width;
@@ -32,6 +34,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         Assets.init();
 
         gameState = new GameState();
+        menuState = new MenuState();
         State.setState(gameState);
     }
     private void tick(){ //update positions etc. in game
