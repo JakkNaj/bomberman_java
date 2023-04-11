@@ -1,6 +1,11 @@
 # This REPOSITORY is for semestral work requested in Programming in Java course (FEL CVUT).
 ## THEME: game engine on retro game BOMBERMAN - single player
 
+## Used Technologies:
+- Programming language: Java version 19.0.2
+- Graphics: Swing
+- Testing: JUnit
+- 
 ## User Manual: 
 #### in ENGLISH (in CZECH below english section)
 #### Starting the game
@@ -15,7 +20,6 @@ The objective of the game is to find the gate to the next level, which is hidden
 The game ends when the player runs out of lives (the player dies by colliding with an enemy, getting hit by their own bomb, or when the level time runs out), or when they successfully pass through all five levels and defeat all enemies.
 #### Restarting the game
 After the game is over, a menu of options will appear asking if you want to play again or quit the game.
-
 
 ### Object Scheme - english:
 #### Class Game
@@ -36,6 +40,11 @@ This class will represent the game board within a single level. It will be a two
 This class will be responsible for launching the game. It will contain the main method and handle loading levels and starting the game.
 #### Class Display
 This class will handle creating the window in which the game will be rendered.
+
+## Použité technologie:
+- Programovací jazyk: Java verze 19.0.2
+- Grafika: Swing
+- Testování: JUnit
 
 ## Uživatelská přířučka:
 #### Spuštění hry
