@@ -12,24 +12,32 @@ public class Player extends Beings{
     private Game game;
 
     public Player(Game game, int x, int y) {
-        super(x, y);
+        super(x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
         this.game = game;
     }
 
     @Override
     public void tick() {
+        getInput();
+        move();
+    }
+
+    private void getInput(){
+        xmove = 0;
+        ymove = 0;
+
         if(game.getKeyManager().up)
-            y -= 3;
+            ymove = -speed;
         if(game.getKeyManager().down)
-            y += 3;
+            ymove = speed;
         if(game.getKeyManager().left)
-            x -= 3;
+            xmove = -speed;
         if(game.getKeyManager().right)
-            x += 3;
+            xmove = speed;
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.player, this.x, this.y, null);
+        g.drawImage(Assets.player, this.x, this.y, this.width, this.height,null);
     }
 }
