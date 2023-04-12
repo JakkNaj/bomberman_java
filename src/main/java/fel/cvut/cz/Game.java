@@ -2,12 +2,14 @@ package fel.cvut.cz;
 
 import fel.cvut.cz.display.Display;
 import fel.cvut.cz.graphics.Assets;
+import fel.cvut.cz.input.KeyManager;
 import fel.cvut.cz.states.GameState;
 import fel.cvut.cz.states.MenuState;
 import fel.cvut.cz.states.State;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.security.Key;
 
 /** Main class of the game - starts and runs everything */
 public class Game implements Runnable{ //can run on other thread than the rest of the program
@@ -19,6 +21,9 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
     private Graphics g;
 
+    //INPUT
+    private KeyManager keyManager;
+
     //STATES
     private State gameState;
     private State menuState;
@@ -27,17 +32,20 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         this.width = width;
         this.height = height;
         this.title = title;
+        keyManager = new KeyManager();
     }
 
     private void init(){ //initialize all graphics for the game
         this.display = new Display(title, width, height);
+        display.getFrame().addKeyListener(this.keyManager);
         Assets.init();
 
-        gameState = new GameState();
-        menuState = new MenuState();
+        gameState = new GameState(this);
+        menuState = new MenuState(this);
         State.setState(gameState);
     }
     private void tick(){ //update positions etc. in game
+        keyManager.tick();
         if(State.getState() != null){
             State.getState().tick();
         }
@@ -106,5 +114,9 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public KeyManager getKeyManager(){
+        return keyManager;
     }
 }

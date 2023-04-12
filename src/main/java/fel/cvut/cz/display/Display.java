@@ -31,6 +31,7 @@ public class Display {
         this.canvas.setPreferredSize(new Dimension(this.width, this.height)); //sets size of my canvas.
         this.canvas.setMaximumSize(new Dimension(this.width, this.height)); //so that canvas stays the same
         this.canvas.setMinimumSize(new Dimension(this.width, this.height)); //width and height always
+        this.canvas.setFocusable(false);
 
         this.frame.add(this.canvas);
         frame.pack(); //resize window a little, so we can see the canvas fully
@@ -38,5 +39,9 @@ public class Display {
 
     public Canvas getCanvas() {
         return canvas;
+    }
+
+    public JFrame getFrame(){
+        return frame;
     }
 }

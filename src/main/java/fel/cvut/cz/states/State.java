@@ -1,6 +1,8 @@
 package fel.cvut.cz.states;
 
 
+import fel.cvut.cz.Game;
+
 import java.awt.*;
 
 /** Abstractly represents a State of the game - Settings, Menu, Game */
@@ -18,7 +20,12 @@ public abstract class State {
     }
 
     //CLASS
+    protected Game game;
     public abstract void tick();
     public abstract void render(Graphics g);
+
+    public State(Game game){
+        this.game = game;
+    }
 
 }
