@@ -5,11 +5,14 @@ import java.awt.image.BufferedImage;
 
 public class Assets { //loading in Images and crop them, so I don't have to crop them everytime I want to draw something.
     private static final int tileWidth = 16, tileHeight = 16;
-    public static BufferedImage player, bomb, ghost;
+    public static BufferedImage player, bomb, ghost, grass, hardWall, softWall;
     public static void init(){
         SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/BombermanGeneralSprites.png"));
-        player = sheet.crop(4,0,tileWidth, tileHeight);
-        bomb = sheet.crop(2,3,tileWidth,tileHeight);
-        ghost = sheet.crop(0, 15,tileWidth,tileHeight);
+        player = sheet.crop(4,0, tileWidth, tileHeight);
+        bomb = sheet.crop(2,3, tileWidth, tileHeight);
+        ghost = sheet.crop(0, 15, tileWidth, tileHeight);
+        grass = sheet.crop(0, 5, tileWidth, tileHeight);
+        hardWall = sheet.crop(3,3, tileWidth, tileHeight);
+        softWall = sheet.crop(4,3, tileWidth, tileHeight);
     }
 }

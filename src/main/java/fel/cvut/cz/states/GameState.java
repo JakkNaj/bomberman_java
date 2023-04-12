@@ -3,6 +3,7 @@ package fel.cvut.cz.states;
 import fel.cvut.cz.Game;
 import fel.cvut.cz.entities.Player;
 import fel.cvut.cz.graphics.Assets;
+import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
 
@@ -24,5 +25,6 @@ public class GameState extends State {
     @Override
     public void render(Graphics g) {
         player.render(g);
+        Tile.tiles[0].render(g, 0,0);
     }
 }
