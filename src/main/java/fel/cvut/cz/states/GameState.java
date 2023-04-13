@@ -7,6 +7,7 @@ import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
+import java.io.File;
 
 /** Where the actual gameplay is */
 public class GameState extends State {
@@ -17,7 +18,7 @@ public class GameState extends State {
     public GameState(Game game){
         super(game);
         player = new Player(game, 16, 16);
-        gameboard = new Gameboard("pathToFile");
+        gameboard = new Gameboard("src/main/resources/worlds/world1.txt");
     }
 
     @Override
