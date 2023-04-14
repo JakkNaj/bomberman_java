@@ -8,4 +8,8 @@ public class SoftWall extends Tile{
     public SoftWall(int id) {
         super(Assets.softWall, id);
     }
+    @Override
+    public boolean isWalkable() {
+        return false;
+    }
 }

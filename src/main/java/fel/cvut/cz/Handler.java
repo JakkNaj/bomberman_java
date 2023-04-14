@@ -4,7 +4,7 @@ import fel.cvut.cz.board.Gameboard;
 import fel.cvut.cz.graphics.GameCamera;
 import fel.cvut.cz.input.KeyManager;
 
-/** Class that allows us to pass along different variables to different places */
+/** Class that allows me to pass along different variables to different places */
 public class Handler {
     private Game game;
     private Gameboard gameboard;

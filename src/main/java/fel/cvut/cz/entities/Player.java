@@ -13,6 +13,10 @@ public class Player extends Beings{
 
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
+        bounds.x = 8;
+        bounds.y = 4;
+        bounds.width = 16;
+        bounds.height = 24;
     }
 
     @Override
@@ -38,6 +42,10 @@ public class Player extends Beings{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.player, (int)(this.x - handler.getGameCamera().getxOffset()), (int)(this.y - handler.getGameCamera().getyOffset()), this.width, this.height,null);
+        g.drawImage(Assets.player, (int)(this.x - handler.getGameCamera().getxOffset()),
+                (int)(this.y - handler.getGameCamera().getyOffset()), this.width, this.height,null);
+        g.setColor(Color.red);
+        g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), (int)(y + bounds.y - handler.getGameCamera().getyOffset()),
+                bounds.width, bounds.height);
     }
 }

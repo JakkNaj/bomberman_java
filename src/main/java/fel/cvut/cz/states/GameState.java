@@ -20,7 +20,7 @@ public class GameState extends State {
         super(handler);
         gameboard = new Gameboard(handler,"src/main/resources/worlds/world1.txt");
         handler.setGameboard(gameboard);
-        player = new Player(handler, 16, 16);
+        player = new Player(handler, 32, 32);
     }
 
     @Override

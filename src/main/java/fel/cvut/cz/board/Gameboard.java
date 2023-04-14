@@ -38,6 +38,10 @@ public class Gameboard {
     }
 
     public Tile getTile(int x, int y){
+        if ( x < 0 || y < 0 || x >= width || y >= height){
+            return Tile.grassTile; //game thinks he is on grass tile - player outside of map -> prevent errors
+        }
+
         Tile t = Tile.tiles[board[x][y]];
         if (t == null) return Tile.grassTile;
         return t;

@@ -1,10 +1,10 @@
 package fel.cvut.cz.entities;
 
-import fel.cvut.cz.Game;
 import fel.cvut.cz.Handler;
+import fel.cvut.cz.tiles.Tile;
 
 public abstract class Beings extends Entity{
-    public static final int DEFAULT_SPEED = 20;
+    public static final int DEFAULT_SPEED = 3;
     public static final int DEFAULT_BEING_WIDTH = 32;
     public static final int DEFAULT_BEING_HEIGHT = 32;
 
@@ -19,8 +19,51 @@ public abstract class Beings extends Entity{
     }
 
     public void move(){
-        x += xmove;
-        y += ymove;
+        moveX();
+        moveY();
+    }
+
+    public void moveX(){
+        if (xmove > 0){ //moving RIGHT
+            //x coordinate of tile we are trying to move into
+            int tempX = (int) (x + xmove + bounds.x + bounds.width) / Tile.TILEWIDTH;
+            //check upper RIGHT corner first
+            if (canWalkOnTile(tempX, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
+                canWalkOnTile(tempX, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)){
+                x += xmove; // we can move to the RIGHT
+            }
+        } else if (xmove < 0){ //moving LEFT
+            //x coordinate of tile we are trying to move into
+            int tempX = (int) (x + xmove + bounds.x) / Tile.TILEWIDTH;
+            //check upper LEFT corner first
+            if (canWalkOnTile(tempX, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
+                canWalkOnTile(tempX, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)){
+                x += xmove; // we can move to the LEFT
+            }
+        }
+    }
+    public void moveY(){
+        if (ymove > 0){ //moving DOWN
+            //y coordinate of tile we are trying to move into
+            int tempY = (int) (y + ymove + bounds.y + bounds.height) / Tile.TILEWIDTH;
+            //check lower RIGHT corner first
+            if (canWalkOnTile((int) (x + bounds.x + bounds.width) / Tile.TILEHEIGHT, tempY) &&
+                canWalkOnTile((int) (x + bounds.x) / Tile.TILEHEIGHT, tempY)){
+                y += ymove; // we can move DOWN
+            }
+        } else if (ymove < 0){ //moving UP
+            //y coordinate of tile we are trying to move into
+            int tempY = (int) (y + ymove + bounds.y) / Tile.TILEWIDTH;
+            //check upper RIGHT corner first
+            if (canWalkOnTile((int) (x + bounds.x + bounds.width) / Tile.TILEHEIGHT, tempY) &&
+                canWalkOnTile((int) (x + bounds.x) / Tile.TILEHEIGHT, tempY)){
+                y += ymove; // we can move UP
+            }
+        }
+    }
+
+    protected boolean canWalkOnTile(int x, int y){
+        return handler.getGameboard().getTile(x,y).isWalkable();
     }
 
     //Getters and Setters
