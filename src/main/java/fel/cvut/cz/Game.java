@@ -47,8 +47,8 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         display.getFrame().addKeyListener(this.keyManager);
         Assets.init();
 
-        gameCamera = new GameCamera(this,0,0);
         handler = new Handler(this);
+        gameCamera = new GameCamera(handler,0,0);
 
         gameState = new GameState(handler);
         menuState = new MenuState(handler);

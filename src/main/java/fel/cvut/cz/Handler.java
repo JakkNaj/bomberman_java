@@ -18,10 +18,10 @@ public class Handler {
     public GameCamera getGameCamera(){
         return game.getGameCamera();
     }
-    public int getWidth(){
+    public int getGameWidth(){
         return game.getWidth();
     }
-    public int getHeight(){
+    public int getGameHeight(){
         return game.getHeight();
     }
 

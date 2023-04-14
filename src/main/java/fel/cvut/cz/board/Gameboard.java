@@ -26,9 +26,9 @@ public class Gameboard {
     public void render(Graphics g){
         //we want to render only the screen we see, not the whole map
         int xStart =(int) Math.max(0, handler.getGameCamera().getxOffset() / Tile.TILEWIDTH);
-        int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tile.TILEWIDTH + 1);
+        int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getGameWidth()) / Tile.TILEWIDTH + 1);
         int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tile.TILEWIDTH);
-        int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tile.TILEWIDTH + 1);
+        int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getGameHeight()) / Tile.TILEWIDTH + 1);
 
         for (int y=yStart; y < yEnd; y++){
             for (int x=xStart; x < xEnd; x++){
@@ -61,5 +61,12 @@ public class Gameboard {
                 board[x][y] = Utils.parseInt(tokens[(x+y * width) + 4]);
             }
         }
+    }
+
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight(){
+        return height;
     }
 }
