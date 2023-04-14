@@ -31,6 +31,10 @@ public abstract class Beings extends Entity{
             if (canWalkOnTile(tempX, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
                 canWalkOnTile(tempX, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)){
                 x += xmove; // we can move to the RIGHT
+            } else { //cannot walk on that tile
+                //reset x position on player -> bounding box right next to Tile we cannot step on
+                x = tempX * Tile.TILEWIDTH - bounds.x - bounds.width - 1; //pixel coordinates
+                // - 1 so we can move up and down and collision detection on move up and down doesn't catch it
             }
         } else if (xmove < 0){ //moving LEFT
             //x coordinate of tile we are trying to move into
@@ -39,6 +43,9 @@ public abstract class Beings extends Entity{
             if (canWalkOnTile(tempX, (int) (y + bounds.y) / Tile.TILEHEIGHT) &&
                 canWalkOnTile(tempX, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)){
                 x += xmove; // we can move to the LEFT
+            } else { //cannot walk on that tile
+                //reset x position on player -> bounding box right next to Tile we cannot step on
+                x = tempX * Tile.TILEWIDTH + Tile.TILEWIDTH - bounds.x; //pixel coordinates
             }
         }
     }
@@ -50,6 +57,10 @@ public abstract class Beings extends Entity{
             if (canWalkOnTile((int) (x + bounds.x + bounds.width) / Tile.TILEHEIGHT, tempY) &&
                 canWalkOnTile((int) (x + bounds.x) / Tile.TILEHEIGHT, tempY)){
                 y += ymove; // we can move DOWN
+            } else { //cannot walk on that tile
+                //reset x position on player -> bounding box right next to Tile we cannot step on
+                y = tempY * Tile.TILEHEIGHT - bounds.y - bounds.height - 1; //pixel coordinates
+                // - 1 so we can move left and right and collision detection on move left and right doesn't catch it
             }
         } else if (ymove < 0){ //moving UP
             //y coordinate of tile we are trying to move into
@@ -58,6 +69,9 @@ public abstract class Beings extends Entity{
             if (canWalkOnTile((int) (x + bounds.x + bounds.width) / Tile.TILEHEIGHT, tempY) &&
                 canWalkOnTile((int) (x + bounds.x) / Tile.TILEHEIGHT, tempY)){
                 y += ymove; // we can move UP
+            } else { //cannot walk on that tile
+                //reset x position on player -> bounding box right next to Tile we cannot step on
+                y = tempY * Tile.TILEHEIGHT + bounds.y + bounds.height; //pixel coordinates
             }
         }
     }

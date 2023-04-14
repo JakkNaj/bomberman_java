@@ -44,8 +44,12 @@ public class Player extends Beings{
     public void render(Graphics g) {
         g.drawImage(Assets.player, (int)(this.x - handler.getGameCamera().getxOffset()),
                 (int)(this.y - handler.getGameCamera().getyOffset()), this.width, this.height,null);
+
+        //test bounding box
+        /*
         g.setColor(Color.red);
         g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), (int)(y + bounds.y - handler.getGameCamera().getyOffset()),
                 bounds.width, bounds.height);
+        */
     }
 }
