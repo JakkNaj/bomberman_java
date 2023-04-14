@@ -1,6 +1,7 @@
 package fel.cvut.cz.board;
 
 import fel.cvut.cz.Game;
+import fel.cvut.cz.Handler;
 import fel.cvut.cz.tiles.Tile;
 import fel.cvut.cz.utils.Utils;
 
@@ -8,13 +9,13 @@ import java.awt.*;
 
 /** Class that represents Game board and is made of Tiles */
 public class Gameboard {
-    private Game game;
+    private Handler handler;
     private int width, height;
     private int spawnX, spawnY;
     private int[][] board; //holds IDs of Tiles
 
-    public Gameboard(Game game, String path){
-        this.game = game;
+    public Gameboard(Handler handler, String path){
+        this.handler = handler;
         loadWorld(path);
     }
 
@@ -24,14 +25,14 @@ public class Gameboard {
 
     public void render(Graphics g){
         //we want to render only the screen we see, not the whole map
-        int xStart =(int) Math.max(0, game.getGameCamera().getxOffset() / Tile.TILEWIDTH);
-        int xEnd = (int) Math.min(width, (game.getGameCamera().getxOffset() + game.getWidth()) / Tile.TILEWIDTH + 1);
-        int yStart = (int) Math.max(0, game.getGameCamera().getyOffset() / Tile.TILEWIDTH);
-        int yEnd = (int) Math.min(height, (game.getGameCamera().getyOffset() + game.getHeight()) / Tile.TILEWIDTH + 1);
+        int xStart =(int) Math.max(0, handler.getGameCamera().getxOffset() / Tile.TILEWIDTH);
+        int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getWidth()) / Tile.TILEWIDTH + 1);
+        int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tile.TILEWIDTH);
+        int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getHeight()) / Tile.TILEWIDTH + 1);
 
         for (int y=yStart; y < yEnd; y++){
             for (int x=xStart; x < xEnd; x++){
-                getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - game.getGameCamera().getxOffset()) , (int)(y * Tile.TILEHEIGHT - game.getGameCamera().getyOffset()));
+                getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - handler.getGameCamera().getxOffset()) , (int)(y * Tile.TILEHEIGHT - handler.getGameCamera().getyOffset()));
             }
         }
     }

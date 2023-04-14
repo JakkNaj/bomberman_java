@@ -2,6 +2,7 @@ package fel.cvut.cz.states;
 
 
 import fel.cvut.cz.Game;
+import fel.cvut.cz.Handler;
 
 import java.awt.*;
 
@@ -20,12 +21,12 @@ public abstract class State {
     }
 
     //CLASS
-    protected Game game;
+    protected Handler handler;
     public abstract void tick();
     public abstract void render(Graphics g);
 
-    public State(Game game){
-        this.game = game;
+    public State(Handler handler){
+        this.handler = handler;
     }
 
 }

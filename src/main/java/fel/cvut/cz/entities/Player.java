@@ -1,6 +1,7 @@
 package fel.cvut.cz.entities;
 
 import fel.cvut.cz.Game;
+import fel.cvut.cz.Handler;
 import fel.cvut.cz.graphics.Assets;
 
 import java.awt.*;
@@ -10,33 +11,33 @@ public class Player extends Beings{
     private int bombCount; //TODO
     private int bombStrength; //TODO
 
-    public Player(Game game, float x, float y) {
-        super(game, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
+    public Player(Handler handler, float x, float y) {
+        super(handler, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
     }
 
     @Override
     public void tick() {
         getInput();
         move();
-        game.getGameCamera().centerOnEntity(this);
+        handler.getGameCamera().centerOnEntity(this);
     }
 
     private void getInput(){
         xmove = 0;
         ymove = 0;
 
-        if(game.getKeyManager().up)
+        if(handler.getKeyManager().up)
             ymove = -speed;
-        if(game.getKeyManager().down)
+        if(handler.getKeyManager().down)
             ymove = speed;
-        if(game.getKeyManager().left)
+        if(handler.getKeyManager().left)
             xmove = -speed;
-        if(game.getKeyManager().right)
+        if(handler.getKeyManager().right)
             xmove = speed;
     }
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.player, (int)(this.x - game.getGameCamera().getxOffset()), (int)(this.y - game.getGameCamera().getyOffset()), this.width, this.height,null);
+        g.drawImage(Assets.player, (int)(this.x - handler.getGameCamera().getxOffset()), (int)(this.y - handler.getGameCamera().getyOffset()), this.width, this.height,null);
     }
 }
