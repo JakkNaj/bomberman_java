@@ -2,6 +2,7 @@ package fel.cvut.cz;
 
 import fel.cvut.cz.display.Display;
 import fel.cvut.cz.graphics.Assets;
+import fel.cvut.cz.graphics.GameCamera;
 import fel.cvut.cz.input.KeyManager;
 import fel.cvut.cz.states.GameState;
 import fel.cvut.cz.states.MenuState;
@@ -14,7 +15,7 @@ import java.security.Key;
 /** Main class of the game - starts and runs everything */
 public class Game implements Runnable{ //can run on other thread than the rest of the program
     private Display display;
-    public int width, height; //game class has access to these parameters of our display
+    private int width, height; //game class has access to these parameters of our display
     public String title;
     private boolean running = false;
     private Thread thread;
@@ -28,6 +29,9 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private State gameState;
     private State menuState;
 
+    //CAMERA
+    private GameCamera gameCamera;
+
     public Game(String title, int width, int height){
         this.width = width;
         this.height = height;
@@ -39,6 +43,8 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         this.display = new Display(title, width, height);
         display.getFrame().addKeyListener(this.keyManager);
         Assets.init();
+
+        gameCamera = new GameCamera(this,0,0);
 
         gameState = new GameState(this);
         menuState = new MenuState(this);
@@ -118,5 +124,16 @@ public class Game implements Runnable{ //can run on other thread than the rest o
 
     public KeyManager getKeyManager(){
         return keyManager;
+    }
+    public GameCamera getGameCamera(){
+        return gameCamera;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

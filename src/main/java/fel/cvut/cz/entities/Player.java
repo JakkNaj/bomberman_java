@@ -7,19 +7,18 @@ import java.awt.*;
 
 /** Class that represents a player in game*/
 public class Player extends Beings{
-    private int bombCount;
-    private int bombStrength;
-    private Game game;
+    private int bombCount; //TODO
+    private int bombStrength; //TODO
 
-    public Player(Game game, int x, int y) {
-        super(x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
-        this.game = game;
+    public Player(Game game, float x, float y) {
+        super(game, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
     }
 
     @Override
     public void tick() {
         getInput();
         move();
+        game.getGameCamera().centerOnEntity(this);
     }
 
     private void getInput(){
@@ -38,6 +37,6 @@ public class Player extends Beings{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.player, this.x, this.y, this.width, this.height,null);
+        g.drawImage(Assets.player, (int)(this.x - game.getGameCamera().getxOffset()), (int)(this.y - game.getGameCamera().getyOffset()), this.width, this.height,null);
     }
 }

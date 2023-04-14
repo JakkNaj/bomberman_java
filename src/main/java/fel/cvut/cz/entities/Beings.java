@@ -1,5 +1,7 @@
 package fel.cvut.cz.entities;
 
+import fel.cvut.cz.Game;
+
 public abstract class Beings extends Entity{
     public static final int DEFAULT_SPEED = 20;
     public static final int DEFAULT_BEING_WIDTH = 32;
@@ -8,8 +10,8 @@ public abstract class Beings extends Entity{
     protected int xmove, ymove;
     int speed; //speed of movement
 
-    public Beings(int x, int y, int width, int height) {
-        super(x, y, width, height);
+    public Beings(Game game, float x, float y, int width, int height) {
+        super(game, x, y, width, height);
         speed = DEFAULT_SPEED;
         xmove = 0;
         ymove = 0;

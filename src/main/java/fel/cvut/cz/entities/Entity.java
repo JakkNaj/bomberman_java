@@ -1,12 +1,16 @@
 package fel.cvut.cz.entities;
 
+import fel.cvut.cz.Game;
+
 import java.awt.*;
 
 public abstract class Entity {
-    protected int x,y; //position
+    protected Game game;
+    protected float x,y; //position
     protected int width, height;
 
-    public Entity(int x, int y, int width, int height){
+    public Entity(Game game, float x, float y, int width, int height){
+        this.game = game;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -16,19 +20,19 @@ public abstract class Entity {
     public abstract void tick();
     public abstract void render(Graphics g);
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         this.y = y;
     }
 
