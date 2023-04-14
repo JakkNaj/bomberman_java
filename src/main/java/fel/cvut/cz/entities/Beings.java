@@ -4,7 +4,7 @@ import fel.cvut.cz.Handler;
 import fel.cvut.cz.tiles.Tile;
 
 public abstract class Beings extends Entity{
-    public static final int DEFAULT_SPEED = 3;
+    public static final int DEFAULT_SPEED = 2;
     public static final int DEFAULT_BEING_WIDTH = 32;
     public static final int DEFAULT_BEING_HEIGHT = 32;
 
