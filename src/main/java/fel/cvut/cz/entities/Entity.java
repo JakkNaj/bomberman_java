@@ -2,6 +2,7 @@ package fel.cvut.cz.entities;
 
 import fel.cvut.cz.Game;
 import fel.cvut.cz.Handler;
+import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
 
@@ -30,7 +31,7 @@ public abstract class Entity {
     }
 
     public void setX(float x) {
-        this.x = x;
+        this.x = x * Tile.TILEWIDTH + Tile.TILEWIDTH;
     }
 
     public float getY() {
@@ -38,7 +39,7 @@ public abstract class Entity {
     }
 
     public void setY(float y) {
-        this.y = y;
+        this.y = y * Tile.TILEHEIGHT + Tile.TILEHEIGHT;
     }
 
     public int getWidth() {

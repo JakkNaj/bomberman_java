@@ -68,11 +68,11 @@ public class Player extends Beings{
                 (int)(this.y - handler.getGameCamera().getyOffset()), this.width, this.height,null);
 
         //test bounding box
-        /*
+
         g.setColor(Color.red);
         g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), (int)(y + bounds.y - handler.getGameCamera().getyOffset()),
                 bounds.width, bounds.height);
-        */
+
     }
 
     private BufferedImage getAnimationFrame(){
