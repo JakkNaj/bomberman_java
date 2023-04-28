@@ -67,10 +67,11 @@ public class Game implements Runnable{ //can run on other thread than the rest o
             return;
         }
         g = bs.getDrawGraphics();
+
         //clear the screen
         g.clearRect(0,0, width, height);
-        //Draw to the screen
 
+        //Draw to the screen
         if(State.getState() != null){
             State.getState().render(g);
         }
@@ -110,13 +111,13 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         }
         this.stop();
     }
-    public synchronized void start(){
+    public synchronized void start(){ //starts thread
         if (running) return; //game already running
         running = true;
         this.thread = new Thread(this);
-        this.thread.start(); //call run method
+        this.thread.start(); //calls run method
     }
-    public synchronized void stop(){
+    public synchronized void stop(){ //stops thread
         if (!running) return; //nothing to stop
         running = false;
         try{

@@ -12,8 +12,6 @@ import java.io.File;
 
 /** Where the actual gameplay is */
 public class GameState extends State {
-
-    private Player player;
     private Gameboard gameboard;
 
     public GameState(Handler handler){

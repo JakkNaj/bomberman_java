@@ -9,8 +9,6 @@ import java.awt.*;
 /** Abstractly represents a State of the game - Settings, Menu, Game */
 public abstract class State {
 
-    //TODO SettingsState
-
     //GAME-STATE manager
     private static State currentState = null;
     public static void setState(State state){

@@ -3,6 +3,7 @@ package fel.cvut.cz.board;
 import fel.cvut.cz.Game;
 import fel.cvut.cz.Handler;
 import fel.cvut.cz.entities.EntityManager;
+import fel.cvut.cz.entities.Ghost;
 import fel.cvut.cz.entities.Player;
 import fel.cvut.cz.tiles.Tile;
 import fel.cvut.cz.utils.Utils;
@@ -19,12 +20,18 @@ public class Gameboard {
     //Entities
     private EntityManager entityManager;
 
+     public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
     public Gameboard(Handler handler, String path){
         this.handler = handler;
         entityManager = new EntityManager(handler, new Player(handler, 0, 0));
+        entityManager.addEntity(new Ghost(handler, 2, 2));
+
         loadWorld(path);
-        entityManager.getPlayer().setX(spawnX);
-        entityManager.getPlayer().setY(spawnY);
+        entityManager.getPlayer().setX(0);
+        entityManager.getPlayer().setY(0);
     }
 
     public void tick(){
@@ -43,6 +50,8 @@ public class Gameboard {
                 getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - handler.getGameCamera().getxOffset()) , (int)(y * Tile.TILEHEIGHT - handler.getGameCamera().getyOffset()));
             }
         }
+
+        //render entities
         entityManager.render(g);
     }
 

@@ -26,6 +26,20 @@ public abstract class Entity {
     public abstract void tick();
     public abstract void render(Graphics g);
 
+    //helper entity collision functions
+    public boolean checkCollisionsWithEntities(float xOff, float yOff){
+        for(Entity e : handler.getGameboard().getEntityManager().getEntityList()){
+            if (e.equals(this)) continue;
+            if (e.getCollisionBox(0f, 0f).intersects(getCollisionBox(xOff,yOff))){
+                return true;
+            }
+        }
+        return false;
+    }
+    public Rectangle getCollisionBox(float xOff, float yOff){
+        return new Rectangle((int) (x + bounds.x + xOff), (int)(y + bounds.y + yOff), bounds.width, bounds.height);
+    }
+
     public float getX() {
         return x;
     }
