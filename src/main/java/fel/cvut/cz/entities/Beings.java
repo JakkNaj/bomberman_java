@@ -19,12 +19,8 @@ public abstract class Beings extends Entity{
     }
 
     public void move(){
-        if (!checkCollisionsWithEntities(xmove, 0f)){
-            moveX();
-        }
-        if (!checkCollisionsWithEntities(0f, ymove)){
-            moveY();
-        }
+        moveX();
+        moveY();
     }
 
     public void moveX(){

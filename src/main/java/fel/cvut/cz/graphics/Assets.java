@@ -8,7 +8,7 @@ public class Assets { //loading in Images and crop them, so I don't have to crop
     public static BufferedImage player, bomb, ghost, grass, hardWall, softWall;
     public static BufferedImage[] player_walkDown, player_walkUp, player_walkLeft, player_walkRight, player_standing;
     public static void init(){
-        SpriteSheet sheet = new SpriteSheet(ImageLoader.loadImage("/textures/BombermanGeneralSprites.png"));
+        SpriteSheet sheet = new SpriteSheet("/textures/BombermanGeneralSprites.png");
 
         player_walkDown = new BufferedImage[3];
         player_walkDown[0] = sheet.crop(4,0, tileWidth, tileHeight);

@@ -4,6 +4,7 @@ import fel.cvut.cz.Game;
 import fel.cvut.cz.Handler;
 import fel.cvut.cz.graphics.Animation;
 import fel.cvut.cz.graphics.Assets;
+import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +14,8 @@ import java.nio.Buffer;
 public class Player extends Beings{
     private int bombCount; //TODO
     private int bombStrength; //TODO
+
+    private int health = 3;
 
     private final Animation animationDown, animationUp;
     private final Animation animationLeft, animationRight, animationStanding;
@@ -86,5 +89,25 @@ public class Player extends Beings{
             return animationRight.getCurrentFrame();
         }
         return animationStanding.getCurrentFrame();
+    }
+
+    @Override
+    public void move(){
+        if (!checkCollisionsWithEntities(xmove, 0f)){
+            moveX();
+        } else {
+            System.out.println("PLAYER DIED, current life: " + this.health);
+            health--;
+            setX(0);
+            setY(0);
+        }
+        if (!checkCollisionsWithEntities(0f, ymove)){
+            moveY();
+        } else {
+            System.out.println("PLAYER DIED, current life: " + this.health);
+            health--;
+            setX(0);
+            setY(0);
+        }
     }
 }

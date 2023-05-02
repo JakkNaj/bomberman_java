@@ -22,7 +22,7 @@ public class Ghost extends Beings{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.ghost, (int)(this.x), (int)(this.y), this.width, this.height, null);
+        g.drawImage(Assets.ghost, (int)(this.x - handler.getGameCamera().getxOffset()), (int)(this.y - handler.getGameCamera().getyOffset()), this.width, this.height, null);
         //test bounding box
         g.setColor(Color.red);
         g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), (int)(y + bounds.y - handler.getGameCamera().getyOffset()),
