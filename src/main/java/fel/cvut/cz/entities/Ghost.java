@@ -4,28 +4,75 @@ import fel.cvut.cz.Handler;
 import fel.cvut.cz.graphics.Assets;
 
 import java.awt.*;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Ghost extends Beings{
-
+    private int changeRandMoveCounter = 240;
     public Ghost(Handler handler, float x, float y) {
         super(handler, x * DEFAULT_BEING_WIDTH, y * DEFAULT_BEING_HEIGHT, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
+        this.setSpeed(0.5f);
         bounds.x = 4;
         bounds.y = 4;
         bounds.width = 24;
         bounds.height = 24;
+        setXmove(0+speed);
     }
 
     @Override
     public void tick() {
-        move();
+        //TODO REPAIR RANDOM WALKING
+        /*changeRandMoveCounter--;
+        if (changeRandMoveCounter == 0){
+            changeRandMoveCounter = 240;
+            setMove();
+        }
+        changeMoveIfCollision();*/
+    }
+
+    private void setMove(){
+        int randXmove = ThreadLocalRandom.current().nextInt(0,3);
+        switch (randXmove){
+            case 0: setXmove(0);
+            case 1: setXmove(0 - speed);
+            case 2: setXmove(0 + speed);
+        }
+        int randYmove = ThreadLocalRandom.current().nextInt(0,3);
+        switch (randYmove){
+            case 0: setYmove(0);
+            case 1: setYmove(0 + speed);
+            case 2: setYmove(0 - speed);
+        }
+    }
+    private void changeMoveIfCollision(){
+        if (!moveX()){
+            if (xmove < 0) {
+                setXmove(0+speed);
+                System.out.println("ghost moving right");
+            }
+            else if (xmove > 0) {
+                setXmove(0-speed);
+                System.out.println("ghost moving left");
+            }
+        }
+        if (!moveY()){
+            if (ymove < 0) {
+                setXmove(0+speed);
+                System.out.println("ghost moving down");
+            }
+            else if (ymove > 0) {
+                setXmove(0-speed);
+                System.out.println("ghost moving up");
+            }
+        }
     }
 
     @Override
     public void render(Graphics g) {
         g.drawImage(Assets.ghost, (int)(this.x - handler.getGameCamera().getxOffset()), (int)(this.y - handler.getGameCamera().getyOffset()), this.width, this.height, null);
         //test bounding box
-        g.setColor(Color.red);
+        /*g.setColor(Color.red);
         g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), (int)(y + bounds.y - handler.getGameCamera().getyOffset()),
-                bounds.width, bounds.height);
+                bounds.width, bounds.height);*/
     }
 }
