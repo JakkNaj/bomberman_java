@@ -7,6 +7,11 @@ public class Assets { //loading in Images and crop them, so I don't have to crop
     private static final int tileWidth = 16, tileHeight = 16;
     public static BufferedImage player, bomb, ghost, grass, hardWall, softWall;
     public static BufferedImage[] player_walkDown, player_walkUp, player_walkLeft, player_walkRight, player_standing;
+    public static BufferedImage[] explosion_left, explosion_left_end,
+                                  explosion_right, explosion_right_end,
+                                  explosion_up, explosion_up_end,
+                                  explosion_down, explosion_down_end;
+    public static BufferedImage[] explosion_center;
     public static void init(){
         SpriteSheet sheet = new SpriteSheet("/textures/BombermanGeneralSprites.png");
 
@@ -33,10 +38,56 @@ public class Assets { //loading in Images and crop them, so I don't have to crop
         player_standing = new BufferedImage[1];
         player_standing[0] = sheet.crop(4,0, tileWidth, tileHeight);
 
-        bomb = sheet.crop(2,3, tileWidth, tileHeight);
         ghost = sheet.crop(0, 15, tileWidth, tileHeight);
         hardWall = sheet.crop(3,3, tileWidth, tileHeight);
         softWall = sheet.crop(4,3, tileWidth, tileHeight);
+
+        bomb = sheet.crop(2,3, tileWidth, tileHeight);
+
+        explosion_center = new BufferedImage[3];
+        explosion_center[0] = sheet.crop(2,6, tileWidth, tileHeight);
+        explosion_center[1] = sheet.crop(7,6, tileWidth, tileHeight);
+        explosion_center[2] = sheet.crop(2,11, tileWidth, tileHeight);
+
+        //left explosion
+        explosion_left = new BufferedImage[3];
+        explosion_left[0] = sheet.crop(1,6, tileWidth, tileHeight);
+        explosion_left[1] = sheet.crop(6,6, tileWidth, tileHeight);
+        explosion_left[2] = sheet.crop(1,11, tileWidth, tileHeight);
+        explosion_left_end = new BufferedImage[3];
+        explosion_left_end[0] = sheet.crop(0,6, tileWidth, tileHeight);
+        explosion_left_end[1] = sheet.crop(5,6, tileWidth, tileHeight);
+        explosion_left_end[2] = sheet.crop(0,11, tileWidth, tileHeight);
+
+        //right explosion
+        explosion_right = new BufferedImage[3];
+        explosion_right[0] = sheet.crop(3,6, tileWidth, tileHeight);
+        explosion_right[1] = sheet.crop(8,6, tileWidth, tileHeight);
+        explosion_right[2] = sheet.crop(3,11, tileWidth, tileHeight);
+        explosion_right_end = new BufferedImage[3];
+        explosion_right_end[0] = sheet.crop(4,6, tileWidth, tileHeight);
+        explosion_right_end[1] = sheet.crop(9,6, tileWidth, tileHeight);
+        explosion_right_end[2] = sheet.crop(4,11, tileWidth, tileHeight);
+
+        //up explosion
+        explosion_up = new BufferedImage[3];
+        explosion_up[0] = sheet.crop(2,5, tileWidth, tileHeight);
+        explosion_up[1] = sheet.crop(7,5, tileWidth, tileHeight);
+        explosion_up[2] = sheet.crop(2,10, tileWidth, tileHeight);
+        explosion_up_end = new BufferedImage[3];
+        explosion_up_end[0] = sheet.crop(2,4, tileWidth, tileHeight);
+        explosion_up_end[1] = sheet.crop(7,4, tileWidth, tileHeight);
+        explosion_up_end[2] = sheet.crop(2,9, tileWidth, tileHeight);
+
+        //down explosion
+        explosion_down = new BufferedImage[3];
+        explosion_down[0] = sheet.crop(2,7, tileWidth, tileHeight);
+        explosion_down[1] = sheet.crop(7,7, tileWidth, tileHeight);
+        explosion_down[2] = sheet.crop(2,12, tileWidth, tileHeight);
+        explosion_down_end = new BufferedImage[3];
+        explosion_down_end[0] = sheet.crop(2,8, tileWidth, tileHeight);
+        explosion_down_end[1] = sheet.crop(7,8, tileWidth, tileHeight);
+        explosion_down_end[2] = sheet.crop(2,13, tileWidth, tileHeight);
 
         grass = new BufferedImage(tileWidth, tileHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = grass.createGraphics();

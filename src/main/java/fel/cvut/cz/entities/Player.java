@@ -15,6 +15,7 @@ import java.util.ArrayList;
 /** Class that represents a player in game*/
 public class Player extends Beings{
     private ArrayList<Bomb> bombs;
+
     private int bombCount = 1;
     private int bombStrength; //TODO
 

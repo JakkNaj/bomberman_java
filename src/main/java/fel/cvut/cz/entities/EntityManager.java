@@ -29,8 +29,14 @@ public class EntityManager {
     }
 
     public void render(Graphics g){
-        for (Entity e : entityList){
+        for (int i = 0; i < entityList.size();){
+            Entity e = entityList.get(i);
             e.render(g);
+            if (e instanceof ExplodedBomb && ((ExplodedBomb) e).getLifeSpan() == 0){
+                entityList.remove(e);
+            } else {
+                i++;
+            }
         }
         player.render(g);
     }
