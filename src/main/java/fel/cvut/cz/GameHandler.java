@@ -5,10 +5,10 @@ import fel.cvut.cz.graphics.GameCamera;
 import fel.cvut.cz.input.KeyManager;
 
 /** Class that allows me to pass along different variables to different places */
-public class Handler {
+public class GameHandler {
     private Game game;
     private Gameboard gameboard;
-    public Handler(Game game){
+    public GameHandler(Game game){
         this.game = game;
     }
     public KeyManager getKeyManager(){

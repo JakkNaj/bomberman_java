@@ -1,17 +1,17 @@
 package fel.cvut.cz.entities;
 
-import fel.cvut.cz.Handler;
+import fel.cvut.cz.GameHandler;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class EntityManager {
-    private Handler handler;
+    private GameHandler gameHandler;
     private Player player;
     private ArrayList<Entity> entityList;
 
-    public EntityManager(Handler handler, Player player){
-        this.handler = handler;
+    public EntityManager(GameHandler gameHandler, Player player){
+        this.gameHandler = gameHandler;
         this.player = player;
         entityList = new ArrayList<Entity>();
     }
@@ -43,12 +43,12 @@ public class EntityManager {
 
 
     //GETTERS AND SETTERS
-    public Handler getHandler() {
-        return handler;
+    public GameHandler getHandler() {
+        return gameHandler;
     }
 
-    public void setHandler(Handler handler) {
-        this.handler = handler;
+    public void setHandler(GameHandler gameHandler) {
+        this.gameHandler = gameHandler;
     }
 
     public Player getPlayer() {

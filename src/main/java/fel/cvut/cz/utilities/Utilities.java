@@ -1,11 +1,10 @@
-package fel.cvut.cz.utils;
+package fel.cvut.cz.utilities;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOError;
 import java.io.IOException;
 
-public class Utils {
+public class Utilities {
     public static String loadFileAsString(String path){
         StringBuilder builder = new StringBuilder();
         try{

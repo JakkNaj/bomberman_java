@@ -1,18 +1,18 @@
 package fel.cvut.cz.entities;
 
-import fel.cvut.cz.Handler;
+import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.tiles.Tile;
-
+/** Abstract class representing all moving entities in game */
 public abstract class Beings extends Entity{
     public static final float DEFAULT_SPEED = 2;
     public static final int DEFAULT_BEING_WIDTH = 32;
     public static final int DEFAULT_BEING_HEIGHT = 32;
 
-    protected float xmove, ymove;
+    protected float xmove, ymove; //direction of movement
     float speed; //speed of movement
 
-    public Beings(Handler handler, float x, float y, int width, int height) {
-        super(handler, x, y, width, height);
+    public Beings(GameHandler gameHandler, float x, float y, int width, int height) {
+        super(gameHandler, x, y, width, height);
         speed = DEFAULT_SPEED;
         xmove = 0;
         ymove = 0;
@@ -87,7 +87,7 @@ public abstract class Beings extends Entity{
     }
 
     protected boolean canWalkOnTile(int x, int y){
-        return handler.getGameboard().getTile(x,y).isWalkable();
+        return gameHandler.getGameboard().getTile(x,y).isWalkable();
     }
 
     //Getters and Setters

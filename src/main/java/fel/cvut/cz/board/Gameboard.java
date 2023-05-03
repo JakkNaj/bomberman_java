@@ -1,18 +1,17 @@
 package fel.cvut.cz.board;
 
-import fel.cvut.cz.Game;
-import fel.cvut.cz.Handler;
+import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.entities.EntityManager;
 import fel.cvut.cz.entities.Ghost;
 import fel.cvut.cz.entities.Player;
 import fel.cvut.cz.tiles.Tile;
-import fel.cvut.cz.utils.Utils;
+import fel.cvut.cz.utilities.Utilities;
 
 import java.awt.*;
 
 /** Class that represents Game board and is made of Tiles */
 public class Gameboard {
-    private Handler handler;
+    private GameHandler gameHandler;
     private int width, height;
     private int spawnX, spawnY;
     private int[][] board; //holds IDs of Tiles
@@ -24,10 +23,10 @@ public class Gameboard {
         return entityManager;
     }
 
-    public Gameboard(Handler handler, String path){
-        this.handler = handler;
-        entityManager = new EntityManager(handler, new Player(handler, 0, 0));
-        entityManager.addEntity(new Ghost(handler, 6, 12));
+    public Gameboard(GameHandler gameHandler, String path){
+        this.gameHandler = gameHandler;
+        entityManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0));
+        entityManager.addEntity(new Ghost(gameHandler, 6, 12));
 
         loadWorld(path);
         entityManager.getPlayer().setX(0);
@@ -40,14 +39,14 @@ public class Gameboard {
 
     public void render(Graphics g){
         //we want to render only the screen we see, not the whole map
-        int xStart =(int) Math.max(0, handler.getGameCamera().getxOffset() / Tile.TILEWIDTH);
-        int xEnd = (int) Math.min(width, (handler.getGameCamera().getxOffset() + handler.getGameWidth()) / Tile.TILEWIDTH + 1);
-        int yStart = (int) Math.max(0, handler.getGameCamera().getyOffset() / Tile.TILEWIDTH);
-        int yEnd = (int) Math.min(height, (handler.getGameCamera().getyOffset() + handler.getGameHeight()) / Tile.TILEWIDTH + 1);
+        int xStart =(int) Math.max(0, gameHandler.getGameCamera().getxOffset() / Tile.TILEWIDTH);
+        int xEnd = (int) Math.min(width, (gameHandler.getGameCamera().getxOffset() + gameHandler.getGameWidth()) / Tile.TILEWIDTH + 1);
+        int yStart = (int) Math.max(0, gameHandler.getGameCamera().getyOffset() / Tile.TILEWIDTH);
+        int yEnd = (int) Math.min(height, (gameHandler.getGameCamera().getyOffset() + gameHandler.getGameHeight()) / Tile.TILEWIDTH + 1);
 
         for (int y=yStart; y < yEnd; y++){
             for (int x=xStart; x < xEnd; x++){
-                getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - handler.getGameCamera().getxOffset()) , (int)(y * Tile.TILEHEIGHT - handler.getGameCamera().getyOffset()));
+                getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - gameHandler.getGameCamera().getxOffset()) , (int)(y * Tile.TILEHEIGHT - gameHandler.getGameCamera().getyOffset()));
             }
         }
 
@@ -66,17 +65,17 @@ public class Gameboard {
     }
 
     private void loadWorld(String path){ //loads world from file
-        String file = Utils.loadFileAsString(path);
+        String file = Utilities.loadFileAsString(path);
         String[] tokens = file.split("\\s+");
-        width = Utils.parseInt(tokens[0]);
-        height = Utils.parseInt(tokens[1]);
-        spawnX = Utils.parseInt(tokens[2]);
-        spawnY = Utils.parseInt(tokens[3]);
+        width = Utilities.parseInt(tokens[0]);
+        height = Utilities.parseInt(tokens[1]);
+        spawnX = Utilities.parseInt(tokens[2]);
+        spawnY = Utilities.parseInt(tokens[3]);
         board  = new int[width][height];
         //load map
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
-                board[x][y] = Utils.parseInt(tokens[(x+y * width) + 4]);
+                board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 4]);
             }
         }
     }

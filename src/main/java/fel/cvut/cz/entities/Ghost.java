@@ -1,16 +1,15 @@
 package fel.cvut.cz.entities;
 
-import fel.cvut.cz.Handler;
+import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.graphics.Assets;
 
 import java.awt.*;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Ghost extends Beings{
     private int changeRandMoveCounter = 240;
-    public Ghost(Handler handler, float x, float y) {
-        super(handler, x * DEFAULT_BEING_WIDTH, y * DEFAULT_BEING_HEIGHT, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
+    public Ghost(GameHandler gameHandler, float x, float y) {
+        super(gameHandler, x * DEFAULT_BEING_WIDTH, y * DEFAULT_BEING_HEIGHT, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
         this.setSpeed(0.5f);
         bounds.x = 4;
         bounds.y = 4;
@@ -69,7 +68,7 @@ public class Ghost extends Beings{
 
     @Override
     public void render(Graphics g) {
-        g.drawImage(Assets.ghost, (int)(this.x - handler.getGameCamera().getxOffset()), (int)(this.y - handler.getGameCamera().getyOffset()), this.width, this.height, null);
+        g.drawImage(Assets.ghost, (int)(this.x - gameHandler.getGameCamera().getxOffset()), (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height, null);
         //test bounding box
         /*g.setColor(Color.red);
         g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), (int)(y + bounds.y - handler.getGameCamera().getyOffset()),

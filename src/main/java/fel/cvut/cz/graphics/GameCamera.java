@@ -1,23 +1,22 @@
 package fel.cvut.cz.graphics;
 
-import fel.cvut.cz.Game;
-import fel.cvut.cz.Handler;
+import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.entities.Entity;
 import fel.cvut.cz.tiles.Tile;
 
 public class GameCamera {
-    private Handler handler;
+    private GameHandler gameHandler;
     private float xOffset, yOffset;
 
-    public GameCamera(Handler handler, float xOffset, float yOffset){
-        this.handler = handler;
+    public GameCamera(GameHandler gameHandler, float xOffset, float yOffset){
+        this.gameHandler = gameHandler;
         this.xOffset = xOffset;
         this.yOffset = yOffset;
     }
 
     public void centerOnEntity(Entity e){
-        xOffset = e.getX() - (float)(handler.getGameWidth() / 2 + e.getWidth()/2);
-        yOffset = e.getY() - (float)(handler.getGameHeight() / 2 + e.getWidth()/2);
+        xOffset = e.getX() - (float)(gameHandler.getGameWidth() / 2 + e.getWidth()/2);
+        yOffset = e.getY() - (float)(gameHandler.getGameHeight() / 2 + e.getWidth()/2);
         checkBlankSpace();
     }
 
@@ -30,13 +29,13 @@ public class GameCamera {
     public void checkBlankSpace(){
         if (xOffset < 0){
             xOffset = 0;
-        } else if (xOffset > handler.getGameboard().getWidth() * Tile.TILEWIDTH - handler.getGameWidth()) {
-            xOffset = handler.getGameboard().getWidth() * Tile.TILEWIDTH - handler.getGameWidth();
+        } else if (xOffset > gameHandler.getGameboard().getWidth() * Tile.TILEWIDTH - gameHandler.getGameWidth()) {
+            xOffset = gameHandler.getGameboard().getWidth() * Tile.TILEWIDTH - gameHandler.getGameWidth();
         }
         if (yOffset < 0){
             yOffset = 0;
-        } else if (yOffset > handler.getGameboard().getHeight() * Tile.TILEHEIGHT - handler.getGameHeight()) {
-            yOffset = handler.getGameboard().getHeight() * Tile.TILEHEIGHT - handler.getGameHeight();
+        } else if (yOffset > gameHandler.getGameboard().getHeight() * Tile.TILEHEIGHT - gameHandler.getGameHeight()) {
+            yOffset = gameHandler.getGameboard().getHeight() * Tile.TILEHEIGHT - gameHandler.getGameHeight();
         }
     }
 

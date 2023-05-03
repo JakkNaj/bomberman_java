@@ -10,7 +10,6 @@ import fel.cvut.cz.states.State;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.security.Key;
 
 /** Main class of the game - starts and runs everything */
 public class Game implements Runnable{ //can run on other thread than the rest of the program
@@ -33,7 +32,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private GameCamera gameCamera;
 
     //HANDLER
-    private Handler handler;
+    private GameHandler gameHandler;
 
     public Game(String title, int width, int height){
         this.width = width;
@@ -47,11 +46,11 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         display.getFrame().addKeyListener(this.keyManager);
         Assets.init();
 
-        handler = new Handler(this);
-        gameCamera = new GameCamera(handler,0,0);
+        gameHandler = new GameHandler(this);
+        gameCamera = new GameCamera(gameHandler,0,0);
 
-        gameState = new GameState(handler);
-        menuState = new MenuState(handler);
+        gameState = new GameState(gameHandler);
+        menuState = new MenuState(gameHandler);
         State.setState(gameState);
     }
     private void tick(){ //update positions etc. in game

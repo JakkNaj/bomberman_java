@@ -1,14 +1,13 @@
 package fel.cvut.cz.states;
 
-import fel.cvut.cz.Game;
-import fel.cvut.cz.Handler;
+import fel.cvut.cz.GameHandler;
 
 import java.awt.*;
 
 public class MenuState extends State {
 
-    public MenuState(Handler handler){
-        super(handler);
+    public MenuState(GameHandler gameHandler){
+        super(gameHandler);
     }
 
     @Override

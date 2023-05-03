@@ -1,15 +1,12 @@
 package fel.cvut.cz.entities;
 
-import fel.cvut.cz.Game;
-import fel.cvut.cz.Handler;
+import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.graphics.Animation;
 import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.input.KeyManager;
-import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 /** Class that represents a player in game*/
@@ -17,15 +14,16 @@ public class Player extends Beings{
     private ArrayList<Bomb> bombs;
 
     private int bombCount = 1;
-    private int bombStrength; //TODO
+
+    private int bombStrength = 1;
 
     private int health = 3;
 
     private final Animation animationDown, animationUp;
     private final Animation animationLeft, animationRight, animationStanding;
 
-    public Player(Handler handler, float x, float y) {
-        super(handler, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
+    public Player(GameHandler gameHandler, float x, float y) {
+        super(gameHandler, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
         bombs = new ArrayList<Bomb>();
 
         //Bounding box
@@ -57,20 +55,20 @@ public class Player extends Beings{
         for (Bomb b : bombs){
             b.tick();
         }
-        handler.getGameCamera().centerOnEntity(this);
+        gameHandler.getGameCamera().centerOnEntity(this);
     }
 
     private void getInput(){
         xmove = 0;
         ymove = 0;
 
-        if(handler.getKeyManager().up)
+        if(gameHandler.getKeyManager().up)
             ymove = -speed;
-        if(handler.getKeyManager().down)
+        if(gameHandler.getKeyManager().down)
             ymove = speed;
-        if(handler.getKeyManager().left)
+        if(gameHandler.getKeyManager().left)
             xmove = -speed;
-        if(handler.getKeyManager().right)
+        if(gameHandler.getKeyManager().right)
             xmove = speed;
         if(KeyManager.bombAvailable > 0){
             placeBomb();
@@ -80,8 +78,8 @@ public class Player extends Beings{
     public void render(Graphics g) {
         BufferedImage animFrame = getAnimationFrame();
 
-        g.drawImage(getAnimationFrame(), (int)(this.x - handler.getGameCamera().getxOffset()),
-                (int)(this.y - handler.getGameCamera().getyOffset()), this.width, this.height,null);
+        g.drawImage(getAnimationFrame(), (int)(this.x - gameHandler.getGameCamera().getxOffset()),
+                (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height,null);
 
         //test bounding box
 /*
@@ -138,12 +136,14 @@ public class Player extends Beings{
 
     private void placeBomb(){
         if (bombs.size() < bombCount && KeyManager.bombAvailable > 0){
-            Bomb b = new Bomb(handler,x,y,width,height);
-            System.out.println("placed coords: x-" + x+" y-" + y);
+            Bomb b = new Bomb(gameHandler,x,y,width,height);
             b.roundCoords();
-            System.out.println("rounded coords: x-" + b.x+" y-" + b.y);
             bombs.add(b);
         }
         KeyManager.bombAvailable--;
+    }
+
+    public int getBombStrength() {
+        return bombStrength;
     }
 }
