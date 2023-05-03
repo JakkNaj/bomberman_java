@@ -2,10 +2,12 @@ package fel.cvut.cz.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 public class KeyManager implements KeyListener {
+    public static int bombAvailable = 0;
     private boolean[] keys;
-    public boolean up, down, left, right;
+    public boolean up, down, left, right, bomb = false;
     public KeyManager(){
         keys = new boolean[256];
     }
@@ -19,7 +21,7 @@ public class KeyManager implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        if (e.getKeyChar() == 'b') bombAvailable++;
     }
 
     @Override

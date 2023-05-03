@@ -4,15 +4,18 @@ import fel.cvut.cz.Game;
 import fel.cvut.cz.Handler;
 import fel.cvut.cz.graphics.Animation;
 import fel.cvut.cz.graphics.Assets;
+import fel.cvut.cz.input.KeyManager;
 import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.nio.Buffer;
+import java.util.ArrayList;
 
 /** Class that represents a player in game*/
 public class Player extends Beings{
-    private int bombCount; //TODO
+    private ArrayList<Bomb> bombs;
+    private int bombCount = 1;
     private int bombStrength; //TODO
 
     private int health = 3;
@@ -22,6 +25,9 @@ public class Player extends Beings{
 
     public Player(Handler handler, float x, float y) {
         super(handler, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
+        bombs = new ArrayList<Bomb>();
+
+        //Bounding box
         bounds.x = 8;
         bounds.y = 4;
         bounds.width = 16;
@@ -46,6 +52,10 @@ public class Player extends Beings{
 
         getInput();
         move();
+        //tick bombs
+        for (Bomb b : bombs){
+            b.tick();
+        }
         handler.getGameCamera().centerOnEntity(this);
     }
 
@@ -61,6 +71,9 @@ public class Player extends Beings{
             xmove = -speed;
         if(handler.getKeyManager().right)
             xmove = speed;
+        if(KeyManager.bombAvailable > 0){
+            placeBomb();
+        }
     }
 
     public void render(Graphics g) {
@@ -75,6 +88,17 @@ public class Player extends Beings{
         g.fillRect((int)(x + bounds.x - handler.getGameCamera().getxOffset()), (int)(y + bounds.y - handler.getGameCamera().getyOffset()),
                 bounds.width, bounds.height);
 */
+        //draw bombs
+        for (int i = 0; i < bombs.size();){
+            Bomb b = bombs.get(i);
+            b.render(g);
+            if (b.getLifeSpan() == 0){
+                //bomb exploded
+                bombs.remove(b);
+            } else {
+                i++;
+            }
+        }
 
     }
 
@@ -109,5 +133,16 @@ public class Player extends Beings{
             setX(0);
             setY(0);
         }
+    }
+
+    private void placeBomb(){
+        if (bombs.size() < bombCount && KeyManager.bombAvailable > 0){
+            Bomb b = new Bomb(handler,x,y,width,height);
+            System.out.println("placed coords: x-" + x+" y-" + y);
+            b.roundCoords();
+            System.out.println("rounded coords: x-" + b.x+" y-" + b.y);
+            bombs.add(b);
+        }
+        KeyManager.bombAvailable--;
     }
 }
