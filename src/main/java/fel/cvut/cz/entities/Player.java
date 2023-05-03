@@ -15,7 +15,7 @@ public class Player extends Beings{
 
     private int bombCount = 1;
 
-    private int bombStrength = 1;
+    private int bombStrength = 2;
 
     private int health = 3;
 

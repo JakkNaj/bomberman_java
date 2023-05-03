@@ -35,28 +35,32 @@ public class Bomb extends Entity{
     private void explode(Graphics g){
         // TODO check for collisions with entities and walls
         gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_center, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
-        //left
         int bombStrength = gameHandler.getGameboard().getEntityManager().getPlayer().getBombStrength();
-        if ( bombStrength > 1) {
-            for (int i = 0; i < bombStrength - 1; i++){
-                //left
-                gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_left, x - ((i+1)  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
-                //right
-                gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_right, x + ((i+1)  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
-                //up
-                gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_up, x, y - ((i+1)  * Tile.TILEWIDTH), Tile.TILEWIDTH, Tile.TILEHEIGHT));
-                //down
-                gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_down, x, y + ((i+1)  * Tile.TILEWIDTH), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+        //LEFT - EXPLOSION
+        //look as far as the bomb should explode
+        // -> stop at first wall
+        // TODO -> if wall id == 2 -> destroy
+        // -> if wall id == 1 -> take step back
+        int step = 0;
+        while(bombStrength > 0){
+            step++;
+            int tileID = gameHandler.getGameboard().getTile((int)x / Tile.TILEWIDTH - step, (int)y / Tile.TILEHEIGHT).getId();
+            if (tileID == 0){
+                bombStrength--;
+            } else if (tileID == 1){
+                step--;
+                break;
             }
         }
-        //left-end
-        gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_left_end, x - (bombStrength * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
-        //right-end
-        gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_right_end, x + (bombStrength * Tile.TILEWIDTH) , y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
-        //up-end
-        gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_up_end, x, y - (bombStrength * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
-        //down-end
-        gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_down_end, x, y + (bombStrength * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+        //end of left explosion placed on step coords
+        if (step > 0){
+            gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_left_end, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            step--;
+            while(step > 0){
+                gameHandler.getGameboard().getEntityManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_left, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+                step--;
+            }
+        }
     }
 
     public int getLifeSpan() {
