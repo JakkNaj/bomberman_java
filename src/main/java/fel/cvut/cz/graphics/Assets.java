@@ -13,6 +13,8 @@ public class Assets { //loading in Images and crop them, so I don't have to crop
                                   explosion_up, explosion_up_end,
                                   explosion_down, explosion_down_end;
     public static BufferedImage[] explosion_center;
+
+    public static BufferedImage[] bombTicking;
     public static void init(){
         SpriteSheet sheet = new SpriteSheet("/textures/BombermanGeneralSprites.png");
 
@@ -98,6 +100,12 @@ public class Assets { //loading in Images and crop them, so I don't have to crop
         explosion_down_end[2] = sheet.crop(7,8, tileWidth, tileHeight);
         explosion_down_end[1] = sheet.crop(2,13, tileWidth, tileHeight);
         explosion_down_end[0] = sheet.crop(7,13, tileWidth, tileHeight);
+
+        bombTicking = new BufferedImage[3];
+        bombTicking[0] = sheet.crop(2,3, tileWidth, tileHeight);
+        bombTicking[1] = sheet.crop(1,3, tileWidth, tileHeight);
+        bombTicking[2] = sheet.crop(0,3, tileWidth, tileHeight);
+
 
         grass = new BufferedImage(tileWidth, tileHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = grass.createGraphics();

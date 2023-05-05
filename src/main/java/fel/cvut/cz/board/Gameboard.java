@@ -26,7 +26,7 @@ public class Gameboard {
     public Gameboard(GameHandler gameHandler, String path){
         this.gameHandler = gameHandler;
         entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0));
-        entitiesManager.addEntity(new Ghost(gameHandler, 6, 12));
+        entitiesManager.addGhostEntity(new Ghost(gameHandler, 6, 12));
 
         loadWorld(path);
         entitiesManager.getPlayer().setX(0);

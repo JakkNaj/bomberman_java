@@ -8,32 +8,49 @@ import java.util.ArrayList;
 public class EntityManager {
     private GameHandler gameHandler;
     private Player player;
-    private ArrayList<Entity> entityList;
+    private ArrayList<Entity> GhostList;
+
+    private ArrayList<Entity> ExplosionList;
 
     public EntityManager(GameHandler gameHandler, Player player){
         this.gameHandler = gameHandler;
         this.player = player;
-        entityList = new ArrayList<Entity>();
+        GhostList = new ArrayList<Entity>();
+        ExplosionList = new ArrayList<Entity>();
     }
 
-    public void addEntity(Entity e){
-        entityList.add(e);
+    public void addGhostEntity(Entity e){
+        GhostList.add(e);
     }
+    public void addExplosionEntity(Entity e){
+        ExplosionList.add(e);
+    }
+
 
     public void tick(){
-        for (int i = 0; i < entityList.size(); i++){
-            Entity e = entityList.get(i);
+        for (int i = 0; i < GhostList.size(); i++){
+            Entity e = GhostList.get(i);
+            e.tick();
+        }
+        for (int i = 0; i < ExplosionList.size(); i++){
+            Entity e = ExplosionList.get(i);
             e.tick();
         }
         player.tick();
     }
 
     public void render(Graphics g){
-        for (int i = 0; i < entityList.size();){
-            Entity e = entityList.get(i);
+        for (int i = 0; i < GhostList.size();){
+            Entity e = GhostList.get(i);
             e.render(g);
-            if (e instanceof ExplodedBomb && ((ExplodedBomb) e).getLifeSpan() == 0){
-                entityList.remove(e);
+            //todo zabití ducha
+            i++;
+        }
+        for (int i = 0; i < ExplosionList.size();){
+            Explosion e = (Explosion) ExplosionList.get(i);
+            e.render(g);
+            if (e.getLifeSpan() == 0){
+                ExplosionList.remove(e);
             } else {
                 i++;
             }
@@ -59,11 +76,14 @@ public class EntityManager {
         this.player = player;
     }
 
-    public ArrayList<Entity> getEntityList() {
-        return entityList;
+    public ArrayList<Entity> getGhostList() {
+        return GhostList;
+    }
+    public ArrayList<Entity> getExplosionList() {
+        return ExplosionList;
     }
 
-    public void setEntityList(ArrayList<Entity> entityList) {
-        this.entityList = entityList;
+    public void setGhostList(ArrayList<Entity> ghostList) {
+        this.GhostList = ghostList;
     }
 }

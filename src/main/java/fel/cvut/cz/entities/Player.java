@@ -116,7 +116,8 @@ public class Player extends Beings{
 
     @Override
     public void move(){
-        if (!checkCollisionsWithEntities(Xmovement, 0f)){
+        if (!checkCollisionsWithGhosts(Xmovement, 0f) &&
+            !checkCollisionsWithExplosions(Xmovement, 0f)){
             moveX();
         } else {
             System.out.println("PLAYER DIED, current life: " + (this.health -1) );
@@ -124,7 +125,8 @@ public class Player extends Beings{
             setX(0);
             setY(0);
         }
-        if (!checkCollisionsWithEntities(0f, Ymovement)){
+        if (!checkCollisionsWithGhosts(0f, Ymovement) &&
+            !checkCollisionsWithExplosions(0f, Ymovement)){
             moveY();
         } else {
             System.out.println("PLAYER DIED, current life: " + (this.health -1) );

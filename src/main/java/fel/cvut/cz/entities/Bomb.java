@@ -1,40 +1,40 @@
 package fel.cvut.cz.entities;
 
 import fel.cvut.cz.GameHandler;
+import fel.cvut.cz.graphics.Animation;
 import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
+
 /** Class that represent bomb placed on gameboard by player */
 public class Bomb extends Entity{
     private int lifeSpan = 180; //how many ticks the bomb lives
+
+    private final Animation ticking;
     public Bomb(GameHandler gameHandler, float x, float y, int width, int height) {
         super(gameHandler, x, y, width, height);
+        ticking = new Animation(100, Assets.bombTicking);
     }
 
     @Override
     public void tick() {
-        lifeSpan--;
-        if (lifeSpan == 0) {
-            System.out.println("BOOM");
-        } else if (lifeSpan%60 == 0){
-            System.out.println("tick");
-        }
+        lifeSpan--; //explodes on 0
+        if (lifeSpan % 15 == 0) ticking.tick();
     }
 
     @Override
     public void render(Graphics g) {
         if (lifeSpan > 0)
-            g.drawImage(Assets.bomb, (int)(this.x - gameHandler.getGameCamera().getxOffset()), (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height, null);
+            g.drawImage(ticking.getCurrentFrame(), (int)(this.x - gameHandler.getGameCamera().getxOffset()), (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height, null);
         else {
             explode(g);
-            System.out.println("explode animation");
         }
     }
 
     private void explode(Graphics g){
         // TODO check for collisions with entities and walls
-        gameHandler.getGameboard().getEntitiesManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_center, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+        gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_center, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
         int bombStrength = gameHandler.getGameboard().getEntitiesManager().getPlayer().getBombStrength();
         //LEFT - EXPLOSION
         //look as far as the bomb should explode
@@ -58,10 +58,10 @@ public class Bomb extends Entity{
         }
         //end of left explosion placed on step coords
         if (step > 0){
-            gameHandler.getGameboard().getEntitiesManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_left_end, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_left_end, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
             step--;
             while(step > 0){
-                gameHandler.getGameboard().getEntitiesManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_left, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_left, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
                 step--;
             }
         }
@@ -85,10 +85,10 @@ public class Bomb extends Entity{
         }
         //end of left explosion placed on step coords
         if (step > 0){
-            gameHandler.getGameboard().getEntitiesManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_right_end, x + (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_right_end, x + (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
             step--;
             while(step > 0){
-                gameHandler.getGameboard().getEntitiesManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_right, x + (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_right, x + (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
                 step--;
             }
         }
@@ -112,10 +112,10 @@ public class Bomb extends Entity{
         }
         //end of left explosion placed on step coords
         if (step > 0){
-            gameHandler.getGameboard().getEntitiesManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_up_end, x , y - (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_up_end, x , y - (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
             step--;
             while(step > 0){
-                gameHandler.getGameboard().getEntitiesManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_up, x , y - (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_up, x , y - (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
                 step--;
             }
         }
@@ -139,10 +139,10 @@ public class Bomb extends Entity{
         }
         //end of left explosion placed on step coords
         if (step > 0){
-            gameHandler.getGameboard().getEntitiesManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_down_end, x , y + (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_down_end, x , y + (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
             step--;
             while(step > 0){
-                gameHandler.getGameboard().getEntitiesManager().addEntity(new ExplodedBomb(gameHandler, Assets.explosion_down, x , y + (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_down, x , y + (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
                 step--;
             }
         }
