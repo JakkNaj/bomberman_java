@@ -26,7 +26,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
 
     //STATES
     private State gameState;
-    private State menuState;
+    private State menuState; //todo
 
     //CAMERA
     private GameCamera gameCamera;
@@ -41,7 +41,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         keyManager = new KeyManager();
     }
 
-    private void init(){ //initialize all graphics for the game
+    private void initializeGraphics(){ //initialize all graphics for the game
         this.display = new Display(title, width, height);
         display.getFrame().addKeyListener(this.keyManager);
         Assets.init();
@@ -80,7 +80,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         g.dispose();
     }
     public void run(){ //majority of game code will be there
-        this.init();
+        this.initializeGraphics();
         int fps = 60;
         double timePerTick = 1000000000 / (double)fps;
         double delta = 0;

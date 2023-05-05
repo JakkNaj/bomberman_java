@@ -27,7 +27,7 @@ public abstract class Entity {
 
     //helper entity collision functions
     public boolean checkCollisionsWithEntities(float xOff, float yOff){
-        for(Entity e : gameHandler.getGameboard().getEntityManager().getEntityList()){
+        for(Entity e : gameHandler.getGameboard().getEntitiesManager().getEntityList()){
             if (e.equals(this)) continue;
             if (e.getCollisionBox(0f, 0f).intersects(getCollisionBox(xOff,yOff))){
                 return true;

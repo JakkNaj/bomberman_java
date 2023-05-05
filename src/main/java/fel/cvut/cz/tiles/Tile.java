@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 /** Class that represents one tile on Game board */
 public abstract class Tile {
     //STATIC
-    public static Tile[] tiles = new Tile[256];
+    public static Tile[] Alltiles = new Tile[3];
     //we create only one instance of each tile type
     public static Tile grassTile = new GrassTile(0);
     public static Tile hardWall = new HardWall(1);
@@ -19,7 +19,7 @@ public abstract class Tile {
         this.texture = texture;
         this.id = id;
 
-        tiles[id] = this;
+        Alltiles[id] = this;
     }
 
     public int getId(){

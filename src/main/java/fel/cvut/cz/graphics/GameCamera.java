@@ -14,7 +14,7 @@ public class GameCamera {
         this.yOffset = yOffset;
     }
 
-    public void centerOnEntity(Entity e){
+    public void centerCameraOnEntity(Entity e){
         xOffset = e.getX() - (float)(gameHandler.getGameWidth() / 2 + e.getWidth()/2);
         yOffset = e.getY() - (float)(gameHandler.getGameHeight() / 2 + e.getWidth()/2);
         checkBlankSpace();

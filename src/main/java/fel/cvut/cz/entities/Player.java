@@ -55,21 +55,21 @@ public class Player extends Beings{
         for (Bomb b : bombs){
             b.tick();
         }
-        gameHandler.getGameCamera().centerOnEntity(this);
+        gameHandler.getGameCamera().centerCameraOnEntity(this);
     }
 
     private void getInput(){
-        xmove = 0;
-        ymove = 0;
+        Xmovement = 0;
+        Ymovement = 0;
 
         if(gameHandler.getKeyManager().up)
-            ymove = -speed;
+            Ymovement = -speed;
         if(gameHandler.getKeyManager().down)
-            ymove = speed;
+            Ymovement = speed;
         if(gameHandler.getKeyManager().left)
-            xmove = -speed;
+            Xmovement = -speed;
         if(gameHandler.getKeyManager().right)
-            xmove = speed;
+            Xmovement = speed;
         if(KeyManager.bombAvailable > 0){
             placeBomb();
         }
@@ -102,13 +102,13 @@ public class Player extends Beings{
     }
 
     private BufferedImage getAnimationFrame(){
-        if (ymove < 0) {
+        if (Ymovement < 0) {
             return animationUp.getCurrentFrame();
-        } else if (ymove > 0){
+        } else if (Ymovement > 0){
             return animationDown.getCurrentFrame();
-        } else if (xmove < 0){
+        } else if (Xmovement < 0){
             return animationLeft.getCurrentFrame();
-        } else if (xmove > 0){
+        } else if (Xmovement > 0){
             return animationRight.getCurrentFrame();
         }
         return animationStanding.getCurrentFrame();
@@ -116,18 +116,18 @@ public class Player extends Beings{
 
     @Override
     public void move(){
-        if (!checkCollisionsWithEntities(xmove, 0f)){
+        if (!checkCollisionsWithEntities(Xmovement, 0f)){
             moveX();
         } else {
-            System.out.println("PLAYER DIED, current life: " + this.health);
+            System.out.println("PLAYER DIED, current life: " + (this.health -1) );
             health--;
             setX(0);
             setY(0);
         }
-        if (!checkCollisionsWithEntities(0f, ymove)){
+        if (!checkCollisionsWithEntities(0f, Ymovement)){
             moveY();
         } else {
-            System.out.println("PLAYER DIED, current life: " + this.health);
+            System.out.println("PLAYER DIED, current life: " + (this.health -1) );
             health--;
             setX(0);
             setY(0);

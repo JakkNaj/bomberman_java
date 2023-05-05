@@ -2,9 +2,10 @@ package fel.cvut.cz.graphics;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
+/** Class that load all Assets from Sprite sheet before the game starts and holds them
+ * so that I don't have to load and crop them everytime I need them */
 public class Assets { //loading in Images and crop them, so I don't have to crop them everytime I want to draw something.
-    private static final int tileWidth = 16, tileHeight = 16;
+    private static final int tileWidth = 16, tileHeight = 16; //width and height on spritesheet
     public static BufferedImage player, bomb, ghost, grass, hardWall, softWall;
     public static BufferedImage[] player_walkDown, player_walkUp, player_walkLeft, player_walkRight, player_standing;
     public static BufferedImage[] explosion_left, explosion_left_end,

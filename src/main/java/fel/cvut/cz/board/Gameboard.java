@@ -17,24 +17,24 @@ public class Gameboard {
     private int[][] board; //holds IDs of Tiles
 
     //Entities
-    private EntityManager entityManager;
+    private EntityManager entitiesManager;
 
-     public EntityManager getEntityManager() {
-        return entityManager;
+     public EntityManager getEntitiesManager() {
+        return entitiesManager;
     }
 
     public Gameboard(GameHandler gameHandler, String path){
         this.gameHandler = gameHandler;
-        entityManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0));
-        entityManager.addEntity(new Ghost(gameHandler, 6, 12));
+        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0));
+        entitiesManager.addEntity(new Ghost(gameHandler, 6, 12));
 
         loadWorld(path);
-        entityManager.getPlayer().setX(0);
-        entityManager.getPlayer().setY(0);
+        entitiesManager.getPlayer().setX(0);
+        entitiesManager.getPlayer().setY(0);
     }
 
     public void tick(){
-        entityManager.tick();
+        entitiesManager.tick();
     }
 
     public void render(Graphics g){
@@ -51,7 +51,7 @@ public class Gameboard {
         }
 
         //render entities
-        entityManager.render(g);
+        entitiesManager.render(g);
     }
 
     public Tile getTile(int x, int y){
@@ -59,9 +59,24 @@ public class Gameboard {
             return Tile.grassTile; //game thinks he is on grass tile - player outside of map -> prevent errors
         }
 
-        Tile t = Tile.tiles[board[x][y]];
+        Tile t = Tile.Alltiles[board[x][y]];
         if (t == null) return Tile.grassTile;
         return t;
+    }
+
+    public void setTile(int x, int y, int id){
+         if ( x > 0 || y > 0 || x < width || y < height ){
+             board[x][y] = id;
+         }
+    }
+
+    public void printWorld(){
+         for (int i = 0; i < width; i++){
+             for (int k = 0; k < height; k++){
+                 System.out.printf(board[i][k] + " ");
+             }
+             System.out.print("\n");
+         }
     }
 
     private void loadWorld(String path){ //loads world from file

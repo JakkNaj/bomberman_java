@@ -15,7 +15,7 @@ public class Ghost extends Beings{
         bounds.y = 4;
         bounds.width = 24;
         bounds.height = 24;
-        setXmove(0+speed);
+        setXmovement(0+speed);
     }
 
     @Override
@@ -32,35 +32,35 @@ public class Ghost extends Beings{
     private void setMove(){
         int randXmove = ThreadLocalRandom.current().nextInt(0,3);
         switch (randXmove){
-            case 0: setXmove(0);
-            case 1: setXmove(0 - speed);
-            case 2: setXmove(0 + speed);
+            case 0: setXmovement(0);
+            case 1: setXmovement(0 - speed);
+            case 2: setXmovement(0 + speed);
         }
         int randYmove = ThreadLocalRandom.current().nextInt(0,3);
         switch (randYmove){
-            case 0: setYmove(0);
-            case 1: setYmove(0 + speed);
-            case 2: setYmove(0 - speed);
+            case 0: setYmovement(0);
+            case 1: setYmovement(0 + speed);
+            case 2: setYmovement(0 - speed);
         }
     }
     private void changeMoveIfCollision(){
         if (!moveX()){
-            if (xmove < 0) {
-                setXmove(0+speed);
+            if (Xmovement < 0) {
+                setXmovement(0+speed);
                 System.out.println("ghost moving right");
             }
-            else if (xmove > 0) {
-                setXmove(0-speed);
+            else if (Xmovement > 0) {
+                setXmovement(0-speed);
                 System.out.println("ghost moving left");
             }
         }
         if (!moveY()){
-            if (ymove < 0) {
-                setXmove(0+speed);
+            if (Ymovement < 0) {
+                setXmovement(0+speed);
                 System.out.println("ghost moving down");
             }
-            else if (ymove > 0) {
-                setXmove(0-speed);
+            else if (Ymovement > 0) {
+                setXmovement(0-speed);
                 System.out.println("ghost moving up");
             }
         }
