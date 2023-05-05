@@ -1,6 +1,7 @@
 package fel.cvut.cz.entities;
 
 import fel.cvut.cz.GameHandler;
+import fel.cvut.cz.graphics.Animation;
 import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.tiles.Tile;
 
@@ -9,6 +10,8 @@ import java.awt.*;
 public class Ghost extends Beings{
     private boolean lookingForChangeOfDirection; //state
     private int bounceCounter = 0;
+
+    private final Animation dieing;
     public Ghost(GameHandler gameHandler, float x, float y) {
         super(gameHandler, x * DEFAULT_BEING_WIDTH, y * DEFAULT_BEING_HEIGHT, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
         this.setSpeed(1f);
@@ -19,12 +22,21 @@ public class Ghost extends Beings{
         lookingForChangeOfDirection = false;
         Xmovement = speed;
         Ymovement = 0;
+
+        //Animations
+        dieing = new Animation(100, Assets.ghostDieing);
     }
 
     @Override
     public void tick() {
-        //TODO RANDOM WALKING
+        checkCollisions();
         getMove();
+    }
+
+    private void checkCollisions(){
+        if (checkCollisionWithExplosion(Xmovement, 0f) || checkCollisionWithExplosion(0f, Ymovement)){
+            health--;
+        }
     }
 
     private void getMove(){

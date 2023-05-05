@@ -26,7 +26,7 @@ public abstract class Entity {
     public abstract void render(Graphics g);
 
     //helper entity collision functions
-    public boolean checkCollisionsWithGhosts(float xOff, float yOff){
+    public boolean checkCollisionWithGhost(float xOff, float yOff){
         for(Entity e : gameHandler.getGameboard().getEntitiesManager().getGhostList()){
             if (e.equals(this)) continue;
             if (e.getCollisionBox(0f, 0f).intersects(getCollisionBox(xOff,yOff))){
@@ -35,7 +35,7 @@ public abstract class Entity {
         }
         return false;
     }
-    public boolean checkCollisionsWithExplosions(float xOff, float yOff){
+    public boolean checkCollisionWithExplosion(float xOff, float yOff){
         for(Entity e : gameHandler.getGameboard().getEntitiesManager().getExplosionList()){
             if (e.equals(this)) continue;
             if (e.getCollisionBox(0f, 0f).intersects(getCollisionBox(xOff,yOff))){

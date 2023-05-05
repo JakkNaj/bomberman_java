@@ -10,6 +10,7 @@ public abstract class Beings extends Entity{
 
     protected float Xmovement, Ymovement; //direction of movement
     float speed; //speed of movement
+    int health = 1;
 
     public Beings(GameHandler gameHandler, float x, float y, int width, int height) {
         super(gameHandler, x, y, width, height);

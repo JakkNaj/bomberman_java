@@ -15,6 +15,8 @@ public class Assets { //loading in Images and crop them, so I don't have to crop
     public static BufferedImage[] explosion_center;
 
     public static BufferedImage[] bombTicking;
+
+    public static BufferedImage[] ghostDieing;
     public static void init(){
         SpriteSheet sheet = new SpriteSheet("/textures/BombermanGeneralSprites.png");
 
@@ -105,6 +107,13 @@ public class Assets { //loading in Images and crop them, so I don't have to crop
         bombTicking[0] = sheet.crop(2,3, tileWidth, tileHeight);
         bombTicking[1] = sheet.crop(1,3, tileWidth, tileHeight);
         bombTicking[2] = sheet.crop(0,3, tileWidth, tileHeight);
+
+        ghostDieing = new BufferedImage[4];
+        ghostDieing[0] = sheet.crop(6,15, tileWidth, tileHeight);
+        ghostDieing[1] = sheet.crop(7,15, tileWidth, tileHeight);
+        ghostDieing[2] = sheet.crop(8,15, tileWidth, tileHeight);
+        ghostDieing[3] = sheet.crop(9,15, tileWidth, tileHeight);
+
 
 
         grass = new BufferedImage(tileWidth, tileHeight, BufferedImage.TYPE_INT_ARGB);

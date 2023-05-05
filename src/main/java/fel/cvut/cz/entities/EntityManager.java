@@ -41,10 +41,13 @@ public class EntityManager {
 
     public void render(Graphics g){
         for (int i = 0; i < GhostList.size();){
-            Entity e = GhostList.get(i);
+            Ghost e =(Ghost) GhostList.get(i);
             e.render(g);
-            //todo zabití ducha
-            i++;
+            if (e.health == 0){
+                GhostList.remove(e);
+            } else {
+                i++;
+            }
         }
         for (int i = 0; i < ExplosionList.size();){
             Explosion e = (Explosion) ExplosionList.get(i);
