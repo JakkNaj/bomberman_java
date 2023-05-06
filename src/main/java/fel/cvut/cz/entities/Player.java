@@ -146,4 +146,16 @@ public class Player extends Beings{
     public int getBombStrength() {
         return bombStrength;
     }
+
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
+    }
+    public boolean checkCollisionWithBomb(float xOff, float yOff){
+        for (Bomb b : bombs){
+            if (b.getCollisionBox(0f, 0f).intersects(getCollisionBox(xOff, yOff))){
+                return true;
+            }
+        }
+        return false;
+    }
 }

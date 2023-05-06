@@ -84,33 +84,53 @@ public class Ghost extends Beings{
         }
 
         float oldXm = Xmovement;
+        if (!checkCollisionWithBomb(Xmovement,Ymovement)){
+            //bomb not there, try to move there
+            if (!moveX()){
+                if (Xmovement > 0)
+                    Xmovement = -speed;
+                else
+                    Xmovement = speed;
+                if (oldXm != Xmovement)
+                    bounceCounter++;
+                if (bounceCounter == 5){
+                    lookingForChangeOfDirection = true;
+                }
+            }
+        } else {
+            //collide with bomb -> bounce
+            Xmovement = -Xmovement;
+        }
+
         float oldYm = Ymovement;
-        if (!moveX()){
-            if (Xmovement > 0)
-                Xmovement = -speed;
-            else
-                Xmovement = speed;
-            if (oldXm != Xmovement)
-                bounceCounter++;
-            if (bounceCounter == 5){
-                lookingForChangeOfDirection = true;
+        if (!checkCollisionWithBomb(Xmovement,Ymovement)){
+            //bomb not there, try to move there
+            if (!moveY()){
+                if (Ymovement > 0)
+                    Ymovement = -speed;
+                else
+                    Ymovement = speed;
+                if (oldYm != Ymovement)
+                    bounceCounter++;
+                if (bounceCounter == 5){
+                    lookingForChangeOfDirection = true;
+                }
             }
-
+        } else {
+            //collide with bomb -> bounce
+            Ymovement = -Ymovement;
         }
 
-        if (!moveY()){
-            if (Ymovement > 0)
-                Ymovement = -speed;
-            else
-                Ymovement = speed;
-            if (oldYm != Ymovement)
-                bounceCounter++;
-            if (bounceCounter == 5){
-                lookingForChangeOfDirection = true;
-            }
-        }
     }
 
+    private boolean checkCollisionWithBomb(float xOff, float yOff){
+        for ( Bomb b : gameHandler.getGameboard().getEntitiesManager().getPlayer().getBombs() ){
+            if (b.getCollisionBox(0f,0f).intersects(getCollisionBox(xOff, yOff))){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public void render(Graphics g) {

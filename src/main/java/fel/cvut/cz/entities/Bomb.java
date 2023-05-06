@@ -15,6 +15,11 @@ public class Bomb extends Entity{
     public Bomb(GameHandler gameHandler, float x, float y, int width, int height) {
         super(gameHandler, x, y, width, height);
         ticking = new Animation(100, Assets.bombTicking);
+        //Bounding box
+        bounds.x = 0;
+        bounds.y = 0;
+        bounds.width = 32;
+        bounds.height = 32;
     }
 
     @Override
