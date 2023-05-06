@@ -14,10 +14,17 @@ public class Explosion extends Entity{
     public int getLifeSpan() {
         return lifeSpan;
     }
-
-    private int lifeSpan = 50;
+    boolean wallbreaker = false;
+    private int lifeSpan = 60;
     public Explosion(GameHandler gameHandler, BufferedImage[] explosion, float x, float y, int width, int height) {
         super(gameHandler, x, y, width, height);
+        //Animations
+        this.explodeAnimation = new Animation(100, explosion);
+    }
+
+    public Explosion(GameHandler gameHandler, BufferedImage[] explosion, float x, float y, int width, int height, boolean wallBreaker) {
+        super(gameHandler, x, y, width, height);
+        this.wallbreaker = wallBreaker;
         //Animations
         this.explodeAnimation = new Animation(100, explosion);
     }
@@ -25,9 +32,15 @@ public class Explosion extends Entity{
     @Override
     public void tick() {
         lifeSpan--;
-        if (lifeSpan  == 30) explodeAnimation.tick();
-        if (lifeSpan == 15) explodeAnimation.tick();
-        if (lifeSpan == 5) explodeAnimation.tick();
+        if (wallbreaker){ //wallbreaker ticking 6 times
+            if (lifeSpan % 10 == 0 && lifeSpan != 0){
+                explodeAnimation.tick();
+            }
+        } else { //normal explosion
+            if (lifeSpan  == 40) explodeAnimation.tick();
+            if (lifeSpan == 20) explodeAnimation.tick();
+            if (lifeSpan == 10) explodeAnimation.tick();
+        }
     }
 
     @Override

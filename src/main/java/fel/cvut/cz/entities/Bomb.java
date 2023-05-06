@@ -48,6 +48,7 @@ public class Bomb extends Entity{
         // -> if wall id == 2 -> destroy
         // -> if wall id == 1 -> take step back
         int step = 0;
+        boolean breakWall = false;
         while(bombStrength > 0){
             step++;
             int tileID = gameHandler.getGameboard().getTile((int)x / Tile.TILEWIDTH - step, (int)y / Tile.TILEHEIGHT).getId();
@@ -59,12 +60,17 @@ public class Bomb extends Entity{
             } else if (tileID == 2){
                 //destroy wall - set it to grassTile
                 gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH - step, (int) y / Tile.TILEHEIGHT, 0);
+                breakWall = true;
                 break;
             }
         }
         //end of left explosion placed on step coords
         if (step > 0){
-            gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_left_end, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            if (breakWall) {
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.wallBreaking, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT, true));
+            } else {
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_left_end, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            }
             step--;
             while(step > 0){
                 gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_left, x - (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
@@ -73,6 +79,7 @@ public class Bomb extends Entity{
         }
 
         //RIGHT - EXPLOSION
+        breakWall = false;
         step = 0;
         bombStrength = gameHandler.getGameboard().getEntitiesManager().getPlayer().getBombStrength();
         while(bombStrength > 0){
@@ -86,12 +93,17 @@ public class Bomb extends Entity{
             } else if (tileID == 2){
                 //destroy wall - set it to grassTile
                 gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH + step, (int) y / Tile.TILEHEIGHT, 0);
+                breakWall = true;
                 break;
             }
         }
         //end of left explosion placed on step coords
         if (step > 0){
-            gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_right_end, x + (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            if (breakWall){
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.wallBreaking, x + (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT, true));
+            } else {
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_right_end, x + (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            }
             step--;
             while(step > 0){
                 gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_right, x + (step  * Tile.TILEWIDTH), y, Tile.TILEWIDTH, Tile.TILEHEIGHT));
@@ -100,6 +112,7 @@ public class Bomb extends Entity{
         }
 
         //UP - EXPLOSION
+        breakWall = false;
         step = 0;
         bombStrength = gameHandler.getGameboard().getEntitiesManager().getPlayer().getBombStrength();
         while(bombStrength > 0){
@@ -113,12 +126,17 @@ public class Bomb extends Entity{
             } else if (tileID == 2){
                 //destroy wall - set it to grassTile
                 gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH, (int) y / Tile.TILEHEIGHT - step, 0);
+                breakWall = true;
                 break;
             }
         }
         //end of left explosion placed on step coords
         if (step > 0){
-            gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_up_end, x , y - (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            if (breakWall){
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.wallBreaking, x , y - (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT, true));
+            } else {
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_up_end, x , y - (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            }
             step--;
             while(step > 0){
                 gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_up, x , y - (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
@@ -127,6 +145,7 @@ public class Bomb extends Entity{
         }
 
         //DOWN - EXPLOSION
+        breakWall = false;
         step = 0;
         bombStrength = gameHandler.getGameboard().getEntitiesManager().getPlayer().getBombStrength();
         while(bombStrength > 0){
@@ -140,12 +159,17 @@ public class Bomb extends Entity{
             } else if (tileID == 2){
                 //destroy wall - set it to grassTile
                 gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH, (int) y / Tile.TILEHEIGHT + step, 0);
+                breakWall = true;
                 break;
             }
         }
         //end of left explosion placed on step coords
         if (step > 0){
-            gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_down_end, x , y + (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            if (breakWall){
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.wallBreaking, x , y + (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT, true));
+            } else {
+                gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_down_end, x , y + (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
+            }
             step--;
             while(step > 0){
                 gameHandler.getGameboard().getEntitiesManager().addExplosionEntity(new Explosion(gameHandler, Assets.explosion_down, x , y + (step * Tile.TILEHEIGHT), Tile.TILEWIDTH, Tile.TILEHEIGHT));
