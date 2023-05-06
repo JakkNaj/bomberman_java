@@ -10,6 +10,7 @@ import java.awt.*;
 /** Class that represent bomb placed on gameboard by player */
 public class Bomb extends Entity{
     private int lifeSpan = 180; //how many ticks the bomb lives
+    public boolean canStopPlayer = false;
 
     private final Animation ticking;
     public Bomb(GameHandler gameHandler, float x, float y, int width, int height) {

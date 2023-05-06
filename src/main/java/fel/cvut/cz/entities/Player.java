@@ -116,7 +116,9 @@ public class Player extends Beings{
     public void move(){
         if (!checkCollisionWithGhost(Xmovement, 0f) &&
             !checkCollisionWithExplosion(Xmovement, 0f)){
-            moveX();
+            if (!checkCollisionWithBomb(Xmovement, 0f))
+                //check if player doesn't collide with bomb
+                moveX();
         } else {
             System.out.println("PLAYER DIED, current life: " + (this.health -1) );
             health--;
@@ -125,7 +127,9 @@ public class Player extends Beings{
         }
         if (!checkCollisionWithGhost(0f, Ymovement) &&
             !checkCollisionWithExplosion(0f, Ymovement)){
-            moveY();
+            if (!checkCollisionWithBomb(0f, Ymovement))
+                //check if player doesn't collide with bomb
+                moveY();
         } else {
             System.out.println("PLAYER DIED, current life: " + (this.health -1) );
             health--;
@@ -153,7 +157,10 @@ public class Player extends Beings{
     public boolean checkCollisionWithBomb(float xOff, float yOff){
         for (Bomb b : bombs){
             if (b.getCollisionBox(0f, 0f).intersects(getCollisionBox(xOff, yOff))){
+                if (!b.canStopPlayer) continue;
                 return true;
+            } else {
+                if (!b.canStopPlayer) b.canStopPlayer = true;
             }
         }
         return false;
