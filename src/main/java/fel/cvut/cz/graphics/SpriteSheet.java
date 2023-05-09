@@ -25,4 +25,7 @@ public class SpriteSheet { //class to store sprite-sheet of the game
         return sheet.getSubimage(x * width,y * height, width, height);
     }
 
+    public BufferedImage cropGate(int x, int y, int width, int height){
+        return sheet.getSubimage(x * width,y * height, width - 1, height);
+    }
 }

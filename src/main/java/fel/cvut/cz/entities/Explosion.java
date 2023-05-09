@@ -15,7 +15,7 @@ public class Explosion extends Entity{
         return lifeSpan;
     }
     boolean wallbreaker = false;
-    private int lifeSpan = 60;
+    private int lifeSpan = 20;
     public Explosion(GameHandler gameHandler, BufferedImage[] explosion, float x, float y, int width, int height) {
         super(gameHandler, x, y, width, height);
         //Animations
@@ -37,9 +37,9 @@ public class Explosion extends Entity{
                 explodeAnimation.tick();
             }
         } else { //normal explosion
-            if (lifeSpan  == 40) explodeAnimation.tick();
-            if (lifeSpan == 20) explodeAnimation.tick();
-            if (lifeSpan == 10) explodeAnimation.tick();
+            if (lifeSpan  == 12) explodeAnimation.tick();
+            if (lifeSpan == 8) explodeAnimation.tick();
+            if (lifeSpan == 4) explodeAnimation.tick();
         }
     }
 

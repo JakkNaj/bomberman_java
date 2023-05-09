@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
  * so that I don't have to load and crop them everytime I need them */
 public class Assets { //loading in Images and crop them, so I don't have to crop them everytime I want to draw something.
     private static final int tileWidth = 16, tileHeight = 16; //width and height on spritesheet
-    public static BufferedImage player, bomb, ghost, grass, hardWall, softWall;
+    public static BufferedImage ghost, grass, hardWall, softWall, gate;
     public static BufferedImage[] player_walkDown, player_walkUp, player_walkLeft, player_walkRight, player_standing;
     public static BufferedImage[] explosion_left, explosion_left_end,
                                   explosion_right, explosion_right_end,
@@ -48,8 +48,7 @@ public class Assets { //loading in Images and crop them, so I don't have to crop
         ghost = sheet.crop(0, 15, tileWidth, tileHeight);
         hardWall = sheet.crop(3,3, tileWidth, tileHeight);
         softWall = sheet.crop(4,3, tileWidth, tileHeight);
-
-        bomb = sheet.crop(2,3, tileWidth, tileHeight);
+        gate = sheet.cropGate(11,3, tileWidth, tileHeight);
 
         explosion_center = new BufferedImage[4];
         explosion_center[3] = sheet.crop(2,6, tileWidth, tileHeight);

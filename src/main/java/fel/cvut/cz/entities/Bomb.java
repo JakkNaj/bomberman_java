@@ -58,8 +58,14 @@ public class Bomb extends Entity{
                 step--;
                 break;
             } else if (tileID == 2){
-                //destroy wall - set it to grassTile
-                gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH - step, (int) y / Tile.TILEHEIGHT, 0);
+                //destroy wall - set it to grassTile or gate
+                if (gameHandler.getGameboard().getxGate() == (int) x / Tile.TILEWIDTH - step &&
+                    gameHandler.getGameboard().getyGate() == (int) y / Tile.TILEHEIGHT) {
+                    //reveal gate
+                    gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH - step, (int) y / Tile.TILEHEIGHT, 3);
+                } else {
+                    gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH - step, (int) y / Tile.TILEHEIGHT, 0);
+                }
                 breakWall = true;
                 break;
             }
@@ -91,7 +97,7 @@ public class Bomb extends Entity{
                 step--;
                 break;
             } else if (tileID == 2){
-                //destroy wall - set it to grassTile
+                //destroy wall - set it to grassTile or gate
                 gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH + step, (int) y / Tile.TILEHEIGHT, 0);
                 breakWall = true;
                 break;
@@ -124,7 +130,7 @@ public class Bomb extends Entity{
                 step--;
                 break;
             } else if (tileID == 2){
-                //destroy wall - set it to grassTile
+                //destroy wall - set it to grassTile or gate
                 gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH, (int) y / Tile.TILEHEIGHT - step, 0);
                 breakWall = true;
                 break;
@@ -157,7 +163,7 @@ public class Bomb extends Entity{
                 step--;
                 break;
             } else if (tileID == 2){
-                //destroy wall - set it to grassTile
+                //destroy wall - set it to grassTile or gate
                 gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH, (int) y / Tile.TILEHEIGHT + step, 0);
                 breakWall = true;
                 break;

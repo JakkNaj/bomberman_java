@@ -4,6 +4,7 @@ import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.graphics.Animation;
 import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.input.KeyManager;
+import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -97,6 +98,8 @@ public class Player extends Beings{
             }
         }
 
+        if (checkGateCollision() && gameHandler.getGameboard().getEntitiesManager().getGhostList().isEmpty())
+            System.out.println("END OF LEVEL");;
     }
 
     private BufferedImage getAnimationFrame(){
@@ -136,6 +139,13 @@ public class Player extends Beings{
             setX(0);
             setY(0);
         }
+    }
+
+    private boolean checkGateCollision(){
+        int currX = Math.round(x / Tile.TILEWIDTH);
+        int currY = Math.round(y / Tile.TILEHEIGHT);
+        return currX == gameHandler.getGameboard().getxGate() &&
+                currY == gameHandler.getGameboard().getyGate();
     }
 
     private void placeBomb(){

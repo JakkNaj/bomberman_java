@@ -4,16 +4,28 @@ import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.entities.EntityManager;
 import fel.cvut.cz.entities.Ghost;
 import fel.cvut.cz.entities.Player;
+import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.tiles.Tile;
 import fel.cvut.cz.utilities.Utilities;
 
 import java.awt.*;
+import java.util.Random;
 
 /** Class that represents Game board and is made of Tiles */
 public class Gameboard {
     private GameHandler gameHandler;
     private int width, height;
     private int spawnX, spawnY;
+
+    public int getxGate() {
+        return xGate;
+    }
+
+    public int getyGate() {
+        return yGate;
+    }
+
+    private int xGate, yGate;
     private int[][] board; //holds IDs of Tiles
 
     //Entities
@@ -29,8 +41,10 @@ public class Gameboard {
         entitiesManager.addGhostEntity(new Ghost(gameHandler, 6, 12));
 
         loadWorld(path);
-        entitiesManager.getPlayer().setX(0);
-        entitiesManager.getPlayer().setY(0);
+        xGate = 2;
+        yGate = 2;
+        entitiesManager.getPlayer().setX(spawnX);
+        entitiesManager.getPlayer().setY(spawnY);
     }
 
     public void tick(){
@@ -46,7 +60,11 @@ public class Gameboard {
 
         for (int y=yStart; y < yEnd; y++){
             for (int x=xStart; x < xEnd; x++){
-                getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - gameHandler.getGameCamera().getxOffset()) , (int)(y * Tile.TILEHEIGHT - gameHandler.getGameCamera().getyOffset()));
+                if (x == xGate && y == yGate && getTile(x,y).getId() == 0){
+                    g.drawImage(Assets.gate,(int) (x * Tile.TILEWIDTH - gameHandler.getGameCamera().getxOffset()), (int)(y * Tile.TILEHEIGHT - gameHandler.getGameCamera().getyOffset()), Tile.TILEWIDTH, Tile.TILEHEIGHT, null);
+                } else {
+                    getTile(x, y).render(g, (int) (x * Tile.TILEWIDTH - gameHandler.getGameCamera().getxOffset()) , (int)(y * Tile.TILEHEIGHT - gameHandler.getGameCamera().getyOffset()));
+                }
             }
         }
 
