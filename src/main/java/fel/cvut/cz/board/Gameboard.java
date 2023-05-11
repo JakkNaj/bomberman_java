@@ -98,8 +98,8 @@ public class Gameboard {
         spawnY = Utilities.parseInt(tokens[3]);
         specialTiles.setxGate(Utilities.parseInt(tokens[4]));
         specialTiles.setyGate(Utilities.parseInt(tokens[5]));
-        specialTiles.setxRunB(Utilities.parseInt(tokens[6]));
-        specialTiles.setyRunB(Utilities.parseInt(tokens[7]));
+        specialTiles.setxExploB(Utilities.parseInt(tokens[6]));
+        specialTiles.setyExploB(Utilities.parseInt(tokens[7]));
         board  = new int[width][height];
         //load map
         for(int y = 0; y < height; y++){

@@ -146,20 +146,20 @@ public class Player extends Beings{
         if (checkExploBoostCollision()){
             gameHandler.getGameboard().getSpecialTiles().setxExploB(-1);
             gameHandler.getGameboard().getSpecialTiles().setyExploB(-1);
-            gameHandler.getGameboard().setTile((int)x / Tile.TILEWIDTH ,(int)y / Tile.TILEHEIGHT, 0);
+            gameHandler.getGameboard().setTile(Math.round(x / Tile.TILEWIDTH), Math.round(y / Tile.TILEHEIGHT), 0);
             bombStrength++;
         }
         if (checkBombBoostCollision()){
             gameHandler.getGameboard().getSpecialTiles().setxBombB(-1);
             gameHandler.getGameboard().getSpecialTiles().setyBombB(-1);
-            gameHandler.getGameboard().setTile((int)x / Tile.TILEWIDTH ,(int)y / Tile.TILEHEIGHT, 0);
+            gameHandler.getGameboard().setTile(Math.round(x / Tile.TILEWIDTH), Math.round(y / Tile.TILEHEIGHT), 0);
             bombCount++;
         }
         if (checkRunBoostCollision()){
             gameHandler.getGameboard().getSpecialTiles().setxRunB(-1);
             gameHandler.getGameboard().getSpecialTiles().setyRunB(-1);
-            gameHandler.getGameboard().setTile((int)x / Tile.TILEWIDTH ,(int)y / Tile.TILEHEIGHT, 0);
-            speed *= 1.5;
+            gameHandler.getGameboard().setTile(Math.round(x / Tile.TILEWIDTH), Math.round(y / Tile.TILEHEIGHT), 0);
+            speed *= 1.2;
         }
     }
     private boolean checkGateCollision(){
