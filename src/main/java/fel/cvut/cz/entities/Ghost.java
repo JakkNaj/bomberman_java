@@ -38,56 +38,56 @@ public class Ghost extends Beings{
             health--;
         }
     }
-
-    private void getMove(){
-        if (lookingForChangeOfDirection){ //ghost wants to change direction of movement
-            if (x % 32 == 0 && y % 32 == 0){
-                //ghost is standing in the middle of tile
-                if (Xmovement != 0){ //ghost is walking horizontally
-                    //first look if he can go up
-                    Tile tile = gameHandler.getGameboard().getTile((int) x / Tile.TILEWIDTH, (int) y / Tile.TILEHEIGHT - 1);
+    private void lookForWalkableTilesInDifferentDirection(){
+        if (x % 32 == 0 && y % 32 == 0){
+            //ghost is standing in the middle of tile
+            if (Xmovement != 0){ //ghost is walking horizontally
+                //first look if he can go up
+                Tile tile = gameHandler.getGameboard().getTile((int) x / Tile.TILEWIDTH, (int) y / Tile.TILEHEIGHT - 1);
+                if (tile.getId() == 0){
+                    Xmovement = 0;
+                    Ymovement = -speed;
+                    bounceCounter = 0;
+                    lookingForChangeOfDirection = false;
+                } else {
+                    //look if he can go down
+                    tile = gameHandler.getGameboard().getTile((int) x / Tile.TILEWIDTH, (int) y / Tile.TILEHEIGHT + 1);
                     if (tile.getId() == 0){
                         Xmovement = 0;
-                        Ymovement = -speed;
+                        Ymovement = speed;
                         bounceCounter = 0;
                         lookingForChangeOfDirection = false;
-                    } else {
-                        //look if he can go down
-                        tile = gameHandler.getGameboard().getTile((int) x / Tile.TILEWIDTH, (int) y / Tile.TILEHEIGHT + 1);
-                        if (tile.getId() == 0){
-                            Xmovement = 0;
-                            Ymovement = speed;
-                            bounceCounter = 0;
-                            lookingForChangeOfDirection = false;
-                        }
                     }
-                } else if (Ymovement != 0){ //ghost is walking vertically
-                    //first look if he can go left
-                    Tile tile = gameHandler.getGameboard().getTile((int) x / Tile.TILEWIDTH - 1, (int) y / Tile.TILEHEIGHT);
+                }
+            } else if (Ymovement != 0){ //ghost is walking vertically
+                //first look if he can go left
+                Tile tile = gameHandler.getGameboard().getTile((int) x / Tile.TILEWIDTH - 1, (int) y / Tile.TILEHEIGHT);
+                if (tile.getId() == 0){
+                    Xmovement = -speed;
+                    Ymovement = 0;
+                    bounceCounter = 0;
+                    lookingForChangeOfDirection = false;
+                } else {
+                    //look if he can go right
+                    tile = gameHandler.getGameboard().getTile((int) x / Tile.TILEWIDTH + 1, (int) y / Tile.TILEHEIGHT);
                     if (tile.getId() == 0){
-                        Xmovement = -speed;
+                        Xmovement = speed;
                         Ymovement = 0;
                         bounceCounter = 0;
                         lookingForChangeOfDirection = false;
-                    } else {
-                        //look if he can go right
-                        tile = gameHandler.getGameboard().getTile((int) x / Tile.TILEWIDTH + 1, (int) y / Tile.TILEHEIGHT);
-                        if (tile.getId() == 0){
-                            Xmovement = speed;
-                            Ymovement = 0;
-                            bounceCounter = 0;
-                            lookingForChangeOfDirection = false;
-                        }
                     }
                 }
             }
         }
-
+    }
+    private void moveHorizontally(){
         float oldXm = Xmovement;
         if (!checkCollisionWithBomb(Xmovement,Ymovement)){
             //bomb not there, try to move there
             if (!moveX()){
+                //collision with detected
                 if (Xmovement > 0)
+                    //bounce
                     Xmovement = -speed;
                 else
                     Xmovement = speed;
@@ -101,11 +101,13 @@ public class Ghost extends Beings{
             //collide with bomb -> bounce
             Xmovement = -Xmovement;
         }
-
+    }
+    private void moveVertically(){
         float oldYm = Ymovement;
         if (!checkCollisionWithBomb(Xmovement,Ymovement)){
             //bomb not there, try to move there
             if (!moveY()){
+                //collision with tile detected
                 if (Ymovement > 0)
                     Ymovement = -speed;
                 else
@@ -120,7 +122,13 @@ public class Ghost extends Beings{
             //collide with bomb -> bounce
             Ymovement = -Ymovement;
         }
-
+    }
+    private void getMove(){
+        if (lookingForChangeOfDirection){ //ghost wants to change direction of movement
+            lookForWalkableTilesInDifferentDirection();
+        }
+        moveHorizontally();
+        moveVertically();
     }
 
     private boolean checkCollisionWithBomb(float xOff, float yOff){

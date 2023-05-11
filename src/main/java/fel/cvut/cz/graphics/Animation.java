@@ -2,6 +2,7 @@ package fel.cvut.cz.graphics;
 
 import java.awt.image.BufferedImage;
 
+/** Animation class used to create new animations that ticks */
 public class Animation {
 
     private int speed, idx;

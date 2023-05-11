@@ -4,6 +4,8 @@ import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.entities.Entity;
 import fel.cvut.cz.tiles.Tile;
 
+/** Game Camera centered around player.
+ *  It's offsets are used to tell game, which part of the map to render. */
 public class GameCamera {
     private GameHandler gameHandler;
     private float xOffset, yOffset;

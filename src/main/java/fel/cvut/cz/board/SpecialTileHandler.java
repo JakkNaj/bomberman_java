@@ -1,5 +1,5 @@
 package fel.cvut.cz.board;
-
+/** Class to hold coords of boosts in Gameboard */
 public class SpecialTileHandler {
     private int xBombB, yBombB;
     private int xExploB, yExploB;
