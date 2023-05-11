@@ -6,12 +6,16 @@ import java.awt.image.BufferedImage;
 /** Class that represents one tile on Game board */
 public abstract class Tile {
     //STATIC
-    public static Tile[] Alltiles = new Tile[4];
+    public static Tile[] Alltiles = new Tile[7];
     //we create only one instance of each tile type
     public static Tile grassTile = new GrassTile(0);
     public static Tile hardWall = new HardWall(1);
     public static Tile softWall = new SoftWall(2);
     public static Tile gate = new Gate(3);
+
+    public static Tile explosionBoost = new ExplosionBoost(4);
+    public static Tile extraBombBoost = new ExtraBombBoost(5);
+    public static Tile runningBoost = new RunningBoost(6);
     public static final int TILEWIDTH = 32, TILEHEIGHT = 32;
     protected BufferedImage texture;
     protected final int id;

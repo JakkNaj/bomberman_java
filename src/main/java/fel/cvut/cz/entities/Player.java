@@ -16,7 +16,7 @@ public class Player extends Beings{
 
     private int bombCount = 1;
 
-    private int bombStrength = 2;
+    private int bombStrength = 1;
 
     private final Animation animationDown, animationUp;
     private final Animation animationLeft, animationRight, animationStanding;
@@ -98,8 +98,7 @@ public class Player extends Beings{
             }
         }
 
-        if (checkGateCollision() && gameHandler.getGameboard().getEntitiesManager().getGhostList().isEmpty())
-            System.out.println("END OF LEVEL");;
+        checkSpecialTileCollisions();
     }
 
     private BufferedImage getAnimationFrame(){
@@ -141,11 +140,51 @@ public class Player extends Beings{
         }
     }
 
+    private void checkSpecialTileCollisions(){
+        if (checkGateCollision() && gameHandler.getGameboard().getEntitiesManager().getGhostList().isEmpty())
+            System.out.println("END OF LEVEL");
+        if (checkExploBoostCollision()){
+            gameHandler.getGameboard().getSpecialTiles().setxExploB(-1);
+            gameHandler.getGameboard().getSpecialTiles().setyExploB(-1);
+            gameHandler.getGameboard().setTile((int)x / Tile.TILEWIDTH ,(int)y / Tile.TILEHEIGHT, 0);
+            bombStrength++;
+        }
+        if (checkBombBoostCollision()){
+            gameHandler.getGameboard().getSpecialTiles().setxBombB(-1);
+            gameHandler.getGameboard().getSpecialTiles().setyBombB(-1);
+            gameHandler.getGameboard().setTile((int)x / Tile.TILEWIDTH ,(int)y / Tile.TILEHEIGHT, 0);
+            bombCount++;
+        }
+        if (checkRunBoostCollision()){
+            gameHandler.getGameboard().getSpecialTiles().setxRunB(-1);
+            gameHandler.getGameboard().getSpecialTiles().setyRunB(-1);
+            gameHandler.getGameboard().setTile((int)x / Tile.TILEWIDTH ,(int)y / Tile.TILEHEIGHT, 0);
+            speed *= 1.5;
+        }
+    }
     private boolean checkGateCollision(){
         int currX = Math.round(x / Tile.TILEWIDTH);
         int currY = Math.round(y / Tile.TILEHEIGHT);
-        return currX == gameHandler.getGameboard().getxGate() &&
-                currY == gameHandler.getGameboard().getyGate();
+        return currX == gameHandler.getGameboard().getSpecialTiles().getxGate() &&
+                currY == gameHandler.getGameboard().getSpecialTiles().getyGate();
+    }
+    private boolean checkExploBoostCollision(){
+        int currX = Math.round(x / Tile.TILEWIDTH);
+        int currY = Math.round(y / Tile.TILEHEIGHT);
+        return currX == gameHandler.getGameboard().getSpecialTiles().getxExploB() &&
+                currY == gameHandler.getGameboard().getSpecialTiles().getyExploB();
+    }
+    private boolean checkBombBoostCollision(){
+        int currX = Math.round(x / Tile.TILEWIDTH);
+        int currY = Math.round(y / Tile.TILEHEIGHT);
+        return currX == gameHandler.getGameboard().getSpecialTiles().getxBombB() &&
+                currY == gameHandler.getGameboard().getSpecialTiles().getyBombB();
+    }
+    private boolean checkRunBoostCollision(){
+        int currX = Math.round(x / Tile.TILEWIDTH);
+        int currY = Math.round(y / Tile.TILEHEIGHT);
+        return currX == gameHandler.getGameboard().getSpecialTiles().getxRunB() &&
+                currY == gameHandler.getGameboard().getSpecialTiles().getyRunB();
     }
 
     private void placeBomb(){

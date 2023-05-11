@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 public class Assets { //loading in Images and crop them, so I don't have to crop them everytime I want to draw something.
     private static final int tileWidth = 16, tileHeight = 16; //width and height on spritesheet
     public static BufferedImage ghost, grass, hardWall, softWall, gate;
+    public static BufferedImage bombBoost, runBoost, explosionBoost;
     public static BufferedImage[] player_walkDown, player_walkUp, player_walkLeft, player_walkRight, player_standing;
     public static BufferedImage[] explosion_left, explosion_left_end,
                                   explosion_right, explosion_right_end,
@@ -122,6 +123,10 @@ public class Assets { //loading in Images and crop them, so I don't have to crop
         wallBreaking[3] = sheet.crop(8,3,tileWidth, tileHeight);
         wallBreaking[4] = sheet.crop(9,3,tileWidth, tileHeight);
         wallBreaking[5] = sheet.crop(10,3,tileWidth, tileHeight);
+
+        explosionBoost = sheet.crop(1,14, tileWidth, tileHeight);
+        bombBoost = sheet.crop(0,14, tileWidth, tileHeight);
+        runBoost = sheet.crop(2, 14, tileWidth, tileHeight);
 
         grass = new BufferedImage(tileWidth, tileHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = grass.createGraphics();

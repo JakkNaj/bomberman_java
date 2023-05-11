@@ -58,11 +58,21 @@ public class Bomb extends Entity{
                 step--;
                 break;
             } else if (tileID == 2){
+                int currX = (int) x / Tile.TILEWIDTH - step;
+                int currY = (int) y / Tile.TILEHEIGHT;
                 //destroy wall - set it to grassTile or gate
-                if (gameHandler.getGameboard().getxGate() == (int) x / Tile.TILEWIDTH - step &&
-                    gameHandler.getGameboard().getyGate() == (int) y / Tile.TILEHEIGHT) {
+                if (gameHandler.getGameboard().getSpecialTiles().collideWithGate(currX, currY)){
                     //reveal gate
-                    gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH - step, (int) y / Tile.TILEHEIGHT, 3);
+                    gameHandler.getGameboard().setTile(currX, currY, 3);
+                } else if(gameHandler.getGameboard().getSpecialTiles().collideWithExploBoost(currX, currY)){
+                    //reveal explosion boost
+                    gameHandler.getGameboard().setTile(currX, currY, 4);
+                } else if(gameHandler.getGameboard().getSpecialTiles().collideWithBombBoost(currX, currY)){
+                    //reveal bomb boost
+                    gameHandler.getGameboard().setTile(currX, currY, 5);
+                } else if(gameHandler.getGameboard().getSpecialTiles().collideWithRunBoost(currX, currY)){
+                    //reveal run boost
+                    gameHandler.getGameboard().setTile(currX, currY, 6);
                 } else {
                     gameHandler.getGameboard().setTile((int) x / Tile.TILEWIDTH - step, (int) y / Tile.TILEHEIGHT, 0);
                 }
