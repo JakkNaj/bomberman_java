@@ -124,18 +124,24 @@ public class Gameboard {
         height = Utilities.parseInt(tokens[1]);
         spawnX = Utilities.parseInt(tokens[2]);
         spawnY = Utilities.parseInt(tokens[3]);
-        specialTiles.setxGate(Utilities.parseInt(tokens[4]));
-        specialTiles.setyGate(Utilities.parseInt(tokens[5]));
-        specialTiles.setxExploB(Utilities.parseInt(tokens[6]));
-        specialTiles.setyExploB(Utilities.parseInt(tokens[7]));
-        ghostNumber = Utilities.parseInt(tokens[8]);
+        ghostNumber = Utilities.parseInt(tokens[4]);
+        specialTiles.setxGate(Utilities.parseInt(tokens[5]));
+        specialTiles.setyGate(Utilities.parseInt(tokens[6]));
+        specialTiles.setxExploB(Utilities.parseInt(tokens[7]));
+        specialTiles.setyExploB(Utilities.parseInt(tokens[8]));
+        specialTiles.setxBombB(Utilities.parseInt(tokens[9]));
+        specialTiles.setyBombB(Utilities.parseInt(tokens[10]));
         board  = new int[width][height];
         //load map
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
-                board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 9]);
+                if (x == 4 && y == 1) board[x][y] = 0;
+                else
+                    board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 11]);
             }
         }
+
+        board[specialTiles.getxBombB()][specialTiles.getyBombB()] = 2;
     }
 
     public int getWidth() {

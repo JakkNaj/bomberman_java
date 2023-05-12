@@ -19,6 +19,8 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
     private Graphics g;
 
+    private String pathToLevelFile;
+
     //BOARD
     private Gameboard gameboard;
 
@@ -31,10 +33,11 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     //HANDLER
     private GameHandler gameHandler;
 
-    public Game(String title, int width, int height){
+    public Game(String title, int width, int height, String path){
         this.width = width;
         this.height = height;
         this.title = title;
+        this.pathToLevelFile = path;
         keyManager = new KeyManager();
     }
 
@@ -46,7 +49,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         gameHandler = new GameHandler(this);
         gameCamera = new GameCamera(gameHandler,0,0);
 
-        gameboard = new Gameboard(gameHandler,"src/main/resources/worlds/world1.txt");
+        gameboard = new Gameboard(gameHandler,pathToLevelFile);
         gameHandler.setGameboard(gameboard);
     }
     private void tick(){ //update positions etc. in game
@@ -79,7 +82,6 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         long now;
         long lastTime = System.nanoTime(); //returns time of our computer in nanoseconds
         long timer = 0;
-        int ticks = 0;
 
         //GAME-LOOP
         while (running){
@@ -91,12 +93,10 @@ public class Game implements Runnable{ //can run on other thread than the rest o
             if (delta >= 1){
                 tick();
                 render();
-                ticks++;
                 delta--;
             }
 
             if (timer >= 1000000000){
-                ticks = 0;
                 timer = 0;
             }
         }
