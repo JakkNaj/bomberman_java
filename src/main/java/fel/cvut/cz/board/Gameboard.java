@@ -9,6 +9,7 @@ import fel.cvut.cz.tiles.Tile;
 import fel.cvut.cz.utilities.Utilities;
 
 import java.awt.*;
+import java.util.Random;
 
 /** Class that represents Game board and is made of Tiles */
 public class Gameboard {
@@ -21,6 +22,7 @@ public class Gameboard {
 
     //Entities
     private EntityManager entitiesManager;
+    private int ghostNumber = 0;
 
      public EntityManager getEntitiesManager() {
         return entitiesManager;
@@ -29,14 +31,40 @@ public class Gameboard {
     public Gameboard(GameHandler gameHandler, String path){
         this.gameHandler = gameHandler;
         entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0));
-        entitiesManager.addGhostEntity(new Ghost(gameHandler, 6, 12));
 
         specialTiles = new SpecialTileHandler();
         loadWorld(path);
-
+        //placeGhosts();
+        for (int i = 0; i < ghostNumber; i++){
+            placeGhost();
+        }
 
         entitiesManager.getPlayer().setX(spawnX);
         entitiesManager.getPlayer().setY(spawnY);
+    }
+
+    private void placeGhost(){
+        Random random = new Random();
+        int randomNumber = random.nextInt((width - 1) * (height - 1));
+        System.out.println("randomNum: "+ randomNumber);
+        int x = 0;
+        while ( x < width){
+            int y = 0;
+            while ( y < height){
+                if (x != 1 && x != 2 && y != 1 && y!= 2 &&
+                        board[x][y] == 0){
+                    randomNumber--;
+                }
+                if (randomNumber == 0){
+                    System.out.println("placing ghost on: " + x + ", " + y);
+                    entitiesManager.addGhostEntity(new Ghost(gameHandler, x, y));
+                    return;
+                }
+                y++;
+            }
+            x++;
+            if (x == width) x = 0;
+        }
     }
 
     public void tick(){
@@ -100,11 +128,12 @@ public class Gameboard {
         specialTiles.setyGate(Utilities.parseInt(tokens[5]));
         specialTiles.setxExploB(Utilities.parseInt(tokens[6]));
         specialTiles.setyExploB(Utilities.parseInt(tokens[7]));
+        ghostNumber = Utilities.parseInt(tokens[8]);
         board  = new int[width][height];
         //load map
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
-                board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 8]);
+                board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 9]);
             }
         }
     }

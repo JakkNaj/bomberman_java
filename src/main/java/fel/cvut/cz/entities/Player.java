@@ -141,8 +141,9 @@ public class Player extends Beings{
     }
 
     private void checkSpecialTileCollisions(){
-        if (checkGateCollision() && gameHandler.getGameboard().getEntitiesManager().getGhostList().isEmpty())
-            System.out.println("END OF LEVEL");
+        if (checkGateCollision() && gameHandler.getGameboard().getEntitiesManager().getGhostList().isEmpty()){
+            System.out.println("You win!");
+        }
         if (checkExploBoostCollision()){
             gameHandler.getGameboard().getSpecialTiles().setxExploB(-1);
             gameHandler.getGameboard().getSpecialTiles().setyExploB(-1);

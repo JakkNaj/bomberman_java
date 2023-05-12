@@ -29,6 +29,7 @@ public class Display {
         this.frame.setLocationRelativeTo(null); //Window appears in the center of the screen
         this.frame.setVisible(true); //Otherwise we won't see anything
 
+
         //init Canvas
         this.canvas = new Canvas();
         this.canvas.setPreferredSize(new Dimension(this.width, this.height)); //sets size of my canvas.

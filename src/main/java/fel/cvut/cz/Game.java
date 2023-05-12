@@ -1,12 +1,10 @@
 package fel.cvut.cz;
 
+import fel.cvut.cz.board.Gameboard;
 import fel.cvut.cz.display.Display;
 import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.graphics.GameCamera;
 import fel.cvut.cz.input.KeyManager;
-import fel.cvut.cz.states.GameState;
-import fel.cvut.cz.states.MenuState;
-import fel.cvut.cz.states.State;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -21,12 +19,11 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
     private Graphics g;
 
+    //BOARD
+    private Gameboard gameboard;
+
     //INPUT
     private KeyManager keyManager;
-
-    //STATES
-    private State gameState;
-    private State menuState; //todo
 
     //CAMERA
     private GameCamera gameCamera;
@@ -49,15 +46,12 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         gameHandler = new GameHandler(this);
         gameCamera = new GameCamera(gameHandler,0,0);
 
-        gameState = new GameState(gameHandler);
-        menuState = new MenuState(gameHandler);
-        State.setState(gameState);
+        gameboard = new Gameboard(gameHandler,"src/main/resources/worlds/world1.txt");
+        gameHandler.setGameboard(gameboard);
     }
     private void tick(){ //update positions etc. in game
         keyManager.tick();
-        if(State.getState() != null){
-            State.getState().tick();
-        }
+        gameboard.tick();
     }
     private void render(){ //render updated things in game
         bs = display.getCanvas().getBufferStrategy(); //BufferStrategy = current BS of our Game
@@ -71,9 +65,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         g.clearRect(0,0, width, height);
 
         //Draw to the screen
-        if(State.getState() != null){
-            State.getState().render(g);
-        }
+        gameboard.render(g);
 
         //Done drawing
         bs.show();
@@ -139,5 +131,9 @@ public class Game implements Runnable{ //can run on other thread than the rest o
 
     public int getHeight() {
         return height;
+    }
+
+    public Display getDisplay() {
+        return display;
     }
 }
