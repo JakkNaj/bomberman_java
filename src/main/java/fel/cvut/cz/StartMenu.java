@@ -1,11 +1,16 @@
 package fel.cvut.cz;
 
+import fel.cvut.cz.utilities.ImagePanel;
+import fel.cvut.cz.utilities.Utilities;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.NumberFormat;
 
 public class StartMenu extends JFrame {
@@ -13,9 +18,13 @@ public class StartMenu extends JFrame {
         setSize(width, height);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
-
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.insets = new Insets(5, 5, 5, 5);
+        constraints.gridx = 0;
+        constraints.gridy = 0;
         JButton startGameButton = new JButton("Start Game");
         startGameButton.addActionListener(new ActionListener() {
             @Override
@@ -24,7 +33,7 @@ public class StartMenu extends JFrame {
                 level1.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        Game game = new Game("Bomberman 2D!", 600, 400, "src/main/resources/worlds/world1.txt");
+                        Game game = new Game("Bomberman 2D! - level 1", 600, 400, "src/main/resources/worlds/world1.txt");
                         game.start();
                     }
                 });
@@ -32,7 +41,7 @@ public class StartMenu extends JFrame {
                 level2.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        Game game = new Game("Bomberman 2D!", 600, 400,"src/main/resources/worlds/world2.txt");
+                        Game game = new Game("Bomberman 2D! - level 2", 600, 400,"src/main/resources/worlds/world2.txt");
                         game.start();
                     }
                 });
@@ -44,8 +53,9 @@ public class StartMenu extends JFrame {
 
             }
         });
-        panel.add(startGameButton);
+        panel.add(startGameButton, constraints);
 
+        constraints.gridy = 1;
         JButton howToPlayButton = new JButton("How to play");
         howToPlayButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -54,8 +64,9 @@ public class StartMenu extends JFrame {
                 JOptionPane.showMessageDialog(null, textArea);
             }
         });
-        panel.add(howToPlayButton);
+        panel.add(howToPlayButton, constraints);
 
+        constraints.gridy = 2;
         JButton levelEditorButton = new JButton("Level Editor");
         levelEditorButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -64,8 +75,20 @@ public class StartMenu extends JFrame {
                 settingsMenu.setVisible(true);
             }
         });
-        panel.add(levelEditorButton);
-        add(panel);
+        panel.add(levelEditorButton, constraints);
+
+        constraints.gridy = 3;
+        JButton exit = new JButton("Exit");
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        panel.add(exit, constraints);
+
+        add(panel, BorderLayout.EAST);
+        add(new ImagePanel("src/main/resources/textures/Bomberman_Logo.png"), BorderLayout.CENTER);
     }
 
     public class SettingsMenu extends JFrame implements ActionListener{
@@ -146,12 +169,51 @@ public class StartMenu extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println("ghost number: " + ghostCount.getText());
-            System.out.println("bomb number: " + bombCount.getText());
-            System.out.println("bomb strength number: " + bombStrength.getText());
-            System.out.println("explosion boost: " + exploBoost.isSelected());
-            System.out.println("bomb count boost: " + bombCntBoost.isSelected());
-            System.out.println("run boost: " + runBoost.isSelected());
+            String ownLevelFilePath = "src/main/resources/worlds/ownLevel.txt";
+            try{
+                FileWriter writer = new FileWriter(ownLevelFilePath, false);
+                //overwrite last setting of own level
+                writer.write("21 15\n0 0\n");
+                writer.close();
+
+            } catch (IOException exception){
+                System.out.println("Error writing to file.");
+            }
+            Utilities.writeToBottomOfFile(ownLevelFilePath, ghostCount.getText());
+            Utilities.writeToBottomOfFile(ownLevelFilePath, bombCount.getText());
+            Utilities.writeToBottomOfFile(ownLevelFilePath, bombStrength.getText());
+            if (exploBoost.isSelected())
+                Utilities.writeToBottomOfFile(ownLevelFilePath, String.valueOf(0));
+            else
+                Utilities.writeToBottomOfFile(ownLevelFilePath, String.valueOf(1));
+            if (bombCntBoost.isSelected())
+                Utilities.writeToBottomOfFile(ownLevelFilePath, String.valueOf(0));
+            else
+                Utilities.writeToBottomOfFile(ownLevelFilePath, String.valueOf(1));
+            if (runBoost.isSelected())
+                Utilities.writeToBottomOfFile(ownLevelFilePath, String.valueOf(0));
+            else
+                Utilities.writeToBottomOfFile(ownLevelFilePath, String.valueOf(1));
+            Utilities.writeToBottomOfFile(ownLevelFilePath,
+                    """
+                            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+                            1 0 0 2 2 2 2 2 0 0 2 0 0 0 2 0 0 2 0 2 1
+                            1 0 1 2 1 0 1 2 1 2 1 0 1 0 1 2 1 0 1 0 1
+                            1 2 0 2 0 0 0 0 2 2 2 0 0 0 0 2 0 2 0 0 1
+                            1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 2 1 0 1
+                            1 0 0 0 0 2 2 0 2 0 0 0 2 0 2 0 0 0 0 2 1
+                            1 0 1 0 1 2 1 2 1 2 1 0 1 0 1 0 1 0 1 2 1
+                            1 0 0 0 0 2 0 2 2 2 2 0 0 0 0 2 2 2 0 0 1
+                            1 0 1 0 1 0 1 0 1 2 1 0 1 0 1 0 1 2 1 0 1
+                            1 2 2 2 0 2 0 0 0 0 0 2 2 2 2 0 0 2 0 0 1
+                            1 0 1 2 1 0 1 0 1 0 1 0 1 0 1 0 1 2 1 0 1
+                            1 2 0 2 2 2 0 2 0 0 0 2 0 2 2 2 2 2 0 2 1
+                            1 0 1 0 1 2 1 0 1 0 1 0 1 2 1 0 1 2 1 2 1
+                            1 0 2 0 2 0 0 0 0 0 2 0 0 2 2 0 2 0 0 0 1
+                            1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1""");
+            dispose();
+            Game game = new Game("Bomberman 2D! - own settings", 600, 400,ownLevelFilePath);
+            game.start();
         }
     }
 }

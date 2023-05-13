@@ -16,15 +16,23 @@ public class Player extends Beings{
 
     private int bombCount = 1;
 
+    public void setBombCount(int bombCount) {
+        this.bombCount = bombCount;
+    }
+
+    public void setBombStrength(int bombStrength) {
+        this.bombStrength = bombStrength;
+    }
+
     private int bombStrength = 1;
 
     private final Animation animationDown, animationUp;
     private final Animation animationLeft, animationRight, animationStanding;
 
-    public Player(GameHandler gameHandler, float x, float y) {
+    public Player(GameHandler gameHandler, float x, float y, int health) {
         super(gameHandler, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
         bombs = new ArrayList<Bomb>();
-        health = 3;
+        this.health = health;
         //Bounding box
         bounds.x = 8;
         bounds.y = 4;
@@ -122,10 +130,7 @@ public class Player extends Beings{
                 //check if player doesn't collide with bomb
                 moveX();
         } else {
-            System.out.println("PLAYER DIED, current life: " + (this.health -1) );
-            health--;
-            setX(0);
-            setY(0);
+            gameHandler.getGameboard().reset(gameHandler, health - 1);
         }
         if (!checkCollisionWithGhost(0f, Ymovement) &&
             !checkCollisionWithExplosion(0f, Ymovement)){
@@ -133,10 +138,7 @@ public class Player extends Beings{
                 //check if player doesn't collide with bomb
                 moveY();
         } else {
-            System.out.println("PLAYER DIED, current life: " + (this.health -1) );
-            health--;
-            setX(0);
-            setY(0);
+            gameHandler.getGameboard().reset(gameHandler, health - 1);
         }
     }
 

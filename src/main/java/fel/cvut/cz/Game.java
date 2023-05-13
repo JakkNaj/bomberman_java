@@ -111,6 +111,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
     public synchronized void stop(){ //stops thread
         if (!running) return; //nothing to stop
         running = false;
+        display.getFrame().dispose();
         try{
             this.thread.join();
         } catch (InterruptedException e) {

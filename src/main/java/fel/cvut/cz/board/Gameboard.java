@@ -1,5 +1,6 @@
 package fel.cvut.cz.board;
 
+import fel.cvut.cz.Game;
 import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.entities.EntityManager;
 import fel.cvut.cz.entities.Ghost;
@@ -8,15 +9,18 @@ import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.tiles.Tile;
 import fel.cvut.cz.utilities.Utilities;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.util.Random;
+
+import static java.lang.System.exit;
 
 /** Class that represents Game board and is made of Tiles */
 public class Gameboard {
     private GameHandler gameHandler;
     private int width, height;
     private int spawnX, spawnY;
-
+    private String pathToLevelFile;
     private SpecialTileHandler specialTiles;
     private int[][] board; //holds IDs of Tiles
 
@@ -30,11 +34,31 @@ public class Gameboard {
 
     public Gameboard(GameHandler gameHandler, String path){
         this.gameHandler = gameHandler;
-        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0));
+        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0, 3));
 
         specialTiles = new SpecialTileHandler();
+        pathToLevelFile = path;
         loadWorld(path);
-        //placeGhosts();
+        //placeGhosts
+        for (int i = 0; i < ghostNumber; i++){
+            placeGhost();
+        }
+
+        entitiesManager.getPlayer().setX(spawnX);
+        entitiesManager.getPlayer().setY(spawnY);
+    }
+
+    public void reset(GameHandler gameHandler, int playerHealth){
+         if (playerHealth == 0){
+             System.out.println("you lose");
+             gameHandler.getGame().stop();
+         }
+        System.out.println("LEVEL RESET");
+        this.gameHandler = gameHandler;
+        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0, playerHealth));
+        specialTiles = new SpecialTileHandler();
+        loadWorld(pathToLevelFile);
+        //placeGhosts
         for (int i = 0; i < ghostNumber; i++){
             placeGhost();
         }
@@ -46,7 +70,6 @@ public class Gameboard {
     private void placeGhost(){
         Random random = new Random();
         int randomNumber = random.nextInt((width - 1) * (height - 1));
-        System.out.println("randomNum: "+ randomNumber);
         int x = 0;
         while ( x < width){
             int y = 0;
@@ -125,23 +148,121 @@ public class Gameboard {
         spawnX = Utilities.parseInt(tokens[2]);
         spawnY = Utilities.parseInt(tokens[3]);
         ghostNumber = Utilities.parseInt(tokens[4]);
-        specialTiles.setxGate(Utilities.parseInt(tokens[5]));
-        specialTiles.setyGate(Utilities.parseInt(tokens[6]));
-        specialTiles.setxExploB(Utilities.parseInt(tokens[7]));
-        specialTiles.setyExploB(Utilities.parseInt(tokens[8]));
-        specialTiles.setxBombB(Utilities.parseInt(tokens[9]));
-        specialTiles.setyBombB(Utilities.parseInt(tokens[10]));
-        board  = new int[width][height];
+        entitiesManager.getPlayer().setBombCount(Utilities.parseInt(tokens[5]));
+        entitiesManager.getPlayer().setBombStrength(Utilities.parseInt(tokens[6]));
+        board = new int[width][height];
         //load map
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
                 if (x == 4 && y == 1) board[x][y] = 0;
                 else
-                    board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 11]);
+                    board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 10]);
             }
         }
+        placeGate();
+        if (Utilities.parseInt(tokens[7]) == 0)
+            placeExplosionBoost();
+        if (Utilities.parseInt(tokens[8]) == 0)
+            placeBombCntBoost();
+        if (Utilities.parseInt(tokens[9]) == 0)
+            placeRunBoost();
+    }
 
-        board[specialTiles.getxBombB()][specialTiles.getyBombB()] = 2;
+    private void placeGate(){
+        Random random = new Random();
+        int randomNumber = random.nextInt((width - 1) * (height - 1));
+        int x = 0;
+        while ( x < width){
+            int y = 0;
+            while ( y < height){
+                if (x != 1 && x != 2 && y != 1 && y!= 2 &&
+                        board[x][y] == 2){
+                    randomNumber--;
+                }
+                if (randomNumber == 0){
+                    System.out.println("placing Gate on: " + x + ", " + y);
+                    specialTiles.setxGate(x);
+                    specialTiles.setyGate(y);
+                    return;
+                }
+                y++;
+            }
+            x++;
+            if (x == width) x = 0;
+        }
+    }
+
+    private void placeExplosionBoost(){
+        Random random = new Random();
+        int randomNumber = random.nextInt((width - 1) * (height - 1));
+        int x = 0;
+        while ( x < width){
+            int y = 0;
+            while ( y < height){
+                if (x != 1 && x != 2 && y != 1 && y!= 2 &&
+                        board[x][y] == 2){
+                    randomNumber--;
+                }
+                if (randomNumber == 0){
+                    System.out.println("placing ExplosionBoost on: " + x + ", " + y);
+                    specialTiles.setxExploB(x);
+                    specialTiles.setyExploB(y);
+                    return;
+                }
+                y++;
+            }
+            x++;
+            if (x == width) x = 0;
+        }
+    }
+
+    private void placeBombCntBoost(){
+        Random random = new Random();
+        int randomNumber = random.nextInt((width - 1) * (height - 1));
+        int x = 0;
+        while ( x < width){
+            int y = 0;
+            while ( y < height){
+                if (x != 1 && x != 2 && y != 1 && y!= 2 &&
+                        board[x][y] == 2){
+                    randomNumber--;
+                }
+                if (randomNumber == 0){
+                    System.out.println("placing BombCountBoost on: " + x + ", " + y);
+                    specialTiles.setxBombB(x);
+                    specialTiles.setyBombB(y);
+                    return;
+                }
+                y++;
+            }
+            x++;
+            if (x == width) x = 0;
+        }
+    }
+
+    private void placeRunBoost(){
+        Random random = new Random();
+        int randomNumber = random.nextInt((width - 1) * (height - 1));
+        System.out.println("randomNum: "+ randomNumber);
+        int x = 0;
+        while ( x < width){
+            int y = 0;
+            while ( y < height){
+                if (x != 1 && x != 2 && y != 1 && y!= 2 &&
+                        board[x][y] == 2){
+                    randomNumber--;
+                }
+                if (randomNumber == 0){
+                    System.out.println("placing RunBoost on: " + x + ", " + y);
+                    specialTiles.setxRunB(x);
+                    specialTiles.setyRunB(y);
+                    return;
+                }
+                y++;
+            }
+            x++;
+            if (x == width) x = 0;
+        }
     }
 
     public int getWidth() {

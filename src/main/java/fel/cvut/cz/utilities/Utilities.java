@@ -2,7 +2,10 @@ package fel.cvut.cz.utilities;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Utilities {
     public static String loadFileAsString(String path){
@@ -26,6 +29,18 @@ public class Utilities {
         }catch(NumberFormatException e){
             e.printStackTrace();
             return 0;
+        }
+    }
+
+    public static void writeToBottomOfFile(String pathToFile, String text){
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(pathToFile)));
+            content = content + text + "\n";
+            FileWriter writer = new FileWriter(pathToFile, false);
+            writer.write(content);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error writing to file.");
         }
     }
 }
