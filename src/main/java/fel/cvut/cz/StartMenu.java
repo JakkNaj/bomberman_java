@@ -13,6 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
 
+import static java.lang.System.exit;
+
 public class StartMenu extends JFrame {
     StartMenu(int width, int height){
         setSize(width, height);
@@ -83,6 +85,7 @@ public class StartMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                exit(0);
             }
         });
         panel.add(exit, constraints);
@@ -103,11 +106,24 @@ public class StartMenu extends JFrame {
             //Number of Ghosts
             JLabel ghostNum = new JLabel("Enter number of ghosts (0 - 10): ");
             NumberFormat format1 = NumberFormat.getIntegerInstance();
-            NumberFormatter formatter1 = new NumberFormatter(format1);
-            formatter1.setMaximum(10);
-            formatter1.setMinimum(0);
-            formatter1.setAllowsInvalid(false);
-            ghostCount = new JFormattedTextField(formatter1);
+            format1.setMinimumIntegerDigits(2);
+            format1.setMinimumIntegerDigits(1);
+            format1.setMinimumFractionDigits(0);
+            format1.setMaximumFractionDigits(0);
+            format1.setParseIntegerOnly(true);
+            format1.setGroupingUsed(false);
+
+            ghostCount = new JFormattedTextField(format1);
+            ghostCount.addPropertyChangeListener("value", evt -> {
+                Object value = ghostCount.getValue();
+                if (value instanceof Number) {
+                    int intValue = ((Number) value).intValue();
+                    if (intValue < 0 || intValue > 10) {
+                        ghostCount.setValue(1);
+                    }
+                }
+            });
+
             ghostCount.setColumns(8);
             constraints.gridx = 0;
             constraints.gridy = 0;
@@ -117,10 +133,17 @@ public class StartMenu extends JFrame {
 
             //Bomb strength
             JLabel bombsStrengthLabel = new JLabel("Enter strength of bombs (minimum 1): ");
-            formatter1.setMaximum(Integer.MAX_VALUE);
-            formatter1.setMinimum(0);
-            formatter1.setAllowsInvalid(false);
-            bombStrength = new JFormattedTextField(formatter1);
+            bombStrength = new JFormattedTextField(format1);
+            bombStrength.addPropertyChangeListener("value", evt -> {
+                Object value = bombStrength.getValue();
+                if (value instanceof Number) {
+                    int intValue = ((Number) value).intValue();
+                    if (intValue < 0) {
+                        bombStrength.setValue(1);
+                    }
+                }
+            });
+
             bombStrength.setColumns(8);
             constraints.gridx = 0;
             constraints.gridy = 1;
@@ -130,10 +153,17 @@ public class StartMenu extends JFrame {
 
             //Number of bombs in stash
             JLabel bombsNum = new JLabel("Enter number of bombs in stash (minimum 1): ");
-            formatter1.setMaximum(Integer.MAX_VALUE);
-            formatter1.setMinimum(0);
-            formatter1.setAllowsInvalid(false);
-            bombCount = new JFormattedTextField(formatter1);
+            bombCount = new JFormattedTextField(format1);
+            bombCount.addPropertyChangeListener("value", evt -> {
+                Object value = bombCount.getValue();
+                if (value instanceof Number) {
+                    int intValue = ((Number) value).intValue();
+                    if (intValue < 0) {
+                        bombCount.setValue(1);
+                    }
+                }
+            });
+
             bombCount.setColumns(8);
             constraints.gridx = 0;
             constraints.gridy = 2;
