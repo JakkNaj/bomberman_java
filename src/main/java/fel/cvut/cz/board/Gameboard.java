@@ -51,7 +51,7 @@ public class Gameboard {
     public void reset(GameHandler gameHandler, int playerHealth){
          if (playerHealth == 0){
              System.out.println("you lose");
-             gameHandler.getGame().stop();
+             Game.running = false;
          }
         System.out.println("LEVEL RESET");
         this.gameHandler = gameHandler;

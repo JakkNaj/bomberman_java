@@ -1,5 +1,6 @@
 package fel.cvut.cz.entities;
 
+import fel.cvut.cz.Game;
 import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.graphics.Animation;
 import fel.cvut.cz.graphics.Assets;
@@ -80,6 +81,9 @@ public class Player extends Beings{
         if(KeyManager.bombAvailable > 0){
             placeBomb();
         }
+        if(gameHandler.getKeyManager().escape){
+
+        }
     }
 
     public void render(Graphics g) {
@@ -145,6 +149,7 @@ public class Player extends Beings{
     private void checkSpecialTileCollisions(){
         if (checkGateCollision() && gameHandler.getGameboard().getEntitiesManager().getGhostList().isEmpty()){
             System.out.println("You win!");
+            Game.running = false;
         }
         if (checkExploBoostCollision()){
             gameHandler.getGameboard().getSpecialTiles().setxExploB(-1);

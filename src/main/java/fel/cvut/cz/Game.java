@@ -4,18 +4,18 @@ import fel.cvut.cz.board.Gameboard;
 import fel.cvut.cz.display.Display;
 import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.graphics.GameCamera;
+import fel.cvut.cz.gui.InGameMenu;
 import fel.cvut.cz.input.KeyManager;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
 /** Main class of the game - starts and runs everything */
-public class Game implements Runnable{ //can run on other thread than the rest of the program
+public class Game extends Thread{ //can run on other thread than the rest of the program
     private Display display;
     private int width, height; //game class has access to these parameters of our display
     public String title;
-    private boolean running = false;
-    private Thread thread;
+    public static boolean running = false;
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
     private Graphics g;
 
@@ -75,6 +75,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
         g.dispose();
     }
     public void run(){ //majority of game code will be there
+        running = true;
         this.initializeGraphics();
         int fps = 60;
         double timePerTick = 1000000000 / (double)fps;
@@ -100,23 +101,7 @@ public class Game implements Runnable{ //can run on other thread than the rest o
                 timer = 0;
             }
         }
-        this.stop();
-    }
-    public synchronized void start(){ //starts thread
-        if (running) return; //game already running
-        running = true;
-        this.thread = new Thread(this);
-        this.thread.start(); //calls run method
-    }
-    public synchronized void stop(){ //stops thread
-        if (!running) return; //nothing to stop
-        running = false;
         display.getFrame().dispose();
-        try{
-            this.thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public KeyManager getKeyManager(){

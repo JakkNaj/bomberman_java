@@ -7,7 +7,7 @@ import java.security.Key;
 public class KeyManager implements KeyListener {
     public static int bombAvailable = 0;
     private boolean[] keys;
-    public boolean up, down, left, right, bomb = false;
+    public boolean up, down, left, right, escape;
     public KeyManager(){
         keys = new boolean[256];
     }
@@ -17,6 +17,7 @@ public class KeyManager implements KeyListener {
         down = keys[KeyEvent.VK_DOWN];
         left = keys[KeyEvent.VK_LEFT];
         right = keys[KeyEvent.VK_RIGHT];
+        escape = keys[KeyEvent.VK_ESCAPE];
     }
 
     @Override

@@ -1,5 +1,6 @@
-package fel.cvut.cz;
+package fel.cvut.cz.gui;
 
+import fel.cvut.cz.Game;
 import fel.cvut.cz.utilities.ImagePanel;
 import fel.cvut.cz.utilities.Utilities;
 
@@ -16,7 +17,7 @@ import java.text.NumberFormat;
 import static java.lang.System.exit;
 
 public class StartMenu extends JFrame {
-    StartMenu(int width, int height){
+    public StartMenu(int width, int height){
         setSize(width, height);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,6 +38,7 @@ public class StartMenu extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         Game game = new Game("Bomberman 2D! - level 1", 600, 400, "src/main/resources/worlds/world1.txt");
                         game.start();
+                        new InGameMenu(200, 100).setVisible(true);
                     }
                 });
                 JButton level2 = new JButton("Level 2");
@@ -45,6 +47,7 @@ public class StartMenu extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         Game game = new Game("Bomberman 2D! - level 2", 600, 400,"src/main/resources/worlds/world2.txt");
                         game.start();
+                        new InGameMenu(200, 100).setVisible(true);
                     }
                 });
                 JPanel panel2 = new JPanel();

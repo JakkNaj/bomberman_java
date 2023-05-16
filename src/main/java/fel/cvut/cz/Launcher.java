@@ -1,5 +1,7 @@
 package fel.cvut.cz;
 
+import fel.cvut.cz.gui.StartMenu;
+
 /** Class to start up my game */
 public class Launcher {
     public static void main(String[] args) {
