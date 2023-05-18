@@ -20,7 +20,7 @@ import java.util.Random;
 public class Gameboard {
     private GameHandler gameHandler;
     private int width, height;
-    private int spawnX, spawnY;
+    private float spawnX, spawnY;
     private String pathToLevelFile;
     private SpecialTileHandler specialTiles;
     private int[][] board; //holds IDs of Tiles
@@ -35,7 +35,7 @@ public class Gameboard {
 
     public Gameboard(GameHandler gameHandler, String path){
         this.gameHandler = gameHandler;
-        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0, 3));
+        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 32, 32, 3));
         specialTiles = new SpecialTileHandler();
         pathToLevelFile = path;
         loadWorld(path);
@@ -57,17 +57,16 @@ public class Gameboard {
              Game.running = false;
          }
         System.out.println("LEVEL RESET");
+        System.out.println("health left: "+ playerHealth);
         this.gameHandler = gameHandler;
-        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0, playerHealth));
+        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 32, 32, playerHealth));
         specialTiles = new SpecialTileHandler();
         loadWorld(pathToLevelFile);
+        entitiesManager.getPlayer().setHealth(playerHealth);
         //placeGhosts
         for (int i = 0; i < ghostNumber; i++){
             placeGhost();
         }
-
-        entitiesManager.getPlayer().setX(spawnX);
-        entitiesManager.getPlayer().setY(spawnY);
     }
 
     private void placeGhost(){
@@ -148,39 +147,44 @@ public class Gameboard {
         String[] tokens = file.split("\\s+");
         width = Utilities.parseInt(tokens[0]);
         height = Utilities.parseInt(tokens[1]);
-        spawnX = Utilities.parseInt(tokens[2]);
-        spawnY = Utilities.parseInt(tokens[3]);
-        ghostNumber = Utilities.parseInt(tokens[4]);
-        entitiesManager.getPlayer().setBombCount(Utilities.parseInt(tokens[5]));
-        entitiesManager.getPlayer().setBombStrength(Utilities.parseInt(tokens[6]));
+        spawnX = Utilities.parseFloat(tokens[2]);
+        spawnY = Utilities.parseFloat(tokens[3]);
+        entitiesManager.getPlayer().setHealth(Utilities.parseInt(tokens[4]));
+        ghostNumber = Utilities.parseInt(tokens[5]);
+        entitiesManager.getPlayer().setBombCount(Utilities.parseInt(tokens[6]));
+        entitiesManager.getPlayer().setBombStrength(Utilities.parseInt(tokens[7]));
         board = new int[width][height];
-        int cnt = 10;
+        int cnt = 11;
         //load map
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
                 if (x == 4 && y == 1) board[x][y] = 0;
                 else
-                    board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 10]);
+                    board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 11]);
                 cnt++;
             }
         }
         placeGate();
-        if (Utilities.parseInt(tokens[7]) == 0)
-            placeExplosionBoost();
         if (Utilities.parseInt(tokens[8]) == 0)
-            placeBombCntBoost();
+            placeExplosionBoost();
         if (Utilities.parseInt(tokens[9]) == 0)
+            placeBombCntBoost();
+        if (Utilities.parseInt(tokens[10]) == 0)
             placeRunBoost();
 
         int ghostCnt = ghostNumber;
         for (int i = cnt; i < tokens.length;){
             if (ghostCnt != 0){
-                entitiesManager.addGhostEntity(new Ghost(gameHandler, Utilities.parseInt(tokens[i]), Utilities.parseInt(tokens[i + 1])));
+                entitiesManager.addGhostEntity(new Ghost(gameHandler, Utilities.parseFloat(tokens[i]), Utilities.parseFloat(tokens[i + 1]),
+                        Utilities.parseFloat(tokens[i + 2]), Utilities.parseFloat(tokens[i + 3])));
+
                 ghostCnt--;
+                i += 4;
             } else {
-                entitiesManager.getPlayer().placeBomb(Utilities.parseInt(tokens[i]), Utilities.parseInt(tokens[i + 1]));
+                entitiesManager.getPlayer().placeBomb(Utilities.parseInt(tokens[i]), Utilities.parseInt(tokens[i + 1]), Utilities.parseInt(tokens[i + 2]));
+                i += 3;
             }
-            i += 2;
+
         }
     }
 
@@ -201,7 +205,7 @@ public class Gameboard {
             FileWriter writer = new FileWriter(file);
             String result = "";
             result += width +" "+ height +"\n";
-            result += entitiesManager.getPlayer().getX() +" "+ entitiesManager.getPlayer().getY()+"\n";
+            result += entitiesManager.getPlayer().getX() +" "+ entitiesManager.getPlayer().getY() +" "+ entitiesManager.getPlayer().getHealth() + "\n";
             result += entitiesManager.getGhostList().size()+"\n";
             result += entitiesManager.getPlayer().getBombCount()+"\n";
             result += entitiesManager.getPlayer().getBombStrength()+"\n";
@@ -303,7 +307,6 @@ public class Gameboard {
     private void placeRunBoost(){
         Random random = new Random();
         int randomNumber = random.nextInt((width - 1) * (height - 1));
-        System.out.println("randomNum: "+ randomNumber);
         int x = 0;
         while ( x < width){
             int y = 0;

@@ -233,7 +233,7 @@ public class StartMenu extends JFrame {
             try{
                 FileWriter writer = new FileWriter(ownLevelFilePath, false);
                 //overwrite last setting of own level
-                writer.write("21 15\n0 0\n");
+                writer.write("21 15\n32 32 3\n");
                 writer.close();
 
             } catch (IOException exception){

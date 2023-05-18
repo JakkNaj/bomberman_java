@@ -23,6 +23,17 @@ public class Bomb extends Entity{
         bounds.height = 32;
     }
 
+    public Bomb(GameHandler gameHandler, float x, float y, int ttl, int width, int height) {
+        super(gameHandler, x, y, width, height);
+        ticking = new Animation(100, Assets.bombTicking);
+        lifeSpan = ttl;
+        //Bounding box
+        bounds.x = 0;
+        bounds.y = 0;
+        bounds.width = 32;
+        bounds.height = 32;
+    }
+
     @Override
     public void tick() {
         lifeSpan--; //explodes on 0

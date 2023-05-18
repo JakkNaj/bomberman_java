@@ -57,7 +57,7 @@ public abstract class Entity {
     }
 
     public void setX(float x) {
-        this.x = x * Tile.TILEWIDTH + Tile.TILEWIDTH;
+        this.x = x;
     }
 
     public float getY() {
@@ -69,7 +69,7 @@ public abstract class Entity {
     }
 
     public void setY(float y) {
-        this.y = y * Tile.TILEHEIGHT + Tile.TILEHEIGHT;
+        this.y = y;
     }
 
     public int getWidth() {

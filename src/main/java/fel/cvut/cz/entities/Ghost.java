@@ -12,7 +12,7 @@ public class Ghost extends Beings{
     private int bounceCounter = 0;
 
     private final Animation dieing;
-    public Ghost(GameHandler gameHandler, float x, float y) {
+    public Ghost(GameHandler gameHandler, int x, int y) {
         super(gameHandler, x * DEFAULT_BEING_WIDTH, y * DEFAULT_BEING_HEIGHT, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
         this.setSpeed(1f);
         bounds.x = 1;
@@ -22,6 +22,21 @@ public class Ghost extends Beings{
         lookingForChangeOfDirection = false;
         Xmovement = speed;
         Ymovement = 0;
+
+        //Animations
+        dieing = new Animation(100, Assets.ghostDieing);
+    }
+
+    public Ghost(GameHandler gameHandler, float x, float y, float xmove, float ymove) {
+        super(gameHandler, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
+        this.setSpeed(1f);
+        bounds.x = 1;
+        bounds.y = 1;
+        bounds.width = 30;
+        bounds.height = 30;
+        lookingForChangeOfDirection = false;
+        Xmovement = xmove;
+        Ymovement = ymove;
 
         //Animations
         dieing = new Animation(100, Assets.ghostDieing);

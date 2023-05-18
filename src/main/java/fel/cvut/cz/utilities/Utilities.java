@@ -32,6 +32,15 @@ public class Utilities {
         }
     }
 
+    public static float parseFloat(String number){
+        try{
+            return Float.parseFloat(number);
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     public static void writeToBottomOfFile(String pathToFile, String text){
         try {
             String content = new String(Files.readAllBytes(Paths.get(pathToFile)));

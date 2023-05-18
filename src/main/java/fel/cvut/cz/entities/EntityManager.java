@@ -64,7 +64,7 @@ public class EntityManager {
     public String saveGhostsToFile(){
         String result = "";
         for (Entity g: GhostList){
-            result += g.getX() +" "+ g.getY() +"\n";
+            result += g.getX() +" "+ g.getY() +" " + ((Ghost) g).getXmovement() +" "+((Ghost) g).getYmovement() +"\n";
         }
         return result;
     }

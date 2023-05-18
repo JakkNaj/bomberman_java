@@ -208,8 +208,9 @@ public class Player extends Beings{
         KeyManager.bombAvailable--;
     }
 
-    public void placeBomb(int x, int y){
-        Bomb b = new Bomb(gameHandler,x,y,width,height);
+    public void placeBomb(int inx, int iny, int ttl){
+        System.out.println("placing bomb " + inx +" "+ iny);
+        Bomb b = new Bomb(gameHandler,inx * Tile.TILEWIDTH,iny * Tile.TILEHEIGHT,ttl,width,height);
         bombs.add(b);
     }
 
@@ -224,7 +225,7 @@ public class Player extends Beings{
     public String saveBombsToFile(){
         String result = "";
         for(Bomb b : bombs){
-            result += b.getXrounded() + " " + b.getYrounded() + "\n";
+            result += b.getXrounded() + " " + b.getYrounded() +" " + b.getLifeSpan() +"\n";
         }
         return result;
     }
