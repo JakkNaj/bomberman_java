@@ -61,6 +61,14 @@ public class EntityManager {
         player.render(g);
     }
 
+    public String saveGhostsToFile(){
+        String result = "";
+        for (Entity g: GhostList){
+            result += g.getX() +" "+ g.getY() +"\n";
+        }
+        return result;
+    }
+
 
     //GETTERS AND SETTERS
     public GameHandler getHandler() {

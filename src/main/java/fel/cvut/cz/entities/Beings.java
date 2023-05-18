@@ -15,6 +15,7 @@ public abstract class Beings extends Entity{
     public Beings(GameHandler gameHandler, float x, float y, int width, int height) {
         super(gameHandler, x, y, width, height);
         speed = DEFAULT_SPEED;
+        speed = DEFAULT_SPEED;
         Xmovement = 0;
         Ymovement = 0;
     }

@@ -38,7 +38,7 @@ public class StartMenu extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         Game game = new Game("Bomberman 2D! - level 1", 600, 400, "src/main/resources/worlds/world1.txt");
                         game.start();
-                        new InGameMenu(200, 100).setVisible(true);
+                        new InGameMenu(250, 160).setVisible(true);
                     }
                 });
                 JButton level2 = new JButton("Level 2");
@@ -47,14 +47,14 @@ public class StartMenu extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         Game game = new Game("Bomberman 2D! - level 2", 600, 400,"src/main/resources/worlds/world2.txt");
                         game.start();
-                        new InGameMenu(200, 100).setVisible(true);
+                        new InGameMenu(250, 160).setVisible(true);
                     }
                 });
                 JPanel panel2 = new JPanel();
                 panel2.setLayout(new FlowLayout());
                 panel2.add(level1);
                 panel2.add(level2);
-                JOptionPane.showMessageDialog(null, panel2);
+                JOptionPane.showMessageDialog(null, panel2, "A plain message", JOptionPane.PLAIN_MESSAGE);
 
             }
         });
@@ -66,7 +66,7 @@ public class StartMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JTextArea textArea = new JTextArea("Walk - use up/down/left/right arrows.\n" +
                                                     "Place bomb - press 'b'");
-                JOptionPane.showMessageDialog(null, textArea);
+                JOptionPane.showMessageDialog(null, textArea, "A plain message", JOptionPane.PLAIN_MESSAGE);
             }
         });
         panel.add(howToPlayButton, constraints);
@@ -82,7 +82,7 @@ public class StartMenu extends JFrame {
         });
         panel.add(levelEditorButton, constraints);
 
-        constraints.gridy = 3;
+        constraints.gridy = 4;
         JButton exit = new JButton("Exit");
         exit.addActionListener(new ActionListener() {
             @Override
@@ -92,6 +92,33 @@ public class StartMenu extends JFrame {
             }
         });
         panel.add(exit, constraints);
+
+        constraints.gridy = 3;
+        JButton load = new JButton("Load game");
+        load.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame inputFrame = new JFrame("load game input");
+                JTextField txtField = new JTextField(10);
+                JButton loadGame = new JButton("load");
+                loadGame.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String path = "src/main/resources/savedGames/" + txtField.getText();
+                        Game game = new Game("Bomberman 2D! - level 2", 600, 400, path);
+                        game.start();
+                        new InGameMenu(250, 160).setVisible(true);
+                        inputFrame.dispose();
+                    }
+                });
+                inputFrame.add(txtField, BorderLayout.NORTH);
+                inputFrame.add(loadGame, BorderLayout.EAST);
+                inputFrame.pack();
+                inputFrame.setVisible(true);
+            }
+        });
+        panel.add(load, constraints);
+
 
         add(panel, BorderLayout.EAST);
         add(new ImagePanel("src/main/resources/textures/Bomberman_Logo.png"), BorderLayout.CENTER);

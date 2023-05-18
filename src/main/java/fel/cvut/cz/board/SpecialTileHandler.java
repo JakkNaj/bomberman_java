@@ -1,4 +1,7 @@
 package fel.cvut.cz.board;
+
+import java.io.FileWriter;
+
 /** Class to hold coords of boosts in Gameboard */
 public class SpecialTileHandler {
     private int xBombB, yBombB;
@@ -31,6 +34,19 @@ public class SpecialTileHandler {
         return xBombB == x && yBombB == y;
     }
 
+    public String saveToFile(){
+        String result = "";
+        if (yExploB != -1 && xExploB != -1) result += "0\n";
+        else
+            result += "1\n";
+        if (xBombB != -1 && yBombB != -1) result += "0\n";
+        else
+            result += "1\n";
+        if (xRunB != -1 && yRunB != -1) result += "0\n";
+        else
+            result += "1\n";
+        return result;
+    }
 
     //Getters and Setters
     public int getxBombB() {

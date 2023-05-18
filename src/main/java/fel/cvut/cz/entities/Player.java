@@ -15,6 +15,10 @@ import java.util.ArrayList;
 public class Player extends Beings{
     private ArrayList<Bomb> bombs;
 
+    public int getBombCount() {
+        return bombCount;
+    }
+
     private int bombCount = 1;
 
     public void setBombCount(int bombCount) {
@@ -204,6 +208,11 @@ public class Player extends Beings{
         KeyManager.bombAvailable--;
     }
 
+    public void placeBomb(int x, int y){
+        Bomb b = new Bomb(gameHandler,x,y,width,height);
+        bombs.add(b);
+    }
+
     public int getBombStrength() {
         return bombStrength;
     }
@@ -211,6 +220,15 @@ public class Player extends Beings{
     public ArrayList<Bomb> getBombs() {
         return bombs;
     }
+
+    public String saveBombsToFile(){
+        String result = "";
+        for(Bomb b : bombs){
+            result += b.getXrounded() + " " + b.getYrounded() + "\n";
+        }
+        return result;
+    }
+
     public boolean checkCollisionWithBomb(float xOff, float yOff){
         for (Bomb b : bombs){
             if (b.getCollisionBox(0f, 0f).intersects(getCollisionBox(xOff, yOff))){

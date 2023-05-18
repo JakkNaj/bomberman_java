@@ -9,11 +9,12 @@ import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.tiles.Tile;
 import fel.cvut.cz.utilities.Utilities;
 
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 
-import static java.lang.System.exit;
 
 /** Class that represents Game board and is made of Tiles */
 public class Gameboard {
@@ -35,13 +36,15 @@ public class Gameboard {
     public Gameboard(GameHandler gameHandler, String path){
         this.gameHandler = gameHandler;
         entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 0, 0, 3));
-
         specialTiles = new SpecialTileHandler();
         pathToLevelFile = path;
         loadWorld(path);
+
         //placeGhosts
-        for (int i = 0; i < ghostNumber; i++){
-            placeGhost();
+        if (entitiesManager.getGhostList().isEmpty()){
+            for (int i = 0; i < ghostNumber; i++){
+                placeGhost();
+            }
         }
 
         entitiesManager.getPlayer().setX(spawnX);
@@ -151,12 +154,14 @@ public class Gameboard {
         entitiesManager.getPlayer().setBombCount(Utilities.parseInt(tokens[5]));
         entitiesManager.getPlayer().setBombStrength(Utilities.parseInt(tokens[6]));
         board = new int[width][height];
+        int cnt = 10;
         //load map
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
                 if (x == 4 && y == 1) board[x][y] = 0;
                 else
                     board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 10]);
+                cnt++;
             }
         }
         placeGate();
@@ -166,6 +171,61 @@ public class Gameboard {
             placeBombCntBoost();
         if (Utilities.parseInt(tokens[9]) == 0)
             placeRunBoost();
+
+        int ghostCnt = ghostNumber;
+        for (int i = cnt; i < tokens.length;){
+            if (ghostCnt != 0){
+                entitiesManager.addGhostEntity(new Ghost(gameHandler, Utilities.parseInt(tokens[i]), Utilities.parseInt(tokens[i + 1])));
+                ghostCnt--;
+            } else {
+                entitiesManager.getPlayer().placeBomb(Utilities.parseInt(tokens[i]), Utilities.parseInt(tokens[i + 1]));
+            }
+            i += 2;
+        }
+    }
+
+    public void saveWorld(String fileName){ //saves world to file
+        String directoryPath = "src/main/resources/savedGames";
+        File directory = new File(directoryPath);
+
+        if (!directory.exists()) {
+            boolean result = directory.mkdirs();
+            if (!result) {
+                System.err.println("An error occurred while creating the directory: " + directoryPath);
+                return;
+            }
+        }
+
+        File file = new File(directory, fileName);
+        try{
+            FileWriter writer = new FileWriter(file);
+            String result = "";
+            result += width +" "+ height +"\n";
+            result += entitiesManager.getPlayer().getX() +" "+ entitiesManager.getPlayer().getY()+"\n";
+            result += entitiesManager.getGhostList().size()+"\n";
+            result += entitiesManager.getPlayer().getBombCount()+"\n";
+            result += entitiesManager.getPlayer().getBombStrength()+"\n";
+            result += specialTiles.saveToFile();
+            result += saveBoardToFile();
+            result += entitiesManager.saveGhostsToFile();
+            result += entitiesManager.getPlayer().saveBombsToFile();
+            writer.write(result);
+            writer.close();
+        } catch (IOException e){
+            System.err.println("An error occurred while saving to the file: " + e.getMessage());
+        }
+    }
+
+    private String saveBoardToFile(){
+        String result = "";
+        for(int y = 0; y < height; y++){
+            for (int x = 0; x < width; x++){
+                if (x == width - 1) result += board[x][y];
+                else result += board[x][y] + " ";
+            }
+            result += "\n";
+        }
+        return result;
     }
 
     private void placeGate(){

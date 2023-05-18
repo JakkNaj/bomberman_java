@@ -52,12 +52,20 @@ public abstract class Entity {
         return x;
     }
 
+    public int getXrounded(){
+        return Math.round(x / Tile.TILEWIDTH) - 1;
+    }
+
     public void setX(float x) {
         this.x = x * Tile.TILEWIDTH + Tile.TILEWIDTH;
     }
 
     public float getY() {
         return y;
+    }
+
+    public int getYrounded(){
+        return Math.round(y / Tile.TILEWIDTH) - 1;
     }
 
     public void setY(float y) {

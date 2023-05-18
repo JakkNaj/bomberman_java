@@ -16,6 +16,8 @@ public class Game extends Thread{ //can run on other thread than the rest of the
     private int width, height; //game class has access to these parameters of our display
     public String title;
     public static boolean running = false;
+
+    public static String saveGameFile = "";
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
     private Graphics g;
 
@@ -53,8 +55,15 @@ public class Game extends Thread{ //can run on other thread than the rest of the
         gameHandler.setGameboard(gameboard);
     }
     private void tick(){ //update positions etc. in game
-        keyManager.tick();
-        gameboard.tick();
+        if (saveGameFile.isEmpty()){
+            keyManager.tick();
+            gameboard.tick();
+        } else {
+            //save to file and end the game
+            gameboard.saveWorld(saveGameFile);
+            running = false;
+        }
+
     }
     private void render(){ //render updated things in game
         bs = display.getCanvas().getBufferStrategy(); //BufferStrategy = current BS of our Game
