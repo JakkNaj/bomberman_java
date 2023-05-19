@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 
 import static java.lang.System.exit;
+import static java.lang.System.in;
 
 public class StartMenu extends JFrame {
     public StartMenu(int width, int height){
@@ -22,6 +23,8 @@ public class StartMenu extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+        int x = 0;
+        int y = 0;
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -40,7 +43,9 @@ public class StartMenu extends JFrame {
                         Game game = new Game("Bomberman 2D! - level 1", 600, 400, "src/main/resources/worlds/world1.txt");
                         if (checkBox.isSelected()) Game.enableLogger = true;
                         game.start();
-                        new InGameMenu(250, 160).setVisible(true);
+                        InGameMenu inMenu = new InGameMenu(250, 160);
+                        inMenu.setLocation(game.getDisplay().getFrame().getX() - 250, game.getDisplay().getFrame().getY());
+                        inMenu.setVisible(true);
                     }
                 });
                 JButton level2 = new JButton("Level 2");
@@ -50,7 +55,9 @@ public class StartMenu extends JFrame {
                         Game game = new Game("Bomberman 2D! - level 2", 600, 400,"src/main/resources/worlds/world2.txt");
                         if (checkBox.isSelected()) Game.enableLogger = true;
                         game.start();
-                        new InGameMenu(250, 160).setVisible(true);
+                        InGameMenu inMenu = new InGameMenu(250, 160);
+                        inMenu.setLocation(game.getDisplay().getFrame().getX() - 250, game.getDisplay().getFrame().getY());
+                        inMenu.setVisible(true);
                     }
                 });
                 JPanel panel2 = new JPanel();
@@ -79,6 +86,7 @@ public class StartMenu extends JFrame {
         levelEditorButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 SettingsMenu settingsMenu = new SettingsMenu();
+                settingsMenu.setLocationRelativeTo(null);
                 settingsMenu.pack();
                 settingsMenu.setVisible(true);
             }
@@ -102,6 +110,7 @@ public class StartMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame inputFrame = new JFrame("load game input");
+                inputFrame.setSize(300, 80);
                 JTextField txtField = new JTextField(10);
                 JButton loadGame = new JButton("load");
                 loadGame.addActionListener(new ActionListener() {
@@ -111,13 +120,15 @@ public class StartMenu extends JFrame {
                         Game game = new Game("Bomberman 2D! - level 2", 600, 400, path);
                         if (checkBox.isSelected()) Game.enableLogger = true;
                         game.start();
-                        new InGameMenu(250, 160).setVisible(true);
+                        InGameMenu inMenu = new InGameMenu(250, 160);
+                        inMenu.setLocation(game.getDisplay().getFrame().getX() - 250, game.getDisplay().getFrame().getY());
+                        inMenu.setVisible(true);
                         inputFrame.dispose();
                     }
                 });
                 inputFrame.add(txtField, BorderLayout.NORTH);
                 inputFrame.add(loadGame, BorderLayout.EAST);
-                inputFrame.pack();
+                inputFrame.setLocationRelativeTo(panel);
                 inputFrame.setVisible(true);
             }
         });
@@ -128,6 +139,8 @@ public class StartMenu extends JFrame {
         add(new ImagePanel("src/main/resources/textures/Bomberman_Logo.png"), BorderLayout.CENTER);
 
         add(checkBox, BorderLayout.SOUTH);
+        x = this.getX();
+        y = this.getY();
     }
 
     public class SettingsMenu extends JFrame implements ActionListener{
@@ -226,7 +239,7 @@ public class StartMenu extends JFrame {
             constraints.gridy = 5;
             panel.add(runBoost, constraints);
 
-            JButton sendButton = new JButton("send!");
+            JButton sendButton = new JButton("Play!");
             constraints.gridx = 1;
             panel.add(sendButton,constraints);
             sendButton.addActionListener(this);
@@ -245,9 +258,21 @@ public class StartMenu extends JFrame {
             } catch (IOException exception){
                 System.out.println("Error writing to file.");
             }
-            Utilities.writeToBottomOfFile(ownLevelFilePath, ghostCount.getText());
-            Utilities.writeToBottomOfFile(ownLevelFilePath, bombCount.getText());
-            Utilities.writeToBottomOfFile(ownLevelFilePath, bombStrength.getText());
+            if (ghostCount.getText().isEmpty()){
+                Utilities.writeToBottomOfFile(ownLevelFilePath, "1");
+            } else
+                Utilities.writeToBottomOfFile(ownLevelFilePath, ghostCount.getText());
+
+            if (bombCount.getText().isEmpty())
+                Utilities.writeToBottomOfFile(ownLevelFilePath, "1");
+            else
+                Utilities.writeToBottomOfFile(ownLevelFilePath, bombCount.getText());
+
+            if (bombStrength.getText().isEmpty())
+                Utilities.writeToBottomOfFile(ownLevelFilePath, "1");
+            else
+                Utilities.writeToBottomOfFile(ownLevelFilePath, bombStrength.getText());
+
             if (exploBoost.isSelected())
                 Utilities.writeToBottomOfFile(ownLevelFilePath, String.valueOf(0));
             else
@@ -278,8 +303,17 @@ public class StartMenu extends JFrame {
                             1 0 2 0 2 0 0 0 0 0 2 0 0 2 2 0 2 0 0 0 1
                             1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1""");
             dispose();
-            Game game = new Game("Bomberman 2D! - own settings", 600, 400,ownLevelFilePath);
-            game.start();
+            Game game1 = new Game("Bomberman 2D! - own settings", 600, 400,ownLevelFilePath);
+            Game.enableLogger = true;
+            game1.start();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+            InGameMenu inMenu = new InGameMenu(250, 160);
+            inMenu.setLocation(game1.getDisplay().getFrame().getX() - 250, game1.getDisplay().getFrame().getY());
+            inMenu.setVisible(true);
         }
     }
 }
