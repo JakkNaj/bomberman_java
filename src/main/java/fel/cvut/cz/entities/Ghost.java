@@ -1,5 +1,6 @@
 package fel.cvut.cz.entities;
 
+import fel.cvut.cz.Game;
 import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.graphics.Animation;
 import fel.cvut.cz.graphics.Assets;
@@ -50,6 +51,7 @@ public class Ghost extends Beings{
 
     private void checkCollisions(){
         if (checkCollisionWithExplosion(Xmovement, 0f) || checkCollisionWithExplosion(0f, Ymovement)){
+            Game.LOGGER.info("Ghost exploded!");
             health--;
         }
     }

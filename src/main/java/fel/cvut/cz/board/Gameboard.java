@@ -53,11 +53,10 @@ public class Gameboard {
 
     public void reset(GameHandler gameHandler, int playerHealth){
          if (playerHealth == 0){
-             System.out.println("you lose");
+             Game.LOGGER.info("No more lifes left, YOU LOSE!");
              Game.running = false;
          }
-        System.out.println("LEVEL RESET");
-        System.out.println("health left: "+ playerHealth);
+        Game.LOGGER.info("LEVEL RESETED\nHealth left: " + playerHealth);
         this.gameHandler = gameHandler;
         entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 32, 32, playerHealth));
         specialTiles = new SpecialTileHandler();
@@ -81,7 +80,7 @@ public class Gameboard {
                     randomNumber--;
                 }
                 if (randomNumber == 0){
-                    System.out.println("placing ghost on: " + x + ", " + y);
+                    Game.LOGGER.info("Ghost placed on: [" + x + ", " + y + "]");
                     entitiesManager.addGhostEntity(new Ghost(gameHandler, x, y));
                     return;
                 }
@@ -244,7 +243,7 @@ public class Gameboard {
                     randomNumber--;
                 }
                 if (randomNumber == 0){
-                    System.out.println("placing Gate on: " + x + ", " + y);
+                    Game.LOGGER.info("GATE placed on: [" + x +", "+ y +"]");
                     specialTiles.setxGate(x);
                     specialTiles.setyGate(y);
                     return;
@@ -268,7 +267,7 @@ public class Gameboard {
                     randomNumber--;
                 }
                 if (randomNumber == 0){
-                    System.out.println("placing ExplosionBoost on: " + x + ", " + y);
+                    Game.LOGGER.info("Explosion BOOST placed on: [" + x +", "+ y +"]");
                     specialTiles.setxExploB(x);
                     specialTiles.setyExploB(y);
                     return;
@@ -292,7 +291,7 @@ public class Gameboard {
                     randomNumber--;
                 }
                 if (randomNumber == 0){
-                    System.out.println("placing BombCountBoost on: " + x + ", " + y);
+                    Game.LOGGER.info("Bomb count BOOST placed on: [" + x +", "+ y +"]");
                     specialTiles.setxBombB(x);
                     specialTiles.setyBombB(y);
                     return;
@@ -316,7 +315,7 @@ public class Gameboard {
                     randomNumber--;
                 }
                 if (randomNumber == 0){
-                    System.out.println("placing RunBoost on: " + x + ", " + y);
+                    Game.LOGGER.info("Run BOOST placed on: [" + x +", "+ y +"]");
                     specialTiles.setxRunB(x);
                     specialTiles.setyRunB(y);
                     return;

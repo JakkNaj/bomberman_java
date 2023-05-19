@@ -29,6 +29,7 @@ public class StartMenu extends JFrame {
         constraints.gridx = 0;
         constraints.gridy = 0;
         JButton startGameButton = new JButton("Start Game");
+        JCheckBox checkBox = new JCheckBox("LOGGER");
         startGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,6 +38,7 @@ public class StartMenu extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Game game = new Game("Bomberman 2D! - level 1", 600, 400, "src/main/resources/worlds/world1.txt");
+                        if (checkBox.isSelected()) Game.enableLogger = true;
                         game.start();
                         new InGameMenu(250, 160).setVisible(true);
                     }
@@ -46,6 +48,7 @@ public class StartMenu extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         Game game = new Game("Bomberman 2D! - level 2", 600, 400,"src/main/resources/worlds/world2.txt");
+                        if (checkBox.isSelected()) Game.enableLogger = true;
                         game.start();
                         new InGameMenu(250, 160).setVisible(true);
                     }
@@ -106,6 +109,7 @@ public class StartMenu extends JFrame {
                     public void actionPerformed(ActionEvent e) {
                         String path = "src/main/resources/savedGames/" + txtField.getText();
                         Game game = new Game("Bomberman 2D! - level 2", 600, 400, path);
+                        if (checkBox.isSelected()) Game.enableLogger = true;
                         game.start();
                         new InGameMenu(250, 160).setVisible(true);
                         inputFrame.dispose();
@@ -122,6 +126,8 @@ public class StartMenu extends JFrame {
 
         add(panel, BorderLayout.EAST);
         add(new ImagePanel("src/main/resources/textures/Bomberman_Logo.png"), BorderLayout.CENTER);
+
+        add(checkBox, BorderLayout.SOUTH);
     }
 
     public class SettingsMenu extends JFrame implements ActionListener{

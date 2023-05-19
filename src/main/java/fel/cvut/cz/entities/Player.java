@@ -91,8 +91,6 @@ public class Player extends Beings{
     }
 
     public void render(Graphics g) {
-        BufferedImage animFrame = getAnimationFrame();
-
         g.drawImage(getAnimationFrame(), (int)(this.x - gameHandler.getGameCamera().getxOffset()),
                 (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height,null);
 
@@ -146,6 +144,7 @@ public class Player extends Beings{
                 //check if player doesn't collide with bomb
                 moveY();
         } else {
+            Game.LOGGER.info("Player died!");
             gameHandler.getGameboard().reset(gameHandler, health - 1);
         }
     }
@@ -209,7 +208,7 @@ public class Player extends Beings{
     }
 
     public void placeBomb(int inx, int iny, int ttl){
-        System.out.println("placing bomb " + inx +" "+ iny);
+        Game.LOGGER.info("BOMB placed on: [" + inx + ", " + iny + "]");
         Bomb b = new Bomb(gameHandler,inx * Tile.TILEWIDTH,iny * Tile.TILEHEIGHT,ttl,width,height);
         bombs.add(b);
     }

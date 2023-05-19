@@ -9,6 +9,8 @@ import fel.cvut.cz.input.KeyManager;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Main class of the game - starts and runs everything */
 public class Game extends Thread{ //can run on other thread than the rest of the program
@@ -18,10 +20,14 @@ public class Game extends Thread{ //can run on other thread than the rest of the
     public static boolean running = false;
 
     public static String saveGameFile = "";
+
+    public static boolean enableLogger = false;
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
     private Graphics g;
 
     private String pathToLevelFile;
+
+    public static Logger LOGGER = null;
 
     //BOARD
     private Gameboard gameboard;
@@ -36,6 +42,7 @@ public class Game extends Thread{ //can run on other thread than the rest of the
     private GameHandler gameHandler;
 
     public Game(String title, int width, int height, String path){
+        LOGGER = Logger.getLogger(Game.class.getName());
         this.width = width;
         this.height = height;
         this.title = title;
@@ -84,6 +91,10 @@ public class Game extends Thread{ //can run on other thread than the rest of the
         g.dispose();
     }
     public void run(){ //majority of game code will be there
+        if (!enableLogger) LOGGER.setLevel(Level.OFF);
+        else
+            LOGGER.setLevel(Level.CONFIG);
+        LOGGER.info("The Game has started");
         running = true;
         this.initializeGraphics();
         int fps = 60;
@@ -110,6 +121,7 @@ public class Game extends Thread{ //can run on other thread than the rest of the
                 timer = 0;
             }
         }
+        LOGGER.info("The Game stopped.");
         display.getFrame().dispose();
     }
 

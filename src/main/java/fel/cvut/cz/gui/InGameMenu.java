@@ -25,7 +25,7 @@ public class InGameMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Game.running = false;
-                System.out.println("game stopped from In-Game menu");
+                Game.LOGGER.info("Game stopped from in-game menu");
                 dispose();
             }
         });

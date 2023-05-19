@@ -1,5 +1,6 @@
 package fel.cvut.cz.entities;
 
+import fel.cvut.cz.Game;
 import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.tiles.Tile;
 
@@ -30,6 +31,7 @@ public abstract class Entity {
         for(Entity e : gameHandler.getGameboard().getEntitiesManager().getGhostList()){
             if (e.equals(this)) continue;
             if (e.getCollisionBox(0f, 0f).intersects(getCollisionBox(xOff,yOff))){
+                Game.LOGGER.info("Player collided with ghost");
                 return true;
             }
         }

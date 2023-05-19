@@ -1,5 +1,6 @@
 package fel.cvut.cz.entities;
 
+import fel.cvut.cz.Game;
 import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.graphics.Animation;
 import fel.cvut.cz.graphics.Assets;
@@ -45,6 +46,7 @@ public class Bomb extends Entity{
         if (lifeSpan > 0)
             g.drawImage(ticking.getCurrentFrame(), (int)(this.x - gameHandler.getGameCamera().getxOffset()), (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height, null);
         else {
+            Game.LOGGER.info("Bomb exploded on: [" + x / Tile.TILEWIDTH + ", " + y / Tile.TILEHEIGHT + "]");
             explode(g);
         }
     }
