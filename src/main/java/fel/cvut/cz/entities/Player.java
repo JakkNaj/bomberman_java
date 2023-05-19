@@ -15,19 +15,7 @@ import java.util.ArrayList;
 public class Player extends Beings{
     private ArrayList<Bomb> bombs;
 
-    public int getBombCount() {
-        return bombCount;
-    }
-
     private int bombCount = 1;
-
-    public void setBombCount(int bombCount) {
-        this.bombCount = bombCount;
-    }
-
-    public void setBombStrength(int bombStrength) {
-        this.bombStrength = bombStrength;
-    }
 
     private int bombStrength = 1;
 
@@ -84,9 +72,6 @@ public class Player extends Beings{
             Xmovement = speed;
         if(KeyManager.bombAvailable > 0){
             placeBomb();
-        }
-        if(gameHandler.getKeyManager().escape){
-
         }
     }
 
@@ -239,5 +224,17 @@ public class Player extends Beings{
             }
         }
         return false;
+    }
+
+    public void setBombCount(int bombCount) {
+        this.bombCount = bombCount;
+    }
+
+    public void setBombStrength(int bombStrength) {
+        this.bombStrength = bombStrength;
+    }
+
+    public int getBombCount() {
+        return bombCount;
     }
 }

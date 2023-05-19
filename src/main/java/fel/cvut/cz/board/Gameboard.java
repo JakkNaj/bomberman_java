@@ -153,13 +153,14 @@ public class Gameboard {
         entitiesManager.getPlayer().setBombCount(Utilities.parseInt(tokens[6]));
         entitiesManager.getPlayer().setBombStrength(Utilities.parseInt(tokens[7]));
         board = new int[width][height];
-        int cnt = 11;
+        int numOfStringsBeforeBoard = 11;
+        int cnt = numOfStringsBeforeBoard;
         //load map
         for(int y = 0; y < height; y++){
             for (int x = 0; x < width; x++){
                 if (x == 4 && y == 1) board[x][y] = 0;
                 else
-                    board[x][y] = Utilities.parseInt(tokens[(x+y * width) + 11]);
+                    board[x][y] = Utilities.parseInt(tokens[(x+y * width) + numOfStringsBeforeBoard]);
                 cnt++;
             }
         }

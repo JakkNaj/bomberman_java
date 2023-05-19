@@ -11,19 +11,10 @@ public abstract class Beings extends Entity{
     protected float Xmovement, Ymovement; //direction of movement
     float speed; //speed of movement
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
     int health = 1;
 
     public Beings(GameHandler gameHandler, float x, float y, int width, int height) {
         super(gameHandler, x, y, width, height);
-        speed = DEFAULT_SPEED;
         speed = DEFAULT_SPEED;
         Xmovement = 0;
         Ymovement = 0;
@@ -118,12 +109,19 @@ public abstract class Beings extends Entity{
         this.Ymovement = ymovement;
     }
 
-
     public float getSpeed() {
         return speed;
     }
 
     public void setSpeed(float speed) {
         this.speed = speed;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getHealth() {
+        return health;
     }
 }

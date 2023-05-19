@@ -44,7 +44,8 @@ public class Bomb extends Entity{
     @Override
     public void render(Graphics g) {
         if (lifeSpan > 0)
-            g.drawImage(ticking.getCurrentFrame(), (int)(this.x - gameHandler.getGameCamera().getxOffset()), (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height, null);
+            g.drawImage(ticking.getCurrentFrame(), (int)(this.x - gameHandler.getGameCamera().getxOffset()),
+            (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height, null);
         else {
             Game.LOGGER.info("Bomb exploded on: [" + x / Tile.TILEWIDTH + ", " + y / Tile.TILEHEIGHT + "]");
             explode(g);
