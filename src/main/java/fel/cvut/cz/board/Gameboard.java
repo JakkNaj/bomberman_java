@@ -134,12 +134,12 @@ public class Gameboard {
 
     public String printWorld(){
          String res = "";
-         for (int i = 0; i < width; i++){
-             for (int k = 0; k < height; k++){
-                 res += (board[i][k] + " ");
-             }
-             res += ("\n");
-         }
+        for(int y = 0; y < height; y++){
+            for (int x = 0; x < width; x++){
+                res += board[x][y] + " ";
+            }
+            res += "\n";
+        }
          return res;
     }
 

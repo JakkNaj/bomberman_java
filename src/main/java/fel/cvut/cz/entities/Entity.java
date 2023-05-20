@@ -11,6 +11,10 @@ public abstract class Entity {
     protected float x,y; //position
     protected int width, height;
 
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
     protected Rectangle bounds;
 
     public Entity(GameHandler gameHandler, float x, float y, int width, int height){

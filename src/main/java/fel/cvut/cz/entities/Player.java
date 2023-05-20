@@ -198,6 +198,8 @@ public class Player extends Beings{
         bombs.add(b);
     }
 
+
+    //Getters and Setters
     public int getBombStrength() {
         return bombStrength;
     }
