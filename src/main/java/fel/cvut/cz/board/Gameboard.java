@@ -58,7 +58,7 @@ public class Gameboard {
          }
         Game.LOGGER.info("LEVEL RESETED\nHealth left: " + playerHealth);
         this.gameHandler = gameHandler;
-        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 32, 32, playerHealth));
+        entitiesManager = new EntityManager(gameHandler, new Player(gameHandler, 1*Tile.TILEWIDTH, 1*Tile.TILEHEIGHT, playerHealth));
         specialTiles = new SpecialTileHandler();
         loadWorld(pathToLevelFile);
         entitiesManager.getPlayer().setHealth(playerHealth);
@@ -132,13 +132,15 @@ public class Gameboard {
          }
     }
 
-    public void printWorld(){
+    public String printWorld(){
+         String res = "";
          for (int i = 0; i < width; i++){
              for (int k = 0; k < height; k++){
-                 System.out.printf(board[i][k] + " ");
+                 res += (board[i][k] + " ");
              }
-             System.out.print("\n");
+             res += ("\n");
          }
+         return res;
     }
 
     private void loadWorld(String path){ //loads world from file
