@@ -47,9 +47,10 @@ public class PlayerTest {
         float oldY = gameboard.getEntitiesManager().getPlayer().getY();
 
         //MOVING RIGHT ON GRASS TILE
-        Assertions.assertEquals(0, gameboard.getTile((int)(oldX / Tile.TILEWIDTH) + 1, (int) oldY).getId());
+        Assertions.assertEquals(0, gameboard.getTile((int)(oldX / Tile.TILEWIDTH) + 1, (int)oldY / Tile.TILEHEIGHT).getId());
         gameboard.getEntitiesManager().getPlayer().setXmovement(+Tile.TILEWIDTH);
         gameboard.getEntitiesManager().getPlayer().move();
+
         //move success
         Assertions.assertEquals(oldX + Tile.TILEWIDTH, gameboard.getEntitiesManager().getPlayer().getX());
     }
@@ -63,6 +64,7 @@ public class PlayerTest {
         gameboard.setTile((int)(oldX / Tile.TILEWIDTH) + 1,(int)oldY / Tile.TILEHEIGHT, 2);
         gameboard.getEntitiesManager().getPlayer().setXmovement(+Tile.TILEWIDTH);
         gameboard.getEntitiesManager().getPlayer().move();
+
         //move NOT success - player get stuck right next to the wall
         int tileOnTheRightX = (int)(oldX / Tile.TILEWIDTH) + 1;
         Player player = gameboard.getEntitiesManager().getPlayer();
@@ -73,14 +75,16 @@ public class PlayerTest {
     @Test
     public void moveLeftToWallTest(){
         float oldX = gameboard.getEntitiesManager().getPlayer().getX();
-        float oldY = gameboard.getEntitiesManager().getPlayer().getY();
 
         //MOVING LEFT TO THE WALL
+        //try to move to the center of left tile - wall
         gameboard.getEntitiesManager().getPlayer().setXmovement(-Tile.TILEWIDTH);
         gameboard.getEntitiesManager().getPlayer().move();
+
         //move NOT success - player get stuck right next to the wall
         int tileOnTheLeftX = (int)(oldX / Tile.TILEWIDTH) - 1;
         Player player = gameboard.getEntitiesManager().getPlayer();
+        //expectedX is value of x coordinates right next to the wall
         Float expectedX = (float)tileOnTheLeftX * Tile.TILEWIDTH + Tile.TILEWIDTH - player.getBounds().x;
         Assertions.assertEquals(expectedX, gameboard.getEntitiesManager().getPlayer().getX());
 
@@ -94,10 +98,63 @@ public class PlayerTest {
         gameboard.getEntitiesManager().getPlayer().setX(oldX + Tile.TILEWIDTH);
 
         //MOVING LEFT ON GRASS TILE
-        Assertions.assertEquals(0, gameboard.getTile((int)(oldX / Tile.TILEWIDTH) - 1, (int) oldY).getId());
+        //check if tile on left is grass
+        Assertions.assertEquals(0, gameboard.getTile((int)(oldX / Tile.TILEWIDTH), (int)(oldY / Tile.TILEHEIGHT)).getId());
+        //move to the center of left tile
         gameboard.getEntitiesManager().getPlayer().setXmovement(-Tile.TILEWIDTH);
         gameboard.getEntitiesManager().getPlayer().move();
         //move success
         Assertions.assertEquals(oldX, gameboard.getEntitiesManager().getPlayer().getX());
+    }
+
+    @Test
+    public void moveUpToGrassTest(){
+        float oldX = gameboard.getEntitiesManager().getPlayer().getX();
+        float oldY = gameboard.getEntitiesManager().getPlayer().getY();
+        //reset player
+        gameboard.getEntitiesManager().getPlayer().setY(oldY + Tile.TILEHEIGHT);
+
+        //MOVING LEFT ON GRASS TILE
+        //check if tile above is grass
+        Assertions.assertEquals(0, gameboard.getTile((int)(oldX / Tile.TILEHEIGHT), (int)(oldY / Tile.TILEHEIGHT)).getId());
+        //move to the center of tile above
+        gameboard.getEntitiesManager().getPlayer().setYmovement(-Tile.TILEHEIGHT);
+        gameboard.getEntitiesManager().getPlayer().move();
+
+        //move success
+        Assertions.assertEquals(oldY, gameboard.getEntitiesManager().getPlayer().getY());
+    }
+
+    @Test
+    public void moveUpToWallTest(){
+        float oldY = gameboard.getEntitiesManager().getPlayer().getY();
+
+        //MOVING UP TO THE WALL
+        //try to move up to the center of tile - wall
+        gameboard.getEntitiesManager().getPlayer().setYmovement(-Tile.TILEHEIGHT);
+        gameboard.getEntitiesManager().getPlayer().move();
+
+        //move NOT success - player get stuck right next to the wall
+        int tileUpY = (int)(oldY / Tile.TILEHEIGHT) - 1;
+        Player player = gameboard.getEntitiesManager().getPlayer();
+        //expectedY is value of x coordinates right next to the wall
+        Float expectedY = (float)tileUpY * Tile.TILEHEIGHT + player.getBounds().height + player.getBounds().y;
+        Assertions.assertEquals(expectedY, gameboard.getEntitiesManager().getPlayer().getY());
+    }
+
+    @Test
+    public void moveDownToGrassTest(){
+        float oldX = gameboard.getEntitiesManager().getPlayer().getX();
+        float oldY = gameboard.getEntitiesManager().getPlayer().getY();
+
+        //MOVING LEFT ON GRASS TILE
+        //check if tile down is grass
+        Assertions.assertEquals(0, gameboard.getTile((int)(oldX / Tile.TILEHEIGHT), (int)(oldY / Tile.TILEHEIGHT) + 1).getId());
+        //move to the center of tile down
+        gameboard.getEntitiesManager().getPlayer().setYmovement(+Tile.TILEHEIGHT);
+        gameboard.getEntitiesManager().getPlayer().move();
+
+        //move success
+        Assertions.assertEquals(oldY + Tile.TILEHEIGHT, gameboard.getEntitiesManager().getPlayer().getY());
     }
 }
