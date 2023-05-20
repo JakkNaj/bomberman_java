@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/** Utilities used in other class. */
 public class Utilities {
     public static String loadFileAsString(String path){
         StringBuilder builder = new StringBuilder();

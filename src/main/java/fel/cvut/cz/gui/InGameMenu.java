@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/** Menu ran on different thread that Game used to interact with the game (save or exit in the middle of gameplay). */
 public class InGameMenu extends JFrame {
     public InGameMenu(int width, int height){
         setSize(width,height);

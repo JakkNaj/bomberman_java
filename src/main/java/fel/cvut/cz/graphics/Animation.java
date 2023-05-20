@@ -21,7 +21,7 @@ public class Animation {
         return frames[idx];
     }
 
-    //TIMING system
+    //TIMING system used in Player Walking
     public void tick(){
         timer += System.currentTimeMillis() - lastTime;
         lastTime = System.currentTimeMillis();

@@ -3,7 +3,7 @@ package fel.cvut.cz.tiles;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-/** Class that represents one tile on Game board */
+/** Abstract class that represents one tile on Game board */
 public abstract class Tile {
     //STATIC
     public static Tile[] Alltiles = new Tile[7];
@@ -29,13 +29,13 @@ public abstract class Tile {
     public int getId(){
         return id;
     }
-    public void tick(){
 
-    }
+    /** Render tile to the screen. */
     public void render(Graphics g, int x, int y){
         g.drawImage(texture, x, y, TILEWIDTH, TILEHEIGHT, null);
     }
 
+    /** If Ghost or Player can step on this tile. */
     public boolean isWalkable(){
         return true;
     }

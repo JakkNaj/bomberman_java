@@ -11,14 +11,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-/** Class that represents a player in game*/
+/** Class that represents a Player in game*/
 public class Player extends Beings{
     private ArrayList<Bomb> bombs;
-
     private int bombCount = 1;
-
     private int bombStrength = 1;
-
     private final Animation animationDown, animationUp;
     private final Animation animationLeft, animationRight, animationStanding;
 
@@ -40,6 +37,7 @@ public class Player extends Beings{
         animationStanding = new Animation(100, Assets.player_standing);
     }
 
+    /** Updates players values and change animation idx */
     @Override
     public void tick() {
         //Animation
@@ -58,6 +56,7 @@ public class Player extends Beings{
         gameHandler.getGameCamera().centerCameraOnEntity(this);
     }
 
+    /** Gets input from keyboard */
     private void getInput(){
         Xmovement = 0;
         Ymovement = 0;
@@ -75,6 +74,7 @@ public class Player extends Beings{
         }
     }
 
+    /** Render Player to screen */
     public void render(Graphics g) {
         g.drawImage(getAnimationFrame(), (int)(this.x - gameHandler.getGameCamera().getxOffset()),
                 (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height,null);
@@ -113,6 +113,7 @@ public class Player extends Beings{
         return animationStanding.getCurrentFrame();
     }
 
+    /** Moves player - dependent on XMovement and YMovement values */
     @Override
     public void move(){
         if (!checkCollisionWithGhost(Xmovement, 0f) &&
@@ -182,7 +183,7 @@ public class Player extends Beings{
         return currX == gameHandler.getGameboard().getSpecialTiles().getxRunB() &&
                 currY == gameHandler.getGameboard().getSpecialTiles().getyRunB();
     }
-
+    /** Player places bomb under him */
     private void placeBomb(){
         if (bombs.size() < bombCount && KeyManager.bombAvailable > 0){
             Bomb b = new Bomb(gameHandler,x,y,width,height);
@@ -192,22 +193,13 @@ public class Player extends Beings{
         KeyManager.bombAvailable--;
     }
 
-    public void placeBomb(int inx, int iny, int ttl){
+    /** Placing bomb on direct coordinations with given time to live */
+    public void placeBombDirectCoords(int inx, int iny, int ttl){
         Game.LOGGER.info("BOMB placed on: [" + inx + ", " + iny + "]");
         Bomb b = new Bomb(gameHandler,inx * Tile.TILEWIDTH,iny * Tile.TILEHEIGHT,ttl,width,height);
         bombs.add(b);
     }
-
-
-    //Getters and Setters
-    public int getBombStrength() {
-        return bombStrength;
-    }
-
-    public ArrayList<Bomb> getBombs() {
-        return bombs;
-    }
-
+    /** Returns the right string to write to file */
     public String saveBombsToFile(){
         String result = "";
         for(Bomb b : bombs){
@@ -215,7 +207,7 @@ public class Player extends Beings{
         }
         return result;
     }
-
+    /** Method to check that player cannot walk on placed bomb */
     public boolean checkCollisionWithBomb(float xOff, float yOff){
         for (Bomb b : bombs){
             if (b.getCollisionBox(0f, 0f).intersects(getCollisionBox(xOff, yOff))){
@@ -228,14 +220,20 @@ public class Player extends Beings{
         return false;
     }
 
+
+    //Getters and Setters
+    public int getBombStrength() {
+        return bombStrength;
+    }
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
+    }
     public void setBombCount(int bombCount) {
         this.bombCount = bombCount;
     }
-
     public void setBombStrength(int bombStrength) {
         this.bombStrength = bombStrength;
     }
-
     public int getBombCount() {
         return bombCount;
     }

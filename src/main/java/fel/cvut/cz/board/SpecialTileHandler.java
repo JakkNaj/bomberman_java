@@ -1,6 +1,5 @@
 package fel.cvut.cz.board;
 
-import java.io.FileWriter;
 
 /** Class to hold coords of boosts in Gameboard */
 public class SpecialTileHandler {

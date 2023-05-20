@@ -5,6 +5,7 @@ import fel.cvut.cz.GameHandler;
 import java.awt.*;
 import java.util.ArrayList;
 
+/** Class managing all entities in game */
 public class EntityManager {
     private GameHandler gameHandler;
     private Player player;
@@ -15,8 +16,8 @@ public class EntityManager {
     public EntityManager(GameHandler gameHandler, Player player){
         this.gameHandler = gameHandler;
         this.player = player;
-        GhostList = new ArrayList<Entity>();
-        ExplosionList = new ArrayList<Entity>();
+        GhostList = new ArrayList<>();
+        ExplosionList = new ArrayList<>();
     }
 
     public void addGhostEntity(Entity e){
@@ -61,6 +62,7 @@ public class EntityManager {
         player.render(g);
     }
 
+    /** Returns the right string to write to file do save ghosts */
     public String saveGhostsToFile(){
         String result = "";
         for (Entity g: GhostList){
@@ -74,26 +76,21 @@ public class EntityManager {
     public GameHandler getHandler() {
         return gameHandler;
     }
-
     public void setHandler(GameHandler gameHandler) {
         this.gameHandler = gameHandler;
     }
-
     public Player getPlayer() {
         return player;
     }
-
     public void setPlayer(Player player) {
         this.player = player;
     }
-
     public ArrayList<Entity> getGhostList() {
         return GhostList;
     }
     public ArrayList<Entity> getExplosionList() {
         return ExplosionList;
     }
-
     public void setGhostList(ArrayList<Entity> ghostList) {
         this.GhostList = ghostList;
     }

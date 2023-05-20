@@ -11,10 +11,6 @@ public abstract class Entity {
     protected float x,y; //position
     protected int width, height;
 
-    public Rectangle getBounds() {
-        return bounds;
-    }
-
     protected Rectangle bounds;
 
     public Entity(GameHandler gameHandler, float x, float y, int width, int height){
@@ -30,7 +26,7 @@ public abstract class Entity {
     public abstract void tick();
     public abstract void render(Graphics g);
 
-    //helper entity collision functions
+    /** Helper entity collision functions */
     public boolean checkCollisionWithGhost(float xOff, float yOff){
         for(Entity e : gameHandler.getGameboard().getEntitiesManager().getGhostList()){
             if (e.equals(this)) continue;
@@ -54,43 +50,38 @@ public abstract class Entity {
         return new Rectangle((int) (x + bounds.x + xOff), (int)(y + bounds.y + yOff), bounds.width, bounds.height);
     }
 
+    //Getters and Setters
     public float getX() {
         return x;
     }
-
     public int getXrounded(){
         return Math.round(x / Tile.TILEWIDTH) - 1;
     }
-
     public void setX(float x) {
         this.x = x;
     }
-
     public float getY() {
         return y;
     }
-
     public int getYrounded(){
         return Math.round(y / Tile.TILEWIDTH) - 1;
     }
-
     public void setY(float y) {
         this.y = y;
     }
-
     public int getWidth() {
         return width;
     }
-
     public void setWidth(int width) {
         this.width = width;
     }
-
     public int getHeight() {
         return height;
     }
-
     public void setHeight(int height) {
         this.height = height;
+    }
+    public Rectangle getBounds() {
+        return bounds;
     }
 }

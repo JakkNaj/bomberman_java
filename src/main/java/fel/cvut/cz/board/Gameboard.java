@@ -16,7 +16,8 @@ import java.io.IOException;
 import java.util.Random;
 
 
-/** Class that represents Game board and is made of Tiles */
+/** Class that represents Game board and is made of Tiles (their IDs).
+ *  This class also holds Entities manager with all entities present on game board. */
 public class Gameboard {
     private GameHandler gameHandler;
     private int width, height;
@@ -29,7 +30,7 @@ public class Gameboard {
     private EntityManager entitiesManager;
     private int ghostNumber = 0;
 
-     public EntityManager getEntitiesManager() {
+    public EntityManager getEntitiesManager() {
         return entitiesManager;
     }
 
@@ -51,6 +52,7 @@ public class Gameboard {
         entitiesManager.getPlayer().setY(spawnY);
     }
 
+    /** Method called when player dies - resets level */
     public void reset(GameHandler gameHandler, int playerHealth){
          if (playerHealth == 0){
              Game.LOGGER.info("No more lifes left, YOU LOSE!");
@@ -126,12 +128,14 @@ public class Gameboard {
         return t;
     }
 
+    /** Set tile on giver coordinations to given id */
     public void setTile(int x, int y, int id){
          if ( x > 0 || y > 0 || x < width || y < height ){
              board[x][y] = id;
          }
     }
 
+    /** Returns String object of given world */
     public String printWorld(){
          String res = "";
         for(int y = 0; y < height; y++){
@@ -183,13 +187,14 @@ public class Gameboard {
                 ghostCnt--;
                 i += 4;
             } else {
-                entitiesManager.getPlayer().placeBomb(Utilities.parseInt(tokens[i]), Utilities.parseInt(tokens[i + 1]), Utilities.parseInt(tokens[i + 2]));
+                entitiesManager.getPlayer().placeBombDirectCoords(Utilities.parseInt(tokens[i]), Utilities.parseInt(tokens[i + 1]), Utilities.parseInt(tokens[i + 2]));
                 i += 3;
             }
 
         }
     }
 
+    /** Method used to save world in given file */
     public void saveWorld(String fileName){ //saves world to file
         String directoryPath = "src/main/resources/savedGames";
         File directory = new File(directoryPath);

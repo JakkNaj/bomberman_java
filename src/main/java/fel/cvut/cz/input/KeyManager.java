@@ -2,8 +2,8 @@ package fel.cvut.cz.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.security.Key;
 
+/** Class managing pressed keys during game. */
 public class KeyManager implements KeyListener {
     public static int bombAvailable = 0;
     private boolean[] keys;

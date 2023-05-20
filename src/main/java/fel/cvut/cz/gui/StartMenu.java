@@ -17,6 +17,7 @@ import java.text.NumberFormat;
 import static java.lang.System.exit;
 import static java.lang.System.in;
 
+/** Main menu opened when application is executed. */
 public class StartMenu extends JFrame {
     public StartMenu(int width, int height){
         setSize(width, height);
@@ -143,6 +144,7 @@ public class StartMenu extends JFrame {
         y = this.getY();
     }
 
+    /** Menu opened from main menu used to determine own level. */
     public class SettingsMenu extends JFrame implements ActionListener{
         JFormattedTextField ghostCount, bombCount, bombStrength;
         JCheckBox exploBoost, bombCntBoost, runBoost;
@@ -246,6 +248,7 @@ public class StartMenu extends JFrame {
             add(panel);
         }
 
+        /** Starts game with settings clicked in SettingsMenu. */
         @Override
         public void actionPerformed(ActionEvent e) {
             String ownLevelFilePath = "src/main/resources/worlds/ownLevel.txt";

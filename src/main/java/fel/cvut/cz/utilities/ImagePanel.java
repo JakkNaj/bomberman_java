@@ -7,6 +7,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
+/** Image panel class used to display Bomberman logo in main menu. */
 public class ImagePanel extends JPanel {
     private Image image;
 

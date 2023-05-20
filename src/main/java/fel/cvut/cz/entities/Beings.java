@@ -2,7 +2,8 @@ package fel.cvut.cz.entities;
 
 import fel.cvut.cz.GameHandler;
 import fel.cvut.cz.tiles.Tile;
-/** Abstract class representing all moving entities in game */
+/** Abstract class representing all moving entities in game.
+ *  Has implemented walking with collision detection on tiles. */
 public abstract class Beings extends Entity{
     public static final float DEFAULT_SPEED = 2;
     public static final int DEFAULT_BEING_WIDTH = 32;

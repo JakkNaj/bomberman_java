@@ -8,7 +8,8 @@ import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
 
-/** Class that represent bomb placed on gameboard by player */
+/** Class that represent bomb placed on gameboard by player.
+ *  Explodes after lifespan ticks away */
 public class Bomb extends Entity{
     private int lifeSpan = 180; //how many ticks the bomb lives
     public boolean canStopPlayer = false;

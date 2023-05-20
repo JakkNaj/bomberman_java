@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-/** Class that loads my sprite sheet and store it as Buffered Image */
+/** Class that loads sprite sheet and store it as Buffered Image. */
 public class SpriteSheet { //class to store sprite-sheet of the game
     private final BufferedImage sheet;
     public SpriteSheet (String path) {

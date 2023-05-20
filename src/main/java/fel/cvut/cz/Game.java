@@ -12,7 +12,7 @@ import java.awt.image.BufferStrategy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/** Main class of the game - starts and runs everything */
+/** Main class of the game - starts and runs everything. */
 public class Game extends Thread{ //can run on other thread than the rest of the program
     private Display display;
     private int width, height; //game class has access to these parameters of our display
@@ -72,6 +72,7 @@ public class Game extends Thread{ //can run on other thread than the rest of the
         }
 
     }
+    /** Method that is rendering game on screen. */
     private void render(){ //render updated things in game
         bs = display.getCanvas().getBufferStrategy(); //BufferStrategy = current BS of our Game
         if (bs == null){ //canvas doesn't have bs - first time running the game
@@ -90,7 +91,9 @@ public class Game extends Thread{ //can run on other thread than the rest of the
         bs.show();
         g.dispose();
     }
-    public void run(){ //majority of game code will be there
+    /** Method invoked after start of a Game.
+     *  Contains game loop. */
+    public void run(){
         if (!enableLogger) LOGGER.setLevel(Level.OFF);
         else
             LOGGER.setLevel(Level.CONFIG);
@@ -125,21 +128,19 @@ public class Game extends Thread{ //can run on other thread than the rest of the
         display.getFrame().dispose();
     }
 
+    //Getters and Setters
     public KeyManager getKeyManager(){
         return keyManager;
     }
     public GameCamera getGameCamera(){
         return gameCamera;
     }
-
     public int getWidth() {
         return width;
     }
-
     public int getHeight() {
         return height;
     }
-
     public Display getDisplay() {
         return display;
     }

@@ -7,7 +7,8 @@ import fel.cvut.cz.graphics.Assets;
 import fel.cvut.cz.tiles.Tile;
 
 import java.awt.*;
-
+/** Class representing enemies in game.
+ *  They walk in given pattern and if player collides with them, then dies. */
 public class Ghost extends Beings{
     private boolean lookingForChangeOfDirection; //state
     private int bounceCounter = 0;
@@ -28,6 +29,7 @@ public class Ghost extends Beings{
         dieing = new Animation(100, Assets.ghostDieing);
     }
 
+    /** Creating new Ghost with given direction of walking */
     public Ghost(GameHandler gameHandler, float x, float y, float xmove, float ymove) {
         super(gameHandler, x, y, DEFAULT_BEING_WIDTH, DEFAULT_BEING_HEIGHT);
         this.setSpeed(1f);

@@ -16,19 +16,21 @@ public class GameCamera {
         this.yOffset = yOffset;
     }
 
+    /** Centering the game camera on entity */
     public void centerCameraOnEntity(Entity e){
         xOffset = e.getX() - (float)(gameHandler.getGameWidth() / 2 + e.getWidth()/2);
         yOffset = e.getY() - (float)(gameHandler.getGameHeight() / 2 + e.getWidth()/2);
         checkBlankSpace();
     }
 
+    /** Method to move camera in given directions */
     public void move(float xAm, float yAm){
         xOffset += xAm;
         yOffset += yAm;
         checkBlankSpace();
     }
 
-    public void checkBlankSpace(){
+    private void checkBlankSpace(){
         if (xOffset < 0){
             xOffset = 0;
         } else if (xOffset > gameHandler.getGameboard().getWidth() * Tile.TILEWIDTH - gameHandler.getGameWidth()) {
@@ -41,6 +43,7 @@ public class GameCamera {
         }
     }
 
+    //Getters and Setters
     public float getxOffset() {
         return xOffset;
     }

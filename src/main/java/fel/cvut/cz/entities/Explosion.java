@@ -5,11 +5,9 @@ import fel.cvut.cz.graphics.Animation;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 /** Class that represent one square of explosion in game */
 public class Explosion extends Entity{
-    //private final Animation animationLeft, animationRight, animationUp, animationDown;
     private final Animation explodeAnimation;
     public int getLifeSpan() {
         return lifeSpan;
@@ -22,6 +20,7 @@ public class Explosion extends Entity{
         this.explodeAnimation = new Animation(100, explosion);
     }
 
+    /** Explosion simulating falling wall */
     public Explosion(GameHandler gameHandler, BufferedImage[] explosion, float x, float y, int width, int height, boolean wallBreaker) {
         super(gameHandler, x, y, width, height);
         this.wallbreaker = wallBreaker;
