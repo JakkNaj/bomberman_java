@@ -29,22 +29,10 @@ public class EntityManager {
 
 
     public void tick(){
-        for (int i = 0; i < GhostList.size(); i++){
-            Entity e = GhostList.get(i);
-            e.tick();
-        }
-        for (int i = 0; i < ExplosionList.size(); i++){
-            Entity e = ExplosionList.get(i);
-            e.tick();
-        }
-        player.tick();
-    }
-
-    public void render(Graphics g){
         for (int i = 0; i < GhostList.size();){
             Ghost e =(Ghost) GhostList.get(i);
-            e.render(g);
-            if (e.health == 0){
+            e.tick();
+            if (e.health <= 0){
                 GhostList.remove(e);
             } else {
                 i++;
@@ -52,12 +40,24 @@ public class EntityManager {
         }
         for (int i = 0; i < ExplosionList.size();){
             Explosion e = (Explosion) ExplosionList.get(i);
-            e.render(g);
-            if (e.getLifeSpan() == 0){
+            e.tick();
+            if (e.getLifeSpan() <= 0){
                 ExplosionList.remove(e);
             } else {
                 i++;
             }
+        }
+        player.tick();
+    }
+
+    public void render(Graphics g){
+        for (Entity entity : GhostList) {
+            Ghost e = (Ghost) entity;
+            e.render(g);
+        }
+        for (Entity entity : ExplosionList) {
+            Explosion e = (Explosion) entity;
+            e.render(g);
         }
         player.render(g);
     }

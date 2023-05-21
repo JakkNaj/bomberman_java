@@ -13,6 +13,7 @@ public class Explosion extends Entity{
         return lifeSpan;
     }
     boolean wallbreaker = false;
+
     private int lifeSpan = 20;
     public Explosion(GameHandler gameHandler, BufferedImage[] explosion, float x, float y, int width, int height) {
         super(gameHandler, x, y, width, height);

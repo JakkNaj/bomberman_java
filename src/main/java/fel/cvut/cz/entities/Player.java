@@ -47,12 +47,21 @@ public class Player extends Beings{
         animationLeft.tick();
         animationStanding.tick();
 
+        //tick bombs
+        for (int i = 0; i < bombs.size();){
+            Bomb b = bombs.get(i);
+            b.tick();
+            if (b.getLifeSpan() <= 0){
+                //bomb exploded
+                bombs.remove(b);
+            } else {
+                i++;
+            }
+        }
+
         getInput();
         move();
-        //tick bombs
-        for (Bomb b : bombs){
-            b.tick();
-        }
+
         gameHandler.getGameCamera().centerCameraOnEntity(this);
     }
 
@@ -86,18 +95,9 @@ public class Player extends Beings{
                 bounds.width, bounds.height);
 */
         //draw bombs
-        for (int i = 0; i < bombs.size();){
-            Bomb b = bombs.get(i);
+        for (Bomb b : bombs) {
             b.render(g);
-            if (b.getLifeSpan() == 0){
-                //bomb exploded
-                bombs.remove(b);
-            } else {
-                i++;
-            }
         }
-
-        checkSpecialTileCollisions();
     }
 
     private BufferedImage getAnimationFrame(){
@@ -133,29 +133,33 @@ public class Player extends Beings{
             Game.LOGGER.info("Player died!");
             gameHandler.getGameboard().reset(gameHandler, health - 1);
         }
+        checkSpecialTileCollisions();
     }
 
     private void checkSpecialTileCollisions(){
         if (checkGateCollision() && gameHandler.getGameboard().getEntitiesManager().getGhostList().isEmpty()){
-            System.out.println("You win!");
+            Game.LOGGER.info("YOU WIN!");
             Game.running = false;
         }
         if (checkExploBoostCollision()){
             gameHandler.getGameboard().getSpecialTiles().setxExploB(-1);
             gameHandler.getGameboard().getSpecialTiles().setyExploB(-1);
             gameHandler.getGameboard().setTile(Math.round(x / Tile.TILEWIDTH), Math.round(y / Tile.TILEHEIGHT), 0);
+            Game.LOGGER.info("Player picked up Explosion boost");
             bombStrength++;
         }
         if (checkBombBoostCollision()){
             gameHandler.getGameboard().getSpecialTiles().setxBombB(-1);
             gameHandler.getGameboard().getSpecialTiles().setyBombB(-1);
             gameHandler.getGameboard().setTile(Math.round(x / Tile.TILEWIDTH), Math.round(y / Tile.TILEHEIGHT), 0);
+            Game.LOGGER.info("Player can now place additional bomb");
             bombCount++;
         }
         if (checkRunBoostCollision()){
             gameHandler.getGameboard().getSpecialTiles().setxRunB(-1);
             gameHandler.getGameboard().getSpecialTiles().setyRunB(-1);
             gameHandler.getGameboard().setTile(Math.round(x / Tile.TILEWIDTH), Math.round(y / Tile.TILEHEIGHT), 0);
+            Game.LOGGER.info("Player is now running faster");
             speed *= 1.2;
         }
     }
