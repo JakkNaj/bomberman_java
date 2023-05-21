@@ -154,4 +154,169 @@ public class ProcessTests {
         Assertions.assertEquals(plX * Tile.TILEWIDTH, gameboard.getEntitiesManager().getPlayer().getBombs().get(1).getX());
         Assertions.assertEquals((plY + 2) * Tile.TILEHEIGHT, gameboard.getEntitiesManager().getPlayer().getBombs().get(1).getY());
     }
+
+    @Test
+    public void playerTakeExplosionBoost(){
+        int plLives = gameboard.getEntitiesManager().getPlayer().getHealth();
+        int plX =(int) gameboard.getEntitiesManager().getPlayer().getX() / Tile.TILEWIDTH;
+        int plY =(int) gameboard.getEntitiesManager().getPlayer().getY() / Tile.TILEHEIGHT;
+        //prepare board - place Bomb count boost in breakable wall 2 tiles beneath player
+        gameboard.getSpecialTiles().setxExploB(plX);
+        gameboard.getSpecialTiles().setyExploB(plY + 3);
+
+        //take 2 steps down (each time to the middle of the neighbour tile)
+        for (int i = 0; i < 2; i++){
+            gameboard.getEntitiesManager().getPlayer().setYmovement(+Tile.TILEHEIGHT);
+            gameboard.getEntitiesManager().getPlayer().move();
+        }
+
+        //simulate pressing 'b' key
+        KeyManager.bombAvailable++;
+        //tick player -> places bomb
+        gameboard.getEntitiesManager().getPlayer().tick();
+
+        //take 2 steps back (up) (each time to the middle of the neighbour tile)
+        for (int i = 0; i < 2; i++){
+            //System.out.println("coords: " + (int)gameboard.getEntitiesManager().getPlayer().getX() / Tile.TILEWIDTH + " " + (int)gameboard.getEntitiesManager().getPlayer().getY() / Tile.TILEHEIGHT);
+            gameboard.getEntitiesManager().getPlayer().setYmovement(-Tile.TILEHEIGHT);
+            gameboard.getEntitiesManager().getPlayer().move();
+        }
+
+        //tick bomb till explosion
+        Bomb b = gameboard.getEntitiesManager().getPlayer().getBombs().get(0);
+        for (int i = b.getLifeSpan(); i > 0; i--){
+            b.tick();
+        }
+        //stop player from moving
+        gameboard.getEntitiesManager().getPlayer().setYmovement(0);
+        //tick explosion till they expire
+        for (int i = 20; i > 0; i--){
+            for (Entity e : gameboard.getEntitiesManager().getExplosionList()){
+                Explosion expl = (Explosion) e;
+                expl.tick();
+            }
+        }
+        //tick entity manager to register expire of explosion
+        gameboard.getEntitiesManager().tick();
+
+        //assert that no explosions are present
+        Assertions.assertEquals(0, gameboard.getEntitiesManager().getExplosionList().size());
+
+        //assert player's life not changed
+        Assertions.assertEquals(plLives, gameboard.getEntitiesManager().getPlayer().getHealth());
+
+        //take 3 steps down and pickup explosion boost
+        for (int i = 0; i < 3; i++){
+            gameboard.getEntitiesManager().getPlayer().setYmovement(+Tile.TILEHEIGHT);
+            gameboard.getEntitiesManager().getPlayer().move();
+        }
+
+        //make player place bomb
+        KeyManager.bombAvailable++;
+        //tick player -> places bomb
+        gameboard.getEntitiesManager().getPlayer().tick();
+        //take 2 step up
+        for (int i = 0; i < 2; i++){
+            gameboard.getEntitiesManager().getPlayer().setYmovement(-Tile.TILEHEIGHT);
+            gameboard.getEntitiesManager().getPlayer().move();
+        }
+        //tick bomb till explosion -> should kill player 2 tiles away (boosted explosion)
+        b = gameboard.getEntitiesManager().getPlayer().getBombs().get(0);
+        for (int i = b.getLifeSpan(); i > 0; i--){
+            b.tick();
+        }
+
+        //tick entityManager to resolve collision
+        gameboard.getEntitiesManager().tick();
+
+        //Assertions
+        //assert that player lost life
+        Assertions.assertEquals(plLives - 1, gameboard.getEntitiesManager().getPlayer().getHealth());
+    }
+
+    @Test
+    public void playerKillGhostsThenWinGame(){
+        int plX =(int) gameboard.getEntitiesManager().getPlayer().getX() / Tile.TILEWIDTH;
+        int plY =(int) gameboard.getEntitiesManager().getPlayer().getY() / Tile.TILEHEIGHT;
+        //prepare board - place Bomb count boost in breakable wall 2 tiles beneath player
+        gameboard.getSpecialTiles().setxExploB(plX);
+        gameboard.getSpecialTiles().setyExploB(plY + 3);
+
+        //take 2 steps down (each time to the middle of the neighbour tile)
+        for (int i = 0; i < 2; i++){
+            gameboard.getEntitiesManager().getPlayer().setYmovement(+Tile.TILEHEIGHT);
+            gameboard.getEntitiesManager().getPlayer().move();
+        }
+        //take 2 steps right
+        for (int i = 0; i < 2; i++){
+            gameboard.getEntitiesManager().getPlayer().setXmovement(+Tile.TILEWIDTH);
+            gameboard.getEntitiesManager().getPlayer().move();
+        }
+
+        //simulate pressing 'b' key
+        KeyManager.bombAvailable++;
+        //tick player -> places bomb
+        gameboard.getEntitiesManager().getPlayer().tick();
+
+        //remember player coords to set ghosts around him
+        plX =(int) gameboard.getEntitiesManager().getPlayer().getX() / Tile.TILEWIDTH;
+        plY =(int) gameboard.getEntitiesManager().getPlayer().getY() / Tile.TILEHEIGHT;
+
+        //take 2 steps back (left) (each time to the middle of the neighbour tile)
+        for (int i = 0; i < 2; i++){
+            //System.out.println("coords: " + (int)gameboard.getEntitiesManager().getPlayer().getX() / Tile.TILEWIDTH + " " + (int)gameboard.getEntitiesManager().getPlayer().getY() / Tile.TILEHEIGHT);
+            gameboard.getEntitiesManager().getPlayer().setXmovement(-Tile.TILEWIDTH);
+            gameboard.getEntitiesManager().getPlayer().move();
+        }
+
+        //place ghosts around bomb
+        //ghost 1
+        gameboard.getEntitiesManager().getGhostList().get(0).setX((plX + 1) * Tile.TILEWIDTH);
+        gameboard.getEntitiesManager().getGhostList().get(0).setY(plY * Tile.TILEHEIGHT);
+        //ghost 2
+        gameboard.getEntitiesManager().getGhostList().get(1).setX(plX * Tile.TILEWIDTH);
+        gameboard.getEntitiesManager().getGhostList().get(1).setY((plY - 1) * Tile.TILEHEIGHT);
+
+        //place gate behind breakable wall under bomb
+        gameboard.getSpecialTiles().setxGate(plX);
+        gameboard.getSpecialTiles().setyGate(plY);
+
+        //tick bomb till explosion
+        Bomb b = gameboard.getEntitiesManager().getPlayer().getBombs().get(0);
+        for (int i = b.getLifeSpan(); i > 0; i--){
+            b.tick();
+        }
+
+        //tick entities to register collisions
+        gameboard.getEntitiesManager().tick();
+
+        //assert that all ghosts are dead
+        Assertions.assertEquals(0, gameboard.getEntitiesManager().getGhostList().size());
+
+        //stop player from moving
+        gameboard.getEntitiesManager().getPlayer().setYmovement(0);
+        //tick explosion till they expire
+        for (int i = 20; i > 0; i--){
+            for (Entity e : gameboard.getEntitiesManager().getExplosionList()){
+                Explosion expl = (Explosion) e;
+                expl.tick();
+            }
+        }
+        //tick entity manager to register expire of explosion
+        gameboard.getEntitiesManager().tick();
+
+        //gate revealed with explosion -> go to gate
+        //take 2 steps right
+        for (int i = 0; i < 2; i++){
+            gameboard.getEntitiesManager().getPlayer().setXmovement(+Tile.TILEWIDTH);
+            gameboard.getEntitiesManager().getPlayer().move();
+        }
+        //take 1 step down
+        gameboard.getEntitiesManager().getPlayer().setXmovement(+Tile.TILEHEIGHT);
+        gameboard.getEntitiesManager().getPlayer().move();
+
+        //game ended
+        Assertions.assertFalse(Game.running);
+
+    }
 }
