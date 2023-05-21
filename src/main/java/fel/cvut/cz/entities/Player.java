@@ -189,6 +189,7 @@ public class Player extends Beings{
             Bomb b = new Bomb(gameHandler,x,y,width,height);
             b.roundCoords();
             bombs.add(b);
+            Game.LOGGER.info("BOMB placed on: [" + b.x / Tile.TILEWIDTH + ", " + b.y / Tile.TILEHEIGHT + "]");
         }
         KeyManager.bombAvailable--;
     }

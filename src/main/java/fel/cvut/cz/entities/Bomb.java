@@ -40,6 +40,10 @@ public class Bomb extends Entity{
     public void tick() {
         lifeSpan--; //explodes on 0
         if (lifeSpan % 15 == 0) ticking.tick();
+        if (lifeSpan == 0){
+            explode(gameHandler.getGame().getG());
+            Game.LOGGER.info("Bomb exploded on: [" + x / Tile.TILEWIDTH + ", " + y / Tile.TILEHEIGHT + "]");
+        }
     }
 
     @Override
@@ -47,10 +51,6 @@ public class Bomb extends Entity{
         if (lifeSpan > 0)
             g.drawImage(ticking.getCurrentFrame(), (int)(this.x - gameHandler.getGameCamera().getxOffset()),
             (int)(this.y - gameHandler.getGameCamera().getyOffset()), this.width, this.height, null);
-        else {
-            Game.LOGGER.info("Bomb exploded on: [" + x / Tile.TILEWIDTH + ", " + y / Tile.TILEHEIGHT + "]");
-            explode(g);
-        }
     }
 
     private void explode(Graphics g){

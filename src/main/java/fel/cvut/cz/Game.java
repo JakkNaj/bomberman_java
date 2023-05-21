@@ -23,6 +23,7 @@ public class Game extends Thread{ //can run on other thread than the rest of the
 
     public static boolean enableLogger = false;
     private BufferStrategy bs; //using buffers tell computer what to draw on screen
+
     private Graphics g;
 
     private String pathToLevelFile;
@@ -143,5 +144,8 @@ public class Game extends Thread{ //can run on other thread than the rest of the
     }
     public Display getDisplay() {
         return display;
+    }
+    public Graphics getG() {
+        return g;
     }
 }

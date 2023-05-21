@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 import static org.mockito.Mockito.when;
 
-public class PlayerTest {
+public class PlayerMovesTest {
     private Gameboard gameboard;
 
     @Mock
